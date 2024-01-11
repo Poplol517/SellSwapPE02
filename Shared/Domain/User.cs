@@ -16,7 +16,7 @@ namespace SellSwap.Shared.Domain
         public string Address { get; set; }
         public string Email { get; set; }
         public virtual List<Order>? Order { get; set; }
-        public virtual List<Favourites>? Favourites { get; set; }
+        public virtual List<Favourite>? Favourites { get; set; }
         public virtual List<Payment>? Payment { get; set; }
     }
 }
