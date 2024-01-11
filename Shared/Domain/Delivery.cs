@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace SellSwap.Shared.Domain
 {
-    public class Delivery
+    public class Delivery : BaseDomainModel
     {
-        public int Id { get; set; }
         public DateTime DeliveryDate { get; set; }
         public int? UserId { get; set; }
         public virtual User? User { get; set; }

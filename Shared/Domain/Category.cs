@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace SellSwap.Shared.Domain
 {
-    public class Category
+    public class Category :BaseDomainModel
     {
-        public int Id { get; set; }
         public string? Name { get; set; }
     }
 }

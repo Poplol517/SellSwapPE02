@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace SellSwap.Shared.Domain
 {
-    public class Product
+    public class Product : BaseDomainModel
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public int StatusId { get; set; }
-        public virtual ProductStatus? ProductStatus { get; set; }
+        
+        public string? Name { get; set; }
+        public string? Condition { get; set; }
         public string? Description { get; set; }
         public int Price { get; set; } 
         public int CategoryId { get; set; }

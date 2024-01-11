@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using SellSwap.Server.Data;
 using SellSwap.Server.Models;
 using Microsoft.AspNetCore.Identity;
+using SellSwap.Server.IRepository;
+using SellSwap.Server.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,7 +26,7 @@ builder.Services.AddAuthentication()
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
-
+builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
