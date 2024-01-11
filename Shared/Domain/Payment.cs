@@ -16,5 +16,6 @@ namespace SellSwap.Shared.Domain
         public int CardNumber { get; set; }
         public DateTime CardExpireTime { get; set; }
         public int CVV { get; set; }
+
     }
 }
