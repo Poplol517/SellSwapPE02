@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace SellSwap.Shared.Domain
 {
-    public class ProductStatus
+    public class ProductStatus : BaseDomainModel
     {
-        public int Id { get; set; }
-        public string Status { get; set; }
+        
+        public string? Status { get; set; }
         public List<Product>? Product { get; set; }
 
     }

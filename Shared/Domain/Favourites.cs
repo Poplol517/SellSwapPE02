@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace SellSwap.Shared.Domain
 {
-    public class Favourites
+    public class Favourites : BaseDomainModel
     {
-        public int Id { get; set; } 
         public int ProductId { get; set; }
         public virtual Product? Product { get; set; }
         public int UserId { get; set; }

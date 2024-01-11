@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace SellSwap.Shared.Domain
 {
-    public class Product
+    public class Product : BaseDomainModel
     {
-        public int Id { get; set; }
+        
         public string? Name { get; set; }
         public string? Condition { get; set; }
         public string? Description { get; set; }
