@@ -5,6 +5,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.Identity.Client;
 using SellSwap.Server.Models;
 using SellSwap.Shared.Domain;
+using System.Drawing;
 
 namespace SellSwap.Server.Data
 {
@@ -17,6 +18,7 @@ namespace SellSwap.Server.Data
         }
 
         public DbSet<Category> Categories { get; set; }
+        public DbSet<ConditionType> ConditionTypes { get; set; }
         public DbSet<Listing> Listings { get; set; }
         public DbSet<Favourite> Favorites { get; set; }
         public DbSet<ListingStatus> ListingStatus { get; set; }

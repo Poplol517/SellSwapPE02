@@ -20,9 +20,11 @@ namespace SellSwap.Server.Repository
         private IGenericRepository<User> _users;
         private IGenericRepository<Listing> _listings;
         private IGenericRepository<ListingStatus> _listingstatus;
+        private IGenericRepository<ListingType> _listingtype;
+        private IGenericRepository<ConditionType> _conditiontype;
         private IGenericRepository<Offer> _offers;
         private IGenericRepository<Favourite> _favourites;
-        private IGenericRepository<Category> _category;
+        private IGenericRepository<Category> _categories;
 
         private UserManager<ApplicationUser> _userManager;
 
@@ -42,8 +44,12 @@ namespace SellSwap.Server.Repository
             => _offers ??= new GenericRepository<Offer>(_context);
         public IGenericRepository<Favourite> Favourites
             => _favourites ??= new GenericRepository<Favourite>(_context);
-        public IGenericRepository<Category> Categorys
-            => _category ??= new GenericRepository<Category>(_context);
+        public IGenericRepository<Category> Categories
+            => _categories ??= new GenericRepository<Category>(_context);
+        public IGenericRepository<ConditionType> ConditionTypes
+            => _conditiontype ??= new GenericRepository<ConditionType>(_context);
+        public IGenericRepository<ListingType> ListingTypes
+            => _listingtype ??= new GenericRepository<ListingType>(_context);
 
         public void Dispose()
         {

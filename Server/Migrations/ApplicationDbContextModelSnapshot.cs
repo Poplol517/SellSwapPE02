@@ -396,6 +396,31 @@ namespace SellSwap.Server.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("SellSwap.Shared.Domain.ConditionType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ConditionTypes");
+                });
+
             modelBuilder.Entity("SellSwap.Shared.Domain.Favourite", b =>
                 {
                     b.Property<int>("Id")
@@ -439,8 +464,8 @@ namespace SellSwap.Server.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Condition")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("ConditionTypeId")
+                        .HasColumnType("int");
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
@@ -472,6 +497,8 @@ namespace SellSwap.Server.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("ConditionTypeId");
 
                     b.HasIndex("ListingStatusId");
 
@@ -683,6 +710,10 @@ namespace SellSwap.Server.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("SellSwap.Shared.Domain.ConditionType", "ConditionType")
+                        .WithMany("Listing")
+                        .HasForeignKey("ConditionTypeId");
+
                     b.HasOne("SellSwap.Shared.Domain.ListingStatus", "ListingStatus")
                         .WithMany("Listing")
                         .HasForeignKey("ListingStatusId")
@@ -702,6 +733,8 @@ namespace SellSwap.Server.Migrations
                         .IsRequired();
 
                     b.Navigation("Category");
+
+                    b.Navigation("ConditionType");
 
                     b.Navigation("ListingStatus");
 
@@ -723,6 +756,11 @@ namespace SellSwap.Server.Migrations
                     b.Navigation("Listing");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("SellSwap.Shared.Domain.ConditionType", b =>
+                {
+                    b.Navigation("Listing");
                 });
 
             modelBuilder.Entity("SellSwap.Shared.Domain.Listing", b =>

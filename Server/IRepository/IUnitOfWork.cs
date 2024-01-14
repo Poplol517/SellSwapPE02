@@ -14,8 +14,10 @@ namespace SellSwap.Server.IRepository
         IGenericRepository<Offer> Offers { get; }
         IGenericRepository<ListingStatus> ListingStatus { get; }
         IGenericRepository<Listing> Listings { get; }
+        IGenericRepository<ListingType> ListingTypes { get; }
+        IGenericRepository<ConditionType> ConditionTypes { get; }
         IGenericRepository<Favourite> Favourites { get; }
-        IGenericRepository<Category> Categorys { get; }
+        IGenericRepository<Category> Categories { get; }
 
     }
 }

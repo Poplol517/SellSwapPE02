@@ -69,6 +69,22 @@ namespace SellSwap.Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ConditionTypes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ConditionTypes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "DeviceCodes",
                 columns: table => new
                 {
@@ -291,7 +307,7 @@ namespace SellSwap.Server.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Condition = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConditionTypeId = table.Column<int>(type: "int", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Price = table.Column<int>(type: "int", nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
@@ -311,6 +327,11 @@ namespace SellSwap.Server.Migrations
                         principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Listings_ConditionTypes_ConditionTypeId",
+                        column: x => x.ConditionTypeId,
+                        principalTable: "ConditionTypes",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Listings_ListingStatus_ListingStatusId",
                         column: x => x.ListingStatusId,
@@ -458,6 +479,11 @@ namespace SellSwap.Server.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Listings_ConditionTypeId",
+                table: "Listings",
+                column: "ConditionTypeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Listings_ListingStatusId",
                 table: "Listings",
                 column: "ListingStatusId");
@@ -547,6 +573,9 @@ namespace SellSwap.Server.Migrations
 
             migrationBuilder.DropTable(
                 name: "Categories");
+
+            migrationBuilder.DropTable(
+                name: "ConditionTypes");
 
             migrationBuilder.DropTable(
                 name: "ListingStatus");
