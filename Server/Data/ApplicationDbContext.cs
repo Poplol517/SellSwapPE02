@@ -17,15 +17,11 @@ namespace SellSwap.Server.Data
         }
 
         public DbSet<Category> Categories { get; set; }
-        public DbSet<Delivery> Deliveries { get; set; }
+        public DbSet<Listing> Listings { get; set; }
         public DbSet<Favourite> Favorites { get; set; }
-        public DbSet<Meetup> Meetup { get; set; }
-        public DbSet<Order> Orders { get; set; }
-        public DbSet<Payment> Payments { get; set; }
-        public DbSet<PaymentType> PaymentType { get; set; }
-        public DbSet<Product> Products { get; set; }
-        public DbSet<ProductStatus> ProductStatus { get; set; }
-        public DbSet<Swap> Swaps { get; set; }
+        public DbSet<ListingStatus> ListingStatus { get; set; }
+        public DbSet<ListingType> ListingType { get; set; }
+        public DbSet<Offer> Offers { get; set; }
         public DbSet<User> Users { get; set; }
 
     }

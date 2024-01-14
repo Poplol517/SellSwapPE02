@@ -11,15 +11,10 @@ namespace SellSwap.Server.IRepository
     {
         Task Save(HttpContext httpContext);
         IGenericRepository<User> Users { get; }
-        IGenericRepository<Swap> Swaps { get; }
-        IGenericRepository<ProductStatus> ProductStatus { get; }
-        IGenericRepository<Product> Products { get; }
-        IGenericRepository<PaymentType> PaymentTypes { get; }
-        IGenericRepository<Payment> Payments { get; }
-        IGenericRepository<Order> Orders { get; }
-        IGenericRepository<Meetup> Meetups { get; }
-        IGenericRepository<Favourites> Favourites { get; }
-        IGenericRepository<Delivery> Deliverys { get; }
+        IGenericRepository<Offer> Offers { get; }
+        IGenericRepository<ListingStatus> ListingStatus { get; }
+        IGenericRepository<Listing> Listings { get; }
+        IGenericRepository<Favourite> Favourites { get; }
         IGenericRepository<Category> Categorys { get; }
 
     }

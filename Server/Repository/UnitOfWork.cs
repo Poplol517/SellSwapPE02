@@ -18,15 +18,10 @@ namespace SellSwap.Server.Repository
     {
         private readonly ApplicationDbContext _context;
         private IGenericRepository<User> _users;
-        private IGenericRepository<Swap> _swaps;
-        private IGenericRepository<ProductStatus> _productstatus;
-        private IGenericRepository<Product> _products;
-        private IGenericRepository<PaymentType> _paymenttypes;
-        private IGenericRepository<Payment> _payments;
-        private IGenericRepository<Order> _orders;
-        private IGenericRepository<Meetup> _meetups;
-        private IGenericRepository<Favourites> _favourites;
-        private IGenericRepository<Delivery> _deliverys;
+        private IGenericRepository<Listing> _listings;
+        private IGenericRepository<ListingStatus> _listingstatus;
+        private IGenericRepository<Offer> _offers;
+        private IGenericRepository<Favourite> _favourites;
         private IGenericRepository<Category> _category;
 
         private UserManager<ApplicationUser> _userManager;
@@ -39,24 +34,14 @@ namespace SellSwap.Server.Repository
 
         public IGenericRepository<User> Users
             => _users ??= new GenericRepository<User>(_context);
-        public IGenericRepository<Swap> Swaps
-            => _swaps ??= new GenericRepository<Swap>(_context);
-        public IGenericRepository<ProductStatus> ProductStatus
-            => _productstatus ??= new GenericRepository<ProductStatus>(_context);
-        public IGenericRepository<Product> Products
-            => _products ??= new GenericRepository<Product>(_context);
-        public IGenericRepository<PaymentType> PaymentTypes
-            => _paymenttypes ??= new GenericRepository<PaymentType>(_context);
-        public IGenericRepository<Payment> Payments
-            => _payments ??= new GenericRepository<Payment>(_context);
-        public IGenericRepository<Order> Orders
-            => _orders ??= new GenericRepository<Order>(_context);
-        public IGenericRepository<Meetup> Meetups
-            => _meetups ??= new GenericRepository<Meetup>(_context);
-        public IGenericRepository<Favourites> Favourites
-            => _favourites ??= new GenericRepository<Favourites>(_context);
-        public IGenericRepository<Delivery> Deliverys
-            => _deliverys ??= new GenericRepository<Delivery>(_context);
+        public IGenericRepository<Listing> Listings
+            => _listings ??= new GenericRepository<Listing>(_context);
+        public IGenericRepository<ListingStatus> ListingStatus
+            => _listingstatus ??= new GenericRepository<ListingStatus>(_context);
+        public IGenericRepository<Offer> Offers
+            => _offers ??= new GenericRepository<Offer>(_context);
+        public IGenericRepository<Favourite> Favourites
+            => _favourites ??= new GenericRepository<Favourite>(_context);
         public IGenericRepository<Category> Categorys
             => _category ??= new GenericRepository<Category>(_context);
 
