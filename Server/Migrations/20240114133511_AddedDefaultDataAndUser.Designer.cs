@@ -12,8 +12,8 @@ using SellSwap.Server.Data;
 namespace SellSwap.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240114121341_newdb")]
-    partial class newdb
+    [Migration("20240114133511_AddedDefaultDataAndUser")]
+    partial class AddedDefaultDataAndUser
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -397,6 +397,24 @@ namespace SellSwap.Server.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedBy = "System",
+                            DateCreated = new DateTime(2024, 1, 14, 21, 35, 11, 141, DateTimeKind.Local).AddTicks(8362),
+                            DateUpdated = new DateTime(2024, 1, 14, 21, 35, 11, 141, DateTimeKind.Local).AddTicks(8363),
+                            Name = "Phone"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedBy = "System",
+                            DateCreated = new DateTime(2024, 1, 14, 21, 35, 11, 141, DateTimeKind.Local).AddTicks(8366),
+                            DateUpdated = new DateTime(2024, 1, 14, 21, 35, 11, 141, DateTimeKind.Local).AddTicks(8367),
+                            Name = "Figure"
+                        });
                 });
 
             modelBuilder.Entity("SellSwap.Shared.Domain.ConditionType", b =>
@@ -422,6 +440,24 @@ namespace SellSwap.Server.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ConditionTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedBy = "System",
+                            DateCreated = new DateTime(2024, 1, 14, 21, 35, 11, 141, DateTimeKind.Local).AddTicks(8771),
+                            DateUpdated = new DateTime(2024, 1, 14, 21, 35, 11, 141, DateTimeKind.Local).AddTicks(8773),
+                            Name = "New"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedBy = "System",
+                            DateCreated = new DateTime(2024, 1, 14, 21, 35, 11, 141, DateTimeKind.Local).AddTicks(8778),
+                            DateUpdated = new DateTime(2024, 1, 14, 21, 35, 11, 141, DateTimeKind.Local).AddTicks(8780),
+                            Name = "WellUsed"
+                        });
                 });
 
             modelBuilder.Entity("SellSwap.Shared.Domain.Favourite", b =>
@@ -464,7 +500,7 @@ namespace SellSwap.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CategoryId")
+                    b.Property<int?>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<int?>("ConditionTypeId")
@@ -482,19 +518,19 @@ namespace SellSwap.Server.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ListingStatusId")
+                    b.Property<int?>("ListingStatusId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ListingTypeId")
+                    b.Property<int?>("ListingTypeId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Price")
+                    b.Property<int?>("Price")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -510,6 +546,35 @@ namespace SellSwap.Server.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Listings");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CategoryId = 1,
+                            ConditionTypeId = 2,
+                            CreatedBy = "System",
+                            DateCreated = new DateTime(2024, 1, 14, 21, 35, 11, 141, DateTimeKind.Local).AddTicks(7405),
+                            DateUpdated = new DateTime(2024, 1, 14, 21, 35, 11, 141, DateTimeKind.Local).AddTicks(7428),
+                            Description = "well used without a scratch",
+                            ListingStatusId = 1,
+                            ListingTypeId = 1,
+                            Name = "Iphone",
+                            Price = 1200
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CategoryId = 1,
+                            ConditionTypeId = 1,
+                            CreatedBy = "System",
+                            DateCreated = new DateTime(2024, 1, 14, 21, 35, 11, 141, DateTimeKind.Local).AddTicks(7438),
+                            DateUpdated = new DateTime(2024, 1, 14, 21, 35, 11, 141, DateTimeKind.Local).AddTicks(7439),
+                            Description = "well used without a scratch",
+                            ListingStatusId = 1,
+                            ListingTypeId = 2,
+                            Name = "POP Mart figure"
+                        });
                 });
 
             modelBuilder.Entity("SellSwap.Shared.Domain.ListingStatus", b =>
@@ -535,6 +600,24 @@ namespace SellSwap.Server.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ListingStatus");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedBy = "System",
+                            DateCreated = new DateTime(2024, 1, 14, 21, 35, 11, 141, DateTimeKind.Local).AddTicks(9322),
+                            DateUpdated = new DateTime(2024, 1, 14, 21, 35, 11, 141, DateTimeKind.Local).AddTicks(9323),
+                            Name = "Avaliable"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedBy = "System",
+                            DateCreated = new DateTime(2024, 1, 14, 21, 35, 11, 141, DateTimeKind.Local).AddTicks(9326),
+                            DateUpdated = new DateTime(2024, 1, 14, 21, 35, 11, 141, DateTimeKind.Local).AddTicks(9327),
+                            Name = "Sold"
+                        });
                 });
 
             modelBuilder.Entity("SellSwap.Shared.Domain.ListingType", b =>
@@ -560,6 +643,32 @@ namespace SellSwap.Server.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ListingType");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedBy = "System",
+                            DateCreated = new DateTime(2024, 1, 14, 21, 35, 11, 141, DateTimeKind.Local).AddTicks(9047),
+                            DateUpdated = new DateTime(2024, 1, 14, 21, 35, 11, 141, DateTimeKind.Local).AddTicks(9048),
+                            Name = "Sell"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedBy = "System",
+                            DateCreated = new DateTime(2024, 1, 14, 21, 35, 11, 141, DateTimeKind.Local).AddTicks(9050),
+                            DateUpdated = new DateTime(2024, 1, 14, 21, 35, 11, 141, DateTimeKind.Local).AddTicks(9051),
+                            Name = "Swap"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedBy = "System",
+                            DateCreated = new DateTime(2024, 1, 14, 21, 35, 11, 141, DateTimeKind.Local).AddTicks(9052),
+                            DateUpdated = new DateTime(2024, 1, 14, 21, 35, 11, 141, DateTimeKind.Local).AddTicks(9053),
+                            Name = "Sell and Swap"
+                        });
                 });
 
             modelBuilder.Entity("SellSwap.Shared.Domain.Offer", b =>
@@ -709,31 +818,23 @@ namespace SellSwap.Server.Migrations
                 {
                     b.HasOne("SellSwap.Shared.Domain.Category", "Category")
                         .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CategoryId");
 
                     b.HasOne("SellSwap.Shared.Domain.ConditionType", "ConditionType")
-                        .WithMany("Listing")
+                        .WithMany()
                         .HasForeignKey("ConditionTypeId");
 
                     b.HasOne("SellSwap.Shared.Domain.ListingStatus", "ListingStatus")
-                        .WithMany("Listing")
-                        .HasForeignKey("ListingStatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany()
+                        .HasForeignKey("ListingStatusId");
 
                     b.HasOne("SellSwap.Shared.Domain.ListingType", "ListingType")
-                        .WithMany("Listing")
-                        .HasForeignKey("ListingTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany()
+                        .HasForeignKey("ListingTypeId");
 
                     b.HasOne("SellSwap.Shared.Domain.User", "User")
                         .WithMany("Listing")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Category");
 
@@ -761,24 +862,9 @@ namespace SellSwap.Server.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("SellSwap.Shared.Domain.ConditionType", b =>
-                {
-                    b.Navigation("Listing");
-                });
-
             modelBuilder.Entity("SellSwap.Shared.Domain.Listing", b =>
                 {
                     b.Navigation("Favourites");
-                });
-
-            modelBuilder.Entity("SellSwap.Shared.Domain.ListingStatus", b =>
-                {
-                    b.Navigation("Listing");
-                });
-
-            modelBuilder.Entity("SellSwap.Shared.Domain.ListingType", b =>
-                {
-                    b.Navigation("Listing");
                 });
 
             modelBuilder.Entity("SellSwap.Shared.Domain.User", b =>

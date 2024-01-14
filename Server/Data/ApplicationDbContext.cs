@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.Identity.Client;
+using SellSwap.Server.Configurations.Entities;
 using SellSwap.Server.Models;
 using SellSwap.Shared.Domain;
 using System.Drawing;
@@ -25,6 +26,16 @@ namespace SellSwap.Server.Data
         public DbSet<ListingType> ListingType { get; set; }
         public DbSet<Offer> Offers { get; set; }
         public DbSet<User> Users { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            builder.ApplyConfiguration(new ListingSeedConfiguration());
+            builder.ApplyConfiguration(new CategoriesSeedConfiguration());
+            builder.ApplyConfiguration(new ConditionTypeSeedConfiguration());
+            builder.ApplyConfiguration(new ListingTypeSeedConfiguration());
+            builder.ApplyConfiguration(new ListingStatusSeedConfiguration());
+        }
 
     }
 }

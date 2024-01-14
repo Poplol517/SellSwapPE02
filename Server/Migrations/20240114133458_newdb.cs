@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace SellSwap.Server.Migrations
 {
     /// <inheritdoc />
@@ -309,11 +311,11 @@ namespace SellSwap.Server.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ConditionTypeId = table.Column<int>(type: "int", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Price = table.Column<int>(type: "int", nullable: false),
-                    CategoryId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    ListingStatusId = table.Column<int>(type: "int", nullable: false),
-                    ListingTypeId = table.Column<int>(type: "int", nullable: false),
+                    Price = table.Column<int>(type: "int", nullable: true),
+                    CategoryId = table.Column<int>(type: "int", nullable: true),
+                    UserId = table.Column<int>(type: "int", nullable: true),
+                    ListingStatusId = table.Column<int>(type: "int", nullable: true),
+                    ListingTypeId = table.Column<int>(type: "int", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -325,8 +327,7 @@ namespace SellSwap.Server.Migrations
                         name: "FK_Listings_Categories_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "Categories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Listings_ConditionTypes_ConditionTypeId",
                         column: x => x.ConditionTypeId,
@@ -336,20 +337,17 @@ namespace SellSwap.Server.Migrations
                         name: "FK_Listings_ListingStatus_ListingStatusId",
                         column: x => x.ListingStatusId,
                         principalTable: "ListingStatus",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Listings_ListingType_ListingTypeId",
                         column: x => x.ListingTypeId,
                         principalTable: "ListingType",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Listings_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -406,6 +404,52 @@ namespace SellSwap.Server.Migrations
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "Id", "CreatedBy", "DateCreated", "DateUpdated", "Name" },
+                values: new object[,]
+                {
+                    { 1, "System", new DateTime(2024, 1, 14, 21, 34, 58, 126, DateTimeKind.Local).AddTicks(19), new DateTime(2024, 1, 14, 21, 34, 58, 126, DateTimeKind.Local).AddTicks(21), "Phone" },
+                    { 2, "System", new DateTime(2024, 1, 14, 21, 34, 58, 126, DateTimeKind.Local).AddTicks(23), new DateTime(2024, 1, 14, 21, 34, 58, 126, DateTimeKind.Local).AddTicks(24), "Figure" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "ConditionTypes",
+                columns: new[] { "Id", "CreatedBy", "DateCreated", "DateUpdated", "Name" },
+                values: new object[,]
+                {
+                    { 1, "System", new DateTime(2024, 1, 14, 21, 34, 58, 126, DateTimeKind.Local).AddTicks(323), new DateTime(2024, 1, 14, 21, 34, 58, 126, DateTimeKind.Local).AddTicks(325), "New" },
+                    { 2, "System", new DateTime(2024, 1, 14, 21, 34, 58, 126, DateTimeKind.Local).AddTicks(329), new DateTime(2024, 1, 14, 21, 34, 58, 126, DateTimeKind.Local).AddTicks(330), "WellUsed" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "ListingStatus",
+                columns: new[] { "Id", "CreatedBy", "DateCreated", "DateUpdated", "Name" },
+                values: new object[,]
+                {
+                    { 1, "System", new DateTime(2024, 1, 14, 21, 34, 58, 126, DateTimeKind.Local).AddTicks(1041), new DateTime(2024, 1, 14, 21, 34, 58, 126, DateTimeKind.Local).AddTicks(1042), "Avaliable" },
+                    { 2, "System", new DateTime(2024, 1, 14, 21, 34, 58, 126, DateTimeKind.Local).AddTicks(1044), new DateTime(2024, 1, 14, 21, 34, 58, 126, DateTimeKind.Local).AddTicks(1045), "Sold" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "ListingType",
+                columns: new[] { "Id", "CreatedBy", "DateCreated", "DateUpdated", "Name" },
+                values: new object[,]
+                {
+                    { 1, "System", new DateTime(2024, 1, 14, 21, 34, 58, 126, DateTimeKind.Local).AddTicks(708), new DateTime(2024, 1, 14, 21, 34, 58, 126, DateTimeKind.Local).AddTicks(710), "Sell" },
+                    { 2, "System", new DateTime(2024, 1, 14, 21, 34, 58, 126, DateTimeKind.Local).AddTicks(712), new DateTime(2024, 1, 14, 21, 34, 58, 126, DateTimeKind.Local).AddTicks(713), "Swap" },
+                    { 3, "System", new DateTime(2024, 1, 14, 21, 34, 58, 126, DateTimeKind.Local).AddTicks(715), new DateTime(2024, 1, 14, 21, 34, 58, 126, DateTimeKind.Local).AddTicks(715), "Sell and Swap" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Listings",
+                columns: new[] { "Id", "CategoryId", "ConditionTypeId", "CreatedBy", "DateCreated", "DateUpdated", "Description", "ListingStatusId", "ListingTypeId", "Name", "Price", "UserId" },
+                values: new object[,]
+                {
+                    { 1, 1, 2, "System", new DateTime(2024, 1, 14, 21, 34, 58, 125, DateTimeKind.Local).AddTicks(9472), new DateTime(2024, 1, 14, 21, 34, 58, 125, DateTimeKind.Local).AddTicks(9486), "well used without a scratch", 1, 1, "Iphone", 1200, null },
+                    { 2, 1, 1, "System", new DateTime(2024, 1, 14, 21, 34, 58, 125, DateTimeKind.Local).AddTicks(9491), new DateTime(2024, 1, 14, 21, 34, 58, 125, DateTimeKind.Local).AddTicks(9491), "well used without a scratch", 1, 2, "POP Mart figure", null, null }
                 });
 
             migrationBuilder.CreateIndex(

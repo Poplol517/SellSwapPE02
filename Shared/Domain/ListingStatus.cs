@@ -10,7 +10,5 @@ namespace SellSwap.Shared.Domain
     {
         
         public string? Name { get; set; }
-        public List<Listing>? Listing { get; set; }
-
     }
 }

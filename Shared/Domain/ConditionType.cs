@@ -9,6 +9,5 @@ namespace SellSwap.Shared.Domain
     public class ConditionType:BaseDomainModel
     {
         public string? Name { get; set; }  
-        public List<Listing> Listing { get; set; } 
     }
 }
