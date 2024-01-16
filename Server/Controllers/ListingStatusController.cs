@@ -4,8 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using SellSwap.Server.Data;
+using SellSwap.Server.IRepository;
 using SellSwap.Shared.Domain;
 
 namespace SellSwap.Server.Controllers
@@ -14,61 +16,63 @@ namespace SellSwap.Server.Controllers
     [ApiController]
     public class ListingStatusController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        //private readonly ApplicationDbContext _context;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public ListingStatusController(ApplicationDbContext context)
+        public ListingStatusController(IUnitOfWork unitOfWork)
         {
-            _context = context;
+            // _context = context;
+            _unitOfWork = unitOfWork;
         }
 
-        // GET: api/ListingStatus
+        // GET: api/Categories
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ListingStatus>>> GetListingStatus()
+        //public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
+        public async Task<IActionResult> GetListingStatus()
         {
-          if (_context.ListingStatus == null)
-          {
-              return NotFound();
-          }
-            return await _context.ListingStatus.ToListAsync();
+            // return await _context.Categories.ToListAsync();
+            var listingstatus = await _unitOfWork.ListingStatus.GetAll();
+            return Ok(listingstatus);
         }
 
-        // GET: api/ListingStatus/5
+        // GET: api/Categories/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<ListingStatus>> GetListingStatus(int id)
+        //public async Task<ActionResult<Category>> GetCategory(int id)
+        public async Task<IActionResult> GetListingStatus(int id)
         {
-          if (_context.ListingStatus == null)
-          {
-              return NotFound();
-          }
-            var listingStatus = await _context.ListingStatus.FindAsync(id);
+            //var category = await _context.Categories.FindAsync(id);
+            var listingstatus = await _unitOfWork.ListingStatus.Get(q => q.Id == id);
 
-            if (listingStatus == null)
+            if (listingstatus == null)
             {
                 return NotFound();
             }
 
-            return listingStatus;
+            return Ok(listingstatus);
         }
 
-        // PUT: api/ListingStatus/5
+        // PUT: api/Categories/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutListingStatus(int id, ListingStatus listingStatus)
+        public async Task<IActionResult> Putlistingstatus(int id, ListingStatus listingstatus)
         {
-            if (id != listingStatus.Id)
+            if (id != listingstatus.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(listingStatus).State = EntityState.Modified;
+            //_context.Entry(category).State = EntityState.Modified;
+            _unitOfWork.ListingStatus.Update(listingstatus);
 
             try
             {
-                await _context.SaveChangesAsync();
+                // await _context.SaveChangesAsync();
+                await _unitOfWork.Save(HttpContext);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ListingStatusExists(id))
+                // if (!CategoryExists(id))
+                if (!await ListingStatusExists(id))
                 {
                     return NotFound();
                 }
@@ -81,44 +85,43 @@ namespace SellSwap.Server.Controllers
             return NoContent();
         }
 
-        // POST: api/ListingStatus
+        // POST: api/Categories
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<ListingStatus>> PostListingStatus(ListingStatus listingStatus)
+        public async Task<ActionResult<ListingStatus>> PostListingStatus(ListingStatus listingstatus)
         {
-          if (_context.ListingStatus == null)
-          {
-              return Problem("Entity set 'ApplicationDbContext.ListingStatus'  is null.");
-          }
-            _context.ListingStatus.Add(listingStatus);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetListingStatus", new { id = listingStatus.Id }, listingStatus);
+            //_context.Categories.Add(category);
+            //await _context.SaveChangesAsync();
+            await _unitOfWork.ListingStatus.Insert(listingstatus);
+            await _unitOfWork.Save(HttpContext);
+            return CreatedAtAction("GetListingstatus", new { id = listingstatus.Id }, listingstatus);
         }
 
-        // DELETE: api/ListingStatus/5
+        // DELETE: api/Categories/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteListingStatus(int id)
         {
-            if (_context.ListingStatus == null)
-            {
-                return NotFound();
-            }
-            var listingStatus = await _context.ListingStatus.FindAsync(id);
-            if (listingStatus == null)
+            //var category = await _context.Categories.FindAsync(id);
+            var listingstatus = await _unitOfWork.ListingStatus.Get(q => q.Id == id);
+            if (listingstatus == null)
             {
                 return NotFound();
             }
 
-            _context.ListingStatus.Remove(listingStatus);
-            await _context.SaveChangesAsync();
+            //_context.Categories.Remove(category);
+            //await _context.SaveChangesAsync();
+            await _unitOfWork.ListingStatus.Delete(id);
+            await _unitOfWork.Save(HttpContext);
 
             return NoContent();
         }
 
-        private bool ListingStatusExists(int id)
+        //private bool CategoryExists(int id)
+        private async Task<bool> ListingStatusExists(int id)
         {
-            return (_context.ListingStatus?.Any(e => e.Id == id)).GetValueOrDefault();
+            // return (_context.Categories?.Any(e => e.Id == id)).GetValueOrDefault();
+            var listingStatus = await _unitOfWork.ListingStatus.Get(q => q.Id == id);
+            return listingStatus != null;
         }
     }
 }
