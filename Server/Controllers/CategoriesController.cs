@@ -94,7 +94,7 @@ namespace SellSwap.Server.Controllers
             //await _context.SaveChangesAsync();
             await _unitOfWork.Categories.Insert(category);
             await _unitOfWork.Save(HttpContext);
-            return CreatedAtAction("GetMake", new { id = category.Id }, category);
+            return CreatedAtAction("GetCategories", new { id = category.Id }, category);
         }
 
         // DELETE: api/Categories/5
