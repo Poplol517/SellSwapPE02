@@ -42,9 +42,9 @@
                     <option value="">-- Select Category --</option>
                     @if (Listings != null)
                     {
-                        foreach (var category in Categories)
+                        foreach (var listing in ListingsStatus)
                         {
-                            <option value="@category.Id">@category.Name</option>
+                            <option value="@listing.Id">@listing.Name</option>
                         }
                     }
                 </InputSelect>
@@ -81,11 +81,13 @@
     [Parameter] public string ButtonText { get; set; } = "Save";
     [Parameter] public EventCallback OnValidSubmit { get; set; }
     private IList<Listing>? Listings;
-    private IList<Category>? Categories;
+    private IList<Category>? Categorys;
     private IList<ListingStatus>? ListingsStatus;
     protected async override Task OnInitializedAsync() //when the page loads
     {
         Listings = await _client.GetFromJsonAsync<List<Listing>>($"{Endpoints.ListingsEndpoint}");
+        Categorys = await _client.GetFromJsonAsync<List<Category>>($"{Endpoints.CategorysEndpoint}");
+        ListingsStatus = await _client.GetFromJsonAsync<List<ListingStatus>>($"{Endpoints.ListingsEndpoint}");
     }
 
 }
