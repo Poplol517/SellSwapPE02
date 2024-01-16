@@ -1,0 +1,27 @@
+﻿@page "/listings/create/"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+<h3>Create</h3>
+
+
+<FormComponent ButtonText="Create Listing" listing="listing" OnValidSubmit="@CreateListing" />
+
+
+
+
+
+@code {
+    Listing listing = new Listing();
+
+    private IList<Listing>? Listings;
+
+    protected async override Task OnInitializedAsync() //when the page loads
+    {
+        Listings = await _client.GetFromJsonAsync<List<Listing>>($"{Endpoints.ListingsEndpoint}");
+    }
+    private async Task CreateListing()
+    {
+        await _client.PostAsJsonAsync(Endpoints.ListingsEndpoint, listing);
+        _navManager.NavigateTo("/sell/");
+    }
+}
