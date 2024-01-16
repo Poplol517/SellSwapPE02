@@ -42,10 +42,10 @@ else
                 <td>@listing.Category</td>
                 <td>@listing.ListingStatus</td>
                 <td>
-                     <a href="/listing/view/@listing.ListingID" class="btn btn-primary">
+                     <a href="/listing/view/@listing.Id" class="btn btn-primary">
                         <span class="oi oi-book"></span>
                     </a>
-                    <a href="/listing/edit/@listing.ListingID" class="btn btn-warning">
+                    <a href="/listing/edit/@listing.Id" class="btn btn-warning">
                         <span class="oi oi-pencil"></span>
                     </a>
                     <button class="btn btn-danger" @onclick="@(()=>Delete(listing.Id))" >

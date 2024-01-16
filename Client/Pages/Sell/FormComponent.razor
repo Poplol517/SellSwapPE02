@@ -7,7 +7,7 @@
         <div class="form-group">
             <label>Item: </label>
             <div>
-                <InputSelect @bind-Value="listing.ListingID" class="form-control">
+                <InputSelect @bind-Value="listing.Id" class="form-control">
                     <option value="">-- Select Listing --</option>
                     @if (Listings != null)
                     {
@@ -17,7 +17,7 @@
                         }
                     }
                 </InputSelect>
-                <ValidationMessage For="@(() => listing.ListingID)" />
+                <ValidationMessage For="@(() => listing.Id)" />
             </div>
         </div>
             <div class="form-group">

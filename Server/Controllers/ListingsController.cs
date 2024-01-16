@@ -1,16 +1,14 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using SellSwap.Server.Data;
-using SellSwap.Shared.Domain;
 using SellSwap.Server.IRepository;
-using SellSwap.Server.Repository;
-
+using SellSwap.Shared.Domain;
 
 namespace SellSwap.Server.Controllers
 {
@@ -21,38 +19,29 @@ namespace SellSwap.Server.Controllers
         //private readonly ApplicationDbContext _context;
         private readonly IUnitOfWork _unitOfWork;
 
-        //public ListingsController(ApplicationDbContext context)
         public ListingsController(IUnitOfWork unitOfWork)
         {
-            //_context = context;
+            // _context = context;
             _unitOfWork = unitOfWork;
         }
 
-        // GET: api/Listings
+        // GET: api/Categories
         [HttpGet]
-        // public async Task<ActionResult<IEnumerable<listing>>> Getlisting_1()
+        //public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
         public async Task<IActionResult> GetListings()
         {
-            ////if (_context.listing_1 == null)
-            //{
-            //    return NotFound();
-            //}
-            //return await _context.listing_1.ToListAsync();
-            var Listings = await _unitOfWork.Listings.GetAll();
-            return Ok(Listings);
+            // return await _context.Categories.ToListAsync();
+            var listings = await _unitOfWork.Listings.GetAll();
+            return Ok(listings);
         }
 
-        // GET: api/Listings/5
+        // GET: api/Categories/5
         [HttpGet("{id}")]
-        //public async Task<ActionResult<listing>> Getlisting(int id)
-        public async Task<IActionResult> Getlisting(int id)
+        //public async Task<ActionResult<Category>> GetCategory(int id)
+        public async Task<IActionResult> GetListing(int id)
         {
+            //var category = await _context.Categories.FindAsync(id);
             var listing = await _unitOfWork.Listings.Get(q => q.Id == id);
-            //if (_context.listing_1 == null)
-            //{
-            //    return NotFound();
-            //}
-            //  var listing = await _context.listing_1.FindAsync(id);
 
             if (listing == null)
             {
@@ -62,28 +51,28 @@ namespace SellSwap.Server.Controllers
             return Ok(listing);
         }
 
-        // PUT: api/Listings/5
+        // PUT: api/Categories/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> Putlisting(int id, Listing listing)
-
+        public async Task<IActionResult> PutListing(int id, Listing listing)
         {
             if (id != listing.Id)
             {
                 return BadRequest();
             }
 
-            //_context.Entry(listing).State = EntityState.Modified;
+            //_context.Entry(category).State = EntityState.Modified;
             _unitOfWork.Listings.Update(listing);
 
             try
             {
-                //await _context.SaveChangesAsync();
+                // await _context.SaveChangesAsync();
                 await _unitOfWork.Save(HttpContext);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!await listingExists(id))
+                // if (!CategoryExists(id))
+                if (!await ListingExists(id))
                 {
                     return NotFound();
                 }
@@ -96,39 +85,30 @@ namespace SellSwap.Server.Controllers
             return NoContent();
         }
 
-        // POST: api/Listings
+        // POST: api/Categories
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Listing>> Postlisting(Listing listing)
+        public async Task<ActionResult<Listing>> PostListing(Listing listing)
         {
-            //if (_context.listing_1 == null)
-            //{
-            //    return Problem("Entity set 'ApplicationDbContext.listing_1'  is null.");
-            //}
-            //_context.listing_1.Add(listing);
+            //_context.Categories.Add(category);
             //await _context.SaveChangesAsync();
             await _unitOfWork.Listings.Insert(listing);
             await _unitOfWork.Save(HttpContext);
-
-            return CreatedAtAction("Getlisting", new { id = listing.Id }, listing);
+            return CreatedAtAction("GetListing", new { id = listing.Id }, listing);
         }
 
-        // DELETE: api/Listings/5
+        // DELETE: api/Categories/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Deletelisting(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            //if (_context.listing_1 == null)
-            //{
-            //    return NotFound();
-            //}
-            //var listing = await _context.listing_1.FindAsync(id);
-            var listing = await _unitOfWork.Listings.Get(q => q.Id == id);
+            //var category = await _context.Categories.FindAsync(id);
+            var listing= await _unitOfWork.Listings.Get(q => q.Id == id);
             if (listing == null)
             {
                 return NotFound();
             }
 
-            //_context.listing_1.Remove(listing);
+            //_context.Categories.Remove(category);
             //await _context.SaveChangesAsync();
             await _unitOfWork.Listings.Delete(id);
             await _unitOfWork.Save(HttpContext);
@@ -136,13 +116,12 @@ namespace SellSwap.Server.Controllers
             return NoContent();
         }
 
-        //private bool listingExists(int id)
-        private async Task<bool> listingExists(int id)
+        //private bool CategoryExists(int id)
+        private async Task<bool> ListingExists(int id)
         {
-            //return (_context.listing_1?.Any(e => e.Id == id)).GetValueOrDefault();
+            // return (_context.Categories?.Any(e => e.Id == id)).GetValueOrDefault();
             var listing = await _unitOfWork.Listings.Get(q => q.Id == id);
             return listing != null;
         }
     }
 }
-

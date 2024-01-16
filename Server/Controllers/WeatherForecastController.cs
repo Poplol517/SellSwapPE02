@@ -4,7 +4,7 @@ using SellSwap.Shared;
 
 namespace SellSwap.Server.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [ApiController]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
