@@ -31,7 +31,7 @@ namespace SellSwap.Server.Controllers
         public async Task<IActionResult> GetListings()
         {
             // return await _context.Categories.ToListAsync();
-            var listings = await _unitOfWork.Listings.GetAll();
+            var listings = await _unitOfWork.Listings.GetAll(includes: q => q.Include(x => x.ConditionType).Include(x => x.Category).Include(x => x.ListingStatus).Include(x => x.ListingType).Include(x => x.User));
             return Ok(listings);
         }
 
