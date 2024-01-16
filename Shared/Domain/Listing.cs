@@ -8,6 +8,7 @@ namespace SellSwap.Shared.Domain
 {
     public class Listing : BaseDomainModel
     {
+        
         public string? Name { get; set; }
         public int? ConditionTypeId { get; set; }
         public virtual ConditionType?  ConditionType { get; set; }
