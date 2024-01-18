@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SellSwap.Shared.Domain
 {
-    public class User : BaseDomainModel
+    public class Account : BaseDomainModel
     {
         
         public string? FirstName { get; set; }

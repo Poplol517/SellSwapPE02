@@ -10,7 +10,7 @@ namespace SellSwap.Server.IRepository
     public interface IUnitOfWork : IDisposable
     {
         Task Save(HttpContext httpContext);
-        IGenericRepository<User> Users { get; }
+        IGenericRepository<Account> Users { get; }
         IGenericRepository<Offer> Offers { get; }
         IGenericRepository<ListingStatus> ListingStatus { get; }
         IGenericRepository<Listing> Listings { get; }

@@ -6,5 +6,6 @@
         public static readonly string ListingsEndpoint = $"{Prefix}/listings";
         public static readonly string ListingStatusEndpoint = $"{Prefix}/listingstatus";
         public static readonly string CategorysEndpoint = $"{Prefix}/categorys";
+        public static readonly string UsersEndpoint = $"{Prefix}/users";
     }
 }

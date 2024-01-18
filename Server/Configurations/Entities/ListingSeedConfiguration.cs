@@ -23,7 +23,7 @@ namespace SellSwap.Server.Configurations.Entities
                     Description = "well used without a scratch",
                     Price = 1200,
                     CategoryId = 1,
-                    UserId = null,
+                    AccountId = null,
                     ListingStatusId = 1, //Avaliable
                     ListingTypeId = 1, //Sell
                     DateCreated = DateTime.Now,
@@ -39,7 +39,7 @@ namespace SellSwap.Server.Configurations.Entities
                     Description = "well used without a scratch",
                     Price = null,
                     CategoryId = 1,
-                    UserId = null,
+                    AccountId = null,
                     ListingStatusId = 1, //Avaliable
                     ListingTypeId = 2, //Swap
                     DateCreated = DateTime.Now,

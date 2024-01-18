@@ -8,7 +8,7 @@ namespace SellSwap.Shared.Domain
 {
     public class Listing : BaseDomainModel
     {
-        
+        public string? UserName { get; set; }
         public string? Name { get; set; }
         public int? ConditionTypeId { get; set; }
         public virtual ConditionType?  ConditionType { get; set; }
@@ -16,8 +16,8 @@ namespace SellSwap.Shared.Domain
         public int? Price { get; set; } 
         public int? CategoryId { get; set; }
         public virtual Category? Category { get; set; }
-        public int? UserId { get; set; }
-        public virtual User? User { get; set; }
+        public int? AccountId { get; set; }
+        public virtual Account? Account { get; set; }
         public int? ListingStatusId { get; set; }
         public virtual ListingStatus? ListingStatus { get; set; }
         public int? ListingTypeId { get; set; }

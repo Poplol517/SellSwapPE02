@@ -18,7 +18,7 @@ namespace SellSwap.Server.Configurations.Entities
                 {
                     Id = 1,
                     ListingId = 1,
-                    UserId=null,
+                    AccountId=null,
                     DateCreated = DateTime.Now,
                     DateUpdated = DateTime.Now,
                     CreatedBy = "System"
@@ -28,7 +28,7 @@ namespace SellSwap.Server.Configurations.Entities
                 {
                     Id = 2,
                     ListingId= 2,
-                    UserId=null,
+                    AccountId=null,
                     DateCreated = DateTime.Now,
                     DateUpdated = DateTime.Now,
                     CreatedBy = "System"

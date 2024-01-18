@@ -17,7 +17,7 @@ namespace SellSwap.Server.Repository
     public class UnitOfWork : IUnitOfWork
     {
         private readonly ApplicationDbContext _context;
-        private IGenericRepository<User> _users;
+        private IGenericRepository<Account> _users;
         private IGenericRepository<Listing> _listings;
         private IGenericRepository<ListingStatus> _listingstatus;
         private IGenericRepository<ListingType> _listingtype;
@@ -34,8 +34,8 @@ namespace SellSwap.Server.Repository
             _userManager = userManager;
         }
 
-        public IGenericRepository<User> Users
-            => _users ??= new GenericRepository<User>(_context);
+        public IGenericRepository<Account> Users
+            => _users ??= new GenericRepository<Account>(_context);
         public IGenericRepository<Listing> Listings
             => _listings ??= new GenericRepository<Listing>(_context);
         public IGenericRepository<ListingStatus> ListingStatus

@@ -17,7 +17,7 @@ namespace SellSwap.Server.Configurations.Entities
                 new Offer
                 {
                     Id = 1,
-                    UserId= null,
+                    AccountId= null,
                     ListingId=1,
                     Price = 10,
                     DateCreated = DateTime.Now,
@@ -28,7 +28,7 @@ namespace SellSwap.Server.Configurations.Entities
                 new Offer
                 {
                     Id = 2,
-                    UserId = null,
+                    AccountId = null,
                     ListingId = 1,
                     Price = 100,
                     DateCreated = DateTime.Now,

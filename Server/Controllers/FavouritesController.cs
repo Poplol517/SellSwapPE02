@@ -31,7 +31,7 @@ namespace SellSwap.Server.Controllers
         public async Task<IActionResult> GetFavourites()
         {
             // return await _context.Categories.ToListAsync();
-            var favourites = await _unitOfWork.Favourites.GetAll(includes: q => q.Include(x => x.Listing).Include(x => x.User));
+            var favourites = await _unitOfWork.Favourites.GetAll(includes: q => q.Include(x => x.Listing).Include(x => x.Account));
             return Ok(favourites); 
         }
 
