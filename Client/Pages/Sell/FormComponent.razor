@@ -6,19 +6,10 @@
     <fieldset disabled="@Disabled">
 
         <div class="form-group">
-            <label>Listing: </label>
+            <label>Name: </label>
             <div>
-                <InputSelect @bind-Value="listing.Id" class="form-control">
-                    <option value="">-- Select Listing --</option>
-                    @if (Listings != null)
-                    {
-                        foreach (var listItem in Listings)
-                        {
-                            <option value="@((listItem != null) ? listItem.Id : 0)">@((listItem != null) ? listItem.Name : "")</option>
-                        }
-                    }
-                </InputSelect>
-                <ValidationMessage For="@(() => listing.Id)" />
+                <InputText @bind-Value="listing.Name" class="form-control"/>
+                <ValidationMessage For="@(() => listing.Name)" />
             </div>
         </div> 
         
@@ -36,39 +27,57 @@
                 <ValidationMessage For="@(() => listing.Price)" />
             </div>
         </div>
-  @*   <div class="form-group">
+     <div class="form-group">
         <label>Category: </label>
         <div>
             <InputSelect @bind-Value="listing.CategoryId" class="form-control">
                 <option value="">-- Select Category --</option>
-                @if (Listings != null)
+                @if (Categories != null)
                 {
-                    foreach (var categorylisting in Listings)
+                    foreach (var category in Categories)
                     {
-                        <option value="@categorylisting.CategoryId">@categorylisting.Category?.Name</option>
+                        <option value="@category.Id">@category.Name</option>
                     }
                 }
             </InputSelect>
             <ValidationMessage For="@(() => listing.Id)" />
         </div>
-    </div> *@
+    </div> 
 
     <div class="form-group">
         <label>Listing Status: </label>
         <div>
             <InputSelect @bind-Value="listing.ListingStatusId" class="form-control">
                 <option value="">-- Select Status --</option>
-                @if (Listings != null)
+                @if (ListingStatus != null)
                 {
-                    foreach (var status in Listings)
+                    foreach (var status in ListingStatus)
                     {
-                        <option value="@status.ListingStatusId">@status.ListingStatus?.Name</option>
+                        <option value="@status.Id">@status.Name</option>
                     }
                 }
             </InputSelect>
             <ValidationMessage For="@(() => listing.Id)" />
         </div>
     </div>
+
+     <div class="form-group">
+        <label>Listing Type: </label>
+        <div>
+            <InputSelect @bind-Value="listing.ListingTypeId" class="form-control">
+                <option value="">-- Select Type --</option>
+                @if (ListingTypes != null)
+                {
+                    foreach (var types in ListingTypes)
+                    {
+                        <option value="@types.Id">@types.Name</option>
+                    }
+                }
+            </InputSelect>
+            <ValidationMessage For="@(() => listing.Id)" />
+        </div>
+    </div>
+
     </fieldset>
     @if (!Disabled)
     {
@@ -82,11 +91,19 @@
     [Parameter] public Listing? listing { get; set; }
     [Parameter] public string ButtonText { get; set; } = "Save";
     [Parameter] public EventCallback OnValidSubmit { get; set; }
+
     private IList<Listing>? Listings;
-    
+    private IList<Category>? Categories;
+    private IList<ListingStatus>? ListingStatus;
+    private IList<ListingType>? ListingTypes;
+
     protected async override Task OnInitializedAsync() //when the page loads
     {
         Listings = await _client.GetFromJsonAsync<List<Listing>>($"{Endpoints.ListingsEndpoint}");
+        Categories = await _client.GetFromJsonAsync<List<Category>>($"{Endpoints.CategoriesEndpoint}");
+        ListingStatus = await _client.GetFromJsonAsync<List<ListingStatus>>($"{Endpoints.ListingStatusEndpoint}");
+        ListingTypes = await _client.GetFromJsonAsync<List<ListingType>>($"{Endpoints.ListingTypeEndpoint}");
+
         
     }
 
