@@ -23,6 +23,6 @@
     private async Task CreateListing()
     {
         await _client.PostAsJsonAsync(Endpoints.ListingsEndpoint, listing);
-        _navManager.NavigateTo("/sell/");
+        _navManager.NavigateTo("/buy/");
     }
 }

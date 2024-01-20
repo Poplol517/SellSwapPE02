@@ -26,13 +26,23 @@ namespace SellSwap.Server.Configurations.Entities
                 new ConditionType
                 {
                     Id = 2,
-                    Name = "WellUsed",
+                    Name = "Well Used",
+                    DateCreated = DateTime.Now,
+                    DateUpdated = DateTime.Now,
+                    CreatedBy = "System"
+                },
+                new ConditionType
+                {
+                    Id = 3,
+                    Name = "Damaged",
                     DateCreated = DateTime.Now,
                     DateUpdated = DateTime.Now,
                     CreatedBy = "System"
                 }
 
+
                 );
+
 
         }
     }

@@ -14,6 +14,7 @@ namespace SellSwap.Shared.Domain
         [Required]
         [StringLength(100,MinimumLength = 2, ErrorMessage ="Listing Name not meeting length requirement (Minimum Name length 2)")]
         public string? Name { get; set; }
+        [Required]
         public int? ConditionTypeId { get; set; }
         public virtual ConditionType?  ConditionType { get; set; }
         public string? Description { get; set; }

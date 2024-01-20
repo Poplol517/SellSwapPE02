@@ -6,6 +6,7 @@
         public static readonly string ListingsEndpoint = $"{Prefix}/listings";
         public static readonly string ListingStatusEndpoint = $"{Prefix}/listingstatus";
         public static readonly string ListingTypeEndpoint = $"{Prefix}/listingtype";
+        public static readonly string ConditionTypeEndpoint = $"{Prefix}/conditiontypes";
         public static readonly string CategoriesEndpoint = $"{Prefix}/categories";
         public static readonly string UsersEndpoint = $"{Prefix}/users";
     }
