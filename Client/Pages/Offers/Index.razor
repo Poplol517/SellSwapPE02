@@ -1,0 +1,88 @@
+﻿@page "/offers/"
+
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+@implements IDisposable
+
+
+
+<h3 class=" = "card-title">Offers</h3>
+<br />
+@if (Offers == null)
+{
+<div class="alert alert-info">Loading Offers. . .</div>
+}
+else
+{
+    <table class="table table-responsive" id="offersTable">
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                @* <th>Category</th>*@
+                <th>Offer Type</th>
+                <th>Offer Status</th> 
+                @* <th>Condition Type</th> *@
+                <th>Actions</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var offer in Offers)
+            {
+                <tr>
+                   @*  <td>@offer.AccountId.Name</td> *@
+                    <td>@offer.Listing.Name</td>
+                    <td>@offer.Description</td>
+                    <td>@offer.Price</td>
+                    <td>@offer.Listing.ListingType.Name</td>
+                    <td>@offer.Status</td>
+                    <td>
+                         <a href="/offers/view/@offer.Id" class="btn btn-primary">
+                            <span class="oi oi-book"></span>
+                        </a>
+                       @*  <a href="/listing/edit/@offer.Id" class="btn btn-warning">
+                            <span class="oi oi-pencil"></span>
+                        </a>
+                        <button class="btn btn-success" @onclick="@(()=>Approve(offer.Id))" >
+                            <span class="oi oi-tick"></span>
+                        </button> *@
+                    </td>
+                </tr>
+            }
+        </tbody>
+</table>
+}
+   
+
+@code {
+    private List<Offer>? Offers;
+    protected async override Task OnInitializedAsync()
+    {
+        Offers = await _client.GetFromJsonAsync<List<Offer>>($"{Endpoints.OffersEndpoint}");
+
+    }
+    async Task Approve(int offerId)
+    {
+        if (Offers != null)
+        {
+            var offer = Offers.First(q => q.Id == offerId);
+            var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to accept {offerId}?");
+            if (confirm)
+            {
+                Offers.Remove(offer);
+            }
+        }
+
+    }
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        await js.InvokeVoidAsync("AddDataTable", "#offersTable");
+    }
+    public void Dispose()
+    {
+        js.InvokeVoidAsync("DataTablesDispose", "#offersTable");
+    }
+}

@@ -8,6 +8,7 @@
         public static readonly string ListingTypeEndpoint = $"{Prefix}/listingtype";
         public static readonly string ConditionTypeEndpoint = $"{Prefix}/conditiontypes";
         public static readonly string CategoriesEndpoint = $"{Prefix}/categories";
+        public static readonly string OffersEndpoint = $"{Prefix}/offers";
         public static readonly string UsersEndpoint = $"{Prefix}/users";
     }
 }

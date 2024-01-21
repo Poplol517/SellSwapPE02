@@ -51,7 +51,7 @@
         </div>
 
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="catgory" @onmouseover="()=>expandSubMenu= !expandSubMenu">
+            <NavLink class="nav-link" @onclick="()=>expandSubMenu= !expandSubMenu">
                 <span class="oi oi-list-rich" aria-hidden="true"></span> Categories
             </NavLink>
             @if (expandSubMenu)
@@ -62,6 +62,9 @@
                     </NavLink>
                     <NavLink class="expand-menu" href="shirt">
                         <span class="oi oi-shirt" aria-hidden="true"></span> Shirt
+                    </NavLink>
+                    <NavLink class="expand-menu" href="categories">
+                        <span class="oi oi-list-rich" aria-hidden="true"></span> View All Categories
                     </NavLink>
                 </div>
             }
@@ -74,6 +77,11 @@
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="swap">
                 <span class="oi oi-list-rich" aria-hidden="true"></span> Swap
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="offers" Match="NavLinkMatch.All">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Offers
             </NavLink>
         </div>
 

@@ -390,8 +390,10 @@ namespace SellSwap.Server.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AccountId = table.Column<int>(type: "int", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ListingId = table.Column<int>(type: "int", nullable: true),
                     Price = table.Column<int>(type: "int", nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -414,15 +416,15 @@ namespace SellSwap.Server.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "3781efa7-66dc-47f0-860f-e506d04102e4", 0, "e91ca725-afba-4b84-8772-79c8d722d2a5", "admin@localhost.com", false, "Admin", "User", false, null, "ADMIN@LOCALHOST.COM", "ADMIN@LOCALHOST.COM", "AQAAAAIAAYagAAAAEJpnxExjfUoG0gIky004nxbw1jE5BToVg72TPBvuaew7Zbw9YXg1kw24Ch/vtOv7/A==", null, false, "f8be9403-2373-4edb-be3b-4626deaa84bb", false, "admin@localhost.com" });
+                values: new object[] { "3781efa7-66dc-47f0-860f-e506d04102e4", 0, "43b38e1d-b20f-40b2-a86a-69ab3a3a8d25", "admin@localhost.com", false, "Admin", "User", false, null, "ADMIN@LOCALHOST.COM", "ADMIN@LOCALHOST.COM", "AQAAAAIAAYagAAAAEIxe40w22rDt/Komx1jfD8hNAJJZJMbBdLmMF7zkZN1qsTwaY7v4N4wVI0067zammw==", null, false, "5fc87338-36fb-4d0b-afad-f037111186c1", false, "admin@localhost.com" });
 
             migrationBuilder.InsertData(
                 table: "Categories",
                 columns: new[] { "Id", "CreatedBy", "DateCreated", "DateUpdated", "Name" },
                 values: new object[,]
                 {
-                    { 1, "System", new DateTime(2024, 1, 20, 15, 53, 35, 756, DateTimeKind.Local).AddTicks(2809), new DateTime(2024, 1, 20, 15, 53, 35, 756, DateTimeKind.Local).AddTicks(2810), "Phone" },
-                    { 2, "System", new DateTime(2024, 1, 20, 15, 53, 35, 756, DateTimeKind.Local).AddTicks(2811), new DateTime(2024, 1, 20, 15, 53, 35, 756, DateTimeKind.Local).AddTicks(2812), "Figure" }
+                    { 1, "System", new DateTime(2024, 1, 21, 21, 8, 28, 103, DateTimeKind.Local).AddTicks(6511), new DateTime(2024, 1, 21, 21, 8, 28, 103, DateTimeKind.Local).AddTicks(6511), "Phone" },
+                    { 2, "System", new DateTime(2024, 1, 21, 21, 8, 28, 103, DateTimeKind.Local).AddTicks(6513), new DateTime(2024, 1, 21, 21, 8, 28, 103, DateTimeKind.Local).AddTicks(6513), "Figure" }
                 });
 
             migrationBuilder.InsertData(
@@ -430,9 +432,9 @@ namespace SellSwap.Server.Migrations
                 columns: new[] { "Id", "CreatedBy", "DateCreated", "DateUpdated", "Name" },
                 values: new object[,]
                 {
-                    { 1, "System", new DateTime(2024, 1, 20, 15, 53, 35, 756, DateTimeKind.Local).AddTicks(2947), new DateTime(2024, 1, 20, 15, 53, 35, 756, DateTimeKind.Local).AddTicks(2948), "New" },
-                    { 2, "System", new DateTime(2024, 1, 20, 15, 53, 35, 756, DateTimeKind.Local).AddTicks(2949), new DateTime(2024, 1, 20, 15, 53, 35, 756, DateTimeKind.Local).AddTicks(2949), "Well Used" },
-                    { 3, "System", new DateTime(2024, 1, 20, 15, 53, 35, 756, DateTimeKind.Local).AddTicks(2950), new DateTime(2024, 1, 20, 15, 53, 35, 756, DateTimeKind.Local).AddTicks(2951), "Damaged" }
+                    { 1, "System", new DateTime(2024, 1, 21, 21, 8, 28, 103, DateTimeKind.Local).AddTicks(6651), new DateTime(2024, 1, 21, 21, 8, 28, 103, DateTimeKind.Local).AddTicks(6651), "New" },
+                    { 2, "System", new DateTime(2024, 1, 21, 21, 8, 28, 103, DateTimeKind.Local).AddTicks(6652), new DateTime(2024, 1, 21, 21, 8, 28, 103, DateTimeKind.Local).AddTicks(6653), "Well Used" },
+                    { 3, "System", new DateTime(2024, 1, 21, 21, 8, 28, 103, DateTimeKind.Local).AddTicks(6654), new DateTime(2024, 1, 21, 21, 8, 28, 103, DateTimeKind.Local).AddTicks(6654), "Damaged" }
                 });
 
             migrationBuilder.InsertData(
@@ -440,8 +442,8 @@ namespace SellSwap.Server.Migrations
                 columns: new[] { "Id", "CreatedBy", "DateCreated", "DateUpdated", "Name" },
                 values: new object[,]
                 {
-                    { 1, "System", new DateTime(2024, 1, 20, 15, 53, 35, 756, DateTimeKind.Local).AddTicks(3201), new DateTime(2024, 1, 20, 15, 53, 35, 756, DateTimeKind.Local).AddTicks(3201), "Avaliable" },
-                    { 2, "System", new DateTime(2024, 1, 20, 15, 53, 35, 756, DateTimeKind.Local).AddTicks(3202), new DateTime(2024, 1, 20, 15, 53, 35, 756, DateTimeKind.Local).AddTicks(3203), "Sold" }
+                    { 1, "System", new DateTime(2024, 1, 21, 21, 8, 28, 103, DateTimeKind.Local).AddTicks(6941), new DateTime(2024, 1, 21, 21, 8, 28, 103, DateTimeKind.Local).AddTicks(6941), "Avaliable" },
+                    { 2, "System", new DateTime(2024, 1, 21, 21, 8, 28, 103, DateTimeKind.Local).AddTicks(6943), new DateTime(2024, 1, 21, 21, 8, 28, 103, DateTimeKind.Local).AddTicks(6943), "Sold" }
                 });
 
             migrationBuilder.InsertData(
@@ -449,9 +451,9 @@ namespace SellSwap.Server.Migrations
                 columns: new[] { "Id", "CreatedBy", "DateCreated", "DateUpdated", "Name" },
                 values: new object[,]
                 {
-                    { 1, "System", new DateTime(2024, 1, 20, 15, 53, 35, 756, DateTimeKind.Local).AddTicks(3077), new DateTime(2024, 1, 20, 15, 53, 35, 756, DateTimeKind.Local).AddTicks(3077), "Sell" },
-                    { 2, "System", new DateTime(2024, 1, 20, 15, 53, 35, 756, DateTimeKind.Local).AddTicks(3078), new DateTime(2024, 1, 20, 15, 53, 35, 756, DateTimeKind.Local).AddTicks(3079), "Swap" },
-                    { 3, "System", new DateTime(2024, 1, 20, 15, 53, 35, 756, DateTimeKind.Local).AddTicks(3080), new DateTime(2024, 1, 20, 15, 53, 35, 756, DateTimeKind.Local).AddTicks(3080), "Sell and Swap" }
+                    { 1, "System", new DateTime(2024, 1, 21, 21, 8, 28, 103, DateTimeKind.Local).AddTicks(6801), new DateTime(2024, 1, 21, 21, 8, 28, 103, DateTimeKind.Local).AddTicks(6801), "Sell" },
+                    { 2, "System", new DateTime(2024, 1, 21, 21, 8, 28, 103, DateTimeKind.Local).AddTicks(6803), new DateTime(2024, 1, 21, 21, 8, 28, 103, DateTimeKind.Local).AddTicks(6803), "Swap" },
+                    { 3, "System", new DateTime(2024, 1, 21, 21, 8, 28, 103, DateTimeKind.Local).AddTicks(6804), new DateTime(2024, 1, 21, 21, 8, 28, 103, DateTimeKind.Local).AddTicks(6805), "Sell and Swap" }
                 });
 
             migrationBuilder.InsertData(
@@ -459,8 +461,8 @@ namespace SellSwap.Server.Migrations
                 columns: new[] { "Id", "AccountId", "CategoryId", "ConditionTypeId", "CreatedBy", "DateCreated", "DateUpdated", "Description", "ListingStatusId", "ListingTypeId", "Name", "Price", "UserName" },
                 values: new object[,]
                 {
-                    { 1, null, 1, 2, "System", new DateTime(2024, 1, 20, 15, 53, 35, 756, DateTimeKind.Local).AddTicks(2561), new DateTime(2024, 1, 20, 15, 53, 35, 756, DateTimeKind.Local).AddTicks(2579), "well used without a scratch", 1, 1, "Iphone", 1200, null },
-                    { 2, null, 1, 1, "System", new DateTime(2024, 1, 20, 15, 53, 35, 756, DateTimeKind.Local).AddTicks(2581), new DateTime(2024, 1, 20, 15, 53, 35, 756, DateTimeKind.Local).AddTicks(2582), "well used without a scratch", 1, 2, "POP Mart figure", null, null }
+                    { 1, null, 1, 2, "System", new DateTime(2024, 1, 21, 21, 8, 28, 103, DateTimeKind.Local).AddTicks(6257), new DateTime(2024, 1, 21, 21, 8, 28, 103, DateTimeKind.Local).AddTicks(6274), "well used without a scratch", 1, 1, "Iphone", 1200, null },
+                    { 2, null, 1, 1, "System", new DateTime(2024, 1, 21, 21, 8, 28, 103, DateTimeKind.Local).AddTicks(6277), new DateTime(2024, 1, 21, 21, 8, 28, 103, DateTimeKind.Local).AddTicks(6277), "well used without a scratch", 1, 2, "POP Mart figure", null, null }
                 });
 
             migrationBuilder.InsertData(
@@ -468,17 +470,18 @@ namespace SellSwap.Server.Migrations
                 columns: new[] { "Id", "AccountId", "CreatedBy", "DateCreated", "DateUpdated", "ListingId" },
                 values: new object[,]
                 {
-                    { 1, null, "System", new DateTime(2024, 1, 20, 15, 53, 35, 756, DateTimeKind.Local).AddTicks(3322), new DateTime(2024, 1, 20, 15, 53, 35, 756, DateTimeKind.Local).AddTicks(3322), 1 },
-                    { 2, null, "System", new DateTime(2024, 1, 20, 15, 53, 35, 756, DateTimeKind.Local).AddTicks(3327), new DateTime(2024, 1, 20, 15, 53, 35, 756, DateTimeKind.Local).AddTicks(3327), 2 }
+                    { 1, null, "System", new DateTime(2024, 1, 21, 21, 8, 28, 103, DateTimeKind.Local).AddTicks(7076), new DateTime(2024, 1, 21, 21, 8, 28, 103, DateTimeKind.Local).AddTicks(7077), 1 },
+                    { 2, null, "System", new DateTime(2024, 1, 21, 21, 8, 28, 103, DateTimeKind.Local).AddTicks(7081), new DateTime(2024, 1, 21, 21, 8, 28, 103, DateTimeKind.Local).AddTicks(7081), 2 }
                 });
 
             migrationBuilder.InsertData(
                 table: "Offers",
-                columns: new[] { "Id", "AccountId", "CreatedBy", "DateCreated", "DateUpdated", "ListingId", "Price" },
+                columns: new[] { "Id", "AccountId", "CreatedBy", "DateCreated", "DateUpdated", "Description", "ListingId", "Price", "Status" },
                 values: new object[,]
                 {
-                    { 1, null, "System", new DateTime(2024, 1, 20, 15, 53, 35, 756, DateTimeKind.Local).AddTicks(3461), new DateTime(2024, 1, 20, 15, 53, 35, 756, DateTimeKind.Local).AddTicks(3461), 1, 10 },
-                    { 2, null, "System", new DateTime(2024, 1, 20, 15, 53, 35, 756, DateTimeKind.Local).AddTicks(3463), new DateTime(2024, 1, 20, 15, 53, 35, 756, DateTimeKind.Local).AddTicks(3463), 1, 100 }
+                    { 1, null, "System", new DateTime(2024, 1, 21, 21, 8, 28, 103, DateTimeKind.Local).AddTicks(7222), new DateTime(2024, 1, 21, 21, 8, 28, 103, DateTimeKind.Local).AddTicks(7223), "", 1, 10, "Pending" },
+                    { 2, null, "System", new DateTime(2024, 1, 21, 21, 8, 28, 103, DateTimeKind.Local).AddTicks(7225), new DateTime(2024, 1, 21, 21, 8, 28, 103, DateTimeKind.Local).AddTicks(7225), "Really like it", 1, 100, "Pending" },
+                    { 3, null, "System", new DateTime(2024, 1, 21, 21, 8, 28, 103, DateTimeKind.Local).AddTicks(7227), new DateTime(2024, 1, 21, 21, 8, 28, 103, DateTimeKind.Local).AddTicks(7227), "Really like it", 2, null, "Pending" }
                 });
 
             migrationBuilder.CreateIndex(

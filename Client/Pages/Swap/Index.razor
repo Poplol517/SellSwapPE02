@@ -3,6 +3,7 @@
 @inject HttpClient _client
 @inject IJSRuntime js
 @attribute [Authorize]
+@implements IDisposable
 
 
 
@@ -20,7 +21,7 @@
 }
 else
 {
-    <table class="table table-responsive">
+    <table class="table table-responsive" id="swaplistingsTable">
         <thead>
             <tr>
                 <th>Name</th>
@@ -36,6 +37,7 @@ else
         <tbody>
             @foreach (var listing in Listings)
             {
+                if (listing.ListingType.Id==2){
                 <tr>
                     <td>@listing.Name</td>
                     <td>@listing.Description</td>
@@ -44,17 +46,22 @@ else
                     <td>@listing.ListingStatus?.Name</td>
                     <td>@listing.ListingType?.Name</td>
                     <td>
-                        <a href="/listing/view/@listing.Id" class="btn btn-primary">
+                        <a href="/listings/view/@listing.Id" class="btn btn-primary">
                             <span class="oi oi-book"></span>
                         </a>
-                        <a href="/listing/edit/@listing.Id" class="btn btn-warning">
+                        <a href="/listings/edit/@listing.Id" class="btn btn-warning">
                             <span class="oi oi-pencil"></span>
                         </a>
                         <button class="btn btn-danger" @onclick="@(()=>Delete(listing.Id))">
                             <span class="oi oi-delete"></span>
-                        </button>
+                        </button> 
                     </td>
-                </tr>
+                    </tr>
+                }
+                else
+                {
+                    <div class="alert alert-info">Loading Listings. . .</div>
+                }
             }
         </tbody>
     </table>
@@ -81,5 +88,13 @@ else
             }
         }
 
+    }
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        await js.InvokeVoidAsync("AddDataTable", "#swaplistingsTable");
+    }
+    public void Dispose()
+    {
+        js.InvokeVoidAsync("DataTablesDispose", "#swaplistingsTable");
     }
 }

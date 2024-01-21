@@ -17,9 +17,11 @@ namespace SellSwap.Server.Configurations.Entities
                 new Offer
                 {
                     Id = 1,
-                    AccountId= null,
-                    ListingId=1,
+                    AccountId = null,
+                    ListingId = 1,
                     Price = 10,
+                    Description ="",
+                    Status="Pending",
                     DateCreated = DateTime.Now,
                     DateUpdated = DateTime.Now,
                     CreatedBy = "System"
@@ -31,12 +33,26 @@ namespace SellSwap.Server.Configurations.Entities
                     AccountId = null,
                     ListingId = 1,
                     Price = 100,
+                    Description ="Really like it",
+                    Status="Pending",
+                    DateCreated = DateTime.Now,
+                    DateUpdated = DateTime.Now,
+                    CreatedBy = "System"
+                },
+                new Offer
+                {
+                    Id = 3,
+                    AccountId = null,
+                    ListingId = 2,
+                    Price = null,
+                    Description = "Really like it",
+                    Status = "Pending",
                     DateCreated = DateTime.Now,
                     DateUpdated = DateTime.Now,
                     CreatedBy = "System"
                 }
 
-                );
+                ); ;
 
         }
     }

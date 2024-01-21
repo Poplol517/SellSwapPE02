@@ -1,0 +1,63 @@
+﻿@page "/offers/view/{id:int}"
+@inject HttpClient _client
+@inject IJSRuntime js
+@inject NavigationManager _navManager
+<h3>View</h3>
+
+@if (Offers != null)
+{
+    var offer = Offers.FirstOrDefault(o => o.Id == id);
+    if (offer != null)
+    {
+        <p>Listing Name: @offer.Listing.Name</p>
+        <p>Details: @offer.Description</p>
+        <p>Type:@offer.Listing.ListingType.Name</p>
+        if (offer.Listing.Price == null)
+        {
+        }
+        else
+        {
+            <p>Price:@offer.Price</p>
+        }
+        <button @onclick="() => Approve(offer.Id)">Approve</button>
+        <button @onclick="() => Reject(offer.Id)">Reject</button>
+    }
+}
+else
+{
+    <p>Loading Offer...</p>
+}
+
+<BacktoOffer Target="offers" />
+
+
+@code {
+    [Parameter] public int id { get; set; }
+
+    private List<Offer>? Offers;
+    Offer? offers = new Offer();
+    protected async override Task OnInitializedAsync()
+    {
+        Offers = await _client.GetFromJsonAsync<List<Offer>>($"{Endpoints.OffersEndpoint}");
+
+    }
+    protected async Task Approve(int offerId)
+    {
+
+        offers.Status = "Approved";
+        await _client.PutAsJsonAsync($"{Endpoints.OffersEndpoint}/{id}", offers);
+        _navManager.NavigateTo("offers");
+
+
+    }
+    protected async Task Reject(int offerId)
+    {
+
+        offers.Status = "Rejected";
+        await _client.PutAsJsonAsync($"{Endpoints.OffersEndpoint}/{id}", offers);
+        _navManager.NavigateTo("offers");
+
+
+    }
+
+}
