@@ -2,6 +2,7 @@
 @inject HttpClient _client
 @inject IJSRuntime js
 @inject NavigationManager _navManager
+@inject SweetAlertService swal
 <h3>View</h3>
 
 @if (Offers != null)
@@ -10,8 +11,9 @@
     if (offer != null)
     {
         <p>Listing Name: @offer.Listing.Name</p>
-        <p>Details: @offer.Description</p>
+        <p>Description: @offer.Description</p>
         <p>Type:@offer.Listing.ListingType.Name</p>
+        <p>Condition:@offer.Listing.ConditionType.Name</p>
         if (offer.Listing.Price == null)
         {
         }
@@ -48,9 +50,32 @@ else
         var offer = Offers.FirstOrDefault(o => o.Id == offerId);
         if (offer != null)
         {
-            offer.Status = "Approved";
-            await _client.PutAsJsonAsync($"{Endpoints.OffersEndpoint}/{offerId}", offer);
-            _navManager.NavigateTo("offers");
+            var result = await swal.FireAsync(new SweetAlertOptions
+                {
+                    Title = "Confirmation",
+                    Text =  "Do you wish to approve this offer?",
+                    Icon = SweetAlertIcon.Warning,
+                    ShowCancelButton =true,
+                    ConfirmButtonText ="Approve",
+                    CancelButtonText="No, let me rethink"
+                });
+            var confirm = !string.IsNullOrEmpty(result.Value);
+            if (!confirm)
+            {
+
+            }
+            else
+            {
+                swal.FireAsync(new SweetAlertOptions
+                    {
+                        Title = "Approved",
+                        Text = "Woo-Hoo! You have made a deal!",
+                        Icon = SweetAlertIcon.Success,
+                    });
+                offer.Status = "Approved";
+                await _client.PutAsJsonAsync($"{Endpoints.OffersEndpoint}/{offerId}", offer);
+                _navManager.NavigateTo("offers");
+            }
         }
 
     }
@@ -60,11 +85,40 @@ else
         var offer = Offers.FirstOrDefault(o => o.Id == offerId);
         if (offer != null)
         {
-            offer.Status = "Rejected";
-            await _client.PutAsJsonAsync($"{Endpoints.OffersEndpoint}/{offerId}", offer);
-            _navManager.NavigateTo("offers");
+            var result = await swal.FireAsync(new SweetAlertOptions
+                {
+                    Title = "Confirmation",
+                    Text = "Do you wish to reject this offer?",
+                    Icon = SweetAlertIcon.Warning,
+                    ShowCancelButton = true,
+                    ConfirmButtonText = "Reject",
+                    CancelButtonText = "No, let me rethink"
+                });
+            var confirm = !string.IsNullOrEmpty(result.Value);
+            if (!confirm)
+            {
+
+            }
+            else
+            {
+                var text=await swal.FireAsync(new SweetAlertOptions
+                {
+                    Title = "Reason for rejection",
+                    Input = "text",
+                    InputLabel = "Reason",
+                    InputPlaceholder="Enter your reason",
+                    Icon = SweetAlertIcon.Error,
+                    
+                });
+               
+                    offer.Reason = text.Value;
+                    offer.Status = "Rejected";
+                    await _client.PutAsJsonAsync($"{Endpoints.OffersEndpoint}/{offerId}", offer);
+                    _navManager.NavigateTo("offers");
+                
+            }
+        }
         }
 
     }
 
-}

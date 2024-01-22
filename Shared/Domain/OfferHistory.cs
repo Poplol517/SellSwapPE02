@@ -8,12 +8,7 @@ namespace SellSwap.Shared.Domain
 {
     public class OfferHistory : BaseDomainModel
     {
-        public int? AccountId { get; set; }
-        public virtual Account? Account { get; set; }
-        public string? Description { get; set; }
-        public int? ListingId { get; set; }
-        public virtual Listing? Listing { get; set; }
-        public int? Price { get; set; }
-        public string? Status { get; set; }
+        public int? OfferId { get; set; }
+        public virtual Offer? Offer { get; set; }
     }
 }
