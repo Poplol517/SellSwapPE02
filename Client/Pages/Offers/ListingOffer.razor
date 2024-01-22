@@ -1,0 +1,28 @@
+﻿@page "/listings/offer/{id:int}"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+@attribute [Authorize]
+
+<h3>Offer</h3>
+
+
+<FormComponent  offer="offers" OnValidSubmit="@CreateOffer" />
+
+@code {
+    [Parameter] public int id { get; set; }
+    Offer offers = new Offer();
+
+    private IList<Offer>? Offers;
+
+    protected async override Task OnInitializedAsync() //when the page loads
+    {
+        Offers = await _client.GetFromJsonAsync<List<Offer>>($"{Endpoints.OffersEndpoint}");
+    }
+    private async Task CreateOffer()
+    {
+        await _client.PostAsJsonAsync(Endpoints.OffersEndpoint, offers);
+        _navManager.NavigateTo("/offers/");
+    }
+
+}
+ 

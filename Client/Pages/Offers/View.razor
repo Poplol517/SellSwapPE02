@@ -17,7 +17,8 @@
         }
         else
         {
-            <p>Price:@offer.Price</p>
+            <p>Lisited Price:@offer.Listing.Price</p>
+            <p>Offered Price:@offer.Price</p>
         }
         <button @onclick="() => Approve(offer.Id)">Approve</button>
         <button @onclick="() => Reject(offer.Id)">Reject</button>
@@ -44,19 +45,25 @@ else
     protected async Task Approve(int offerId)
     {
 
-        offers.Status = "Approved";
-        await _client.PutAsJsonAsync($"{Endpoints.OffersEndpoint}/{id}", offers);
-        _navManager.NavigateTo("offers");
-
+        var offer = Offers.FirstOrDefault(o => o.Id == offerId);
+        if (offer != null)
+        {
+            offer.Status = "Approved";
+            await _client.PutAsJsonAsync($"{Endpoints.OffersEndpoint}/{offerId}", offer);
+            _navManager.NavigateTo("offers");
+        }
 
     }
     protected async Task Reject(int offerId)
     {
 
-        offers.Status = "Rejected";
-        await _client.PutAsJsonAsync($"{Endpoints.OffersEndpoint}/{id}", offers);
-        _navManager.NavigateTo("offers");
-
+        var offer = Offers.FirstOrDefault(o => o.Id == offerId);
+        if (offer != null)
+        {
+            offer.Status = "Rejected";
+            await _client.PutAsJsonAsync($"{Endpoints.OffersEndpoint}/{offerId}", offer);
+            _navManager.NavigateTo("offers");
+        }
 
     }
 

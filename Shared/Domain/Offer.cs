@@ -12,6 +12,7 @@ namespace SellSwap.Shared.Domain
         public int? AccountId { get; set; }
         public virtual Account? Account { get; set; }
         public string? Description {  get; set; }
+        public string? Reason { get; set; }
         public int? ListingId { get; set; }
         public virtual Listing? Listing { get; set; }
         public int? Price { get; set; }
