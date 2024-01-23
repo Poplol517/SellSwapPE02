@@ -5,10 +5,9 @@
 @inject IJSRuntime js
 @attribute [Authorize]
 @implements IDisposable
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
-
-
-<h3 class=" = "card-title">Buy Page</h3>
+<h3 class="card-title">Buy Page</h3>
 <br />
 <a href="/listings/create" class="btn btn-secondary">
     <span class="oi oi-plus"></span>
@@ -18,7 +17,7 @@
 <br />
 @if (Listings == null)
 {
-<div class="alert alert-info">Loading Listings. . .</div>
+    <div class="alert alert-info">Loading Listings. . .</div>
 }
 else
 {
@@ -32,39 +31,41 @@ else
                 <th>Listing Status</th>
                 <th>Listing Type</th>
                 <th>Condition Type</th>
+                <th>Created By</th>
                 <th>Actions</th>
-
             </tr>
         </thead>
         <tbody>
             @foreach (var listing in Listings)
             {
-                if(listing.ListingType.Id!=2){
-                <tr>
-                    <td>@listing.Name</td>
-                    <td>@listing.Description</td>
-                    <td>@listing.Price</td>
-                    <td>@listing.Category?.Name</td>
-                    <td>@listing.ListingStatus?.Name</td>
-                    <td>@listing.ListingType?.Name</td>
-                    <td>@listing.ConditionType?.Name</td>
-                   @*  <td>@context.User.Identity.Name</td> *@
-                    <td>
-                        <a href="/listings/view/@listing.Id" class="btn btn-primary">
-                            <span class="oi oi-book"></span>
-                        </a>
-                        <a href="/listings/edit/@listing.Id" class="btn btn-warning">
-                            <span class="oi oi-pencil"></span>
-                        </a>
-                        <a href="/listings/offer/@listing.Id" class="btn btn-info">
-                            <span class="oi oi-pencil"></span>
-                        </a>
-                        <button class="btn btn-danger" @onclick="@(()=>Delete(listing.Id))" >
-                            <span class="oi oi-delete"></span>
-                        </button> 
-
-                    </td>
+                if (listing.ListingType.Id != 2)
+                {
+                    <tr>
+                        <td>@listing.Name</td>
+                        <td>@listing.Description</td>
+                        <td>@listing.Price</td>
+                        <td>@listing.Category?.Name</td>
+                        <td>@listing.ListingStatus?.Name</td>
+                        <td>@listing.ListingType?.Name</td>
+                        <td>@listing.ConditionType?.Name</td>
+                        <td>@listing.Lister</td>
+                        <td>
+                            <a href="/listings/view/@listing.Id" class="btn btn-primary">
+                                <span class="oi oi-book"></span>
+                            </a>
+                            <a href="/listings/edit/@listing.Id" class="btn btn-warning">
+                                <span class="oi oi-pencil"></span>
+                            </a>
+                            <a href="/listings/offer/@listing.Id" class="btn btn-info">
+                                <span class="oi oi-pencil"></span>
+                            </a>
+                            <button class="btn btn-danger" @onclick="@(()=>Delete(listing.Id))">
+                                <span class="oi oi-delete"></span>
+                            </button>
+                      </td>
                     </tr>
+                    
+
                 }
                 else
                 {
@@ -72,17 +73,18 @@ else
                 }
             }
         </tbody>
-</table>
+    </table>
 }
-   
 
 @code {
     private List<Listing>? Listings;
+
+
     protected async override Task OnInitializedAsync()
     {
         Listings = await _client.GetFromJsonAsync<List<Listing>>($"{Endpoints.ListingsEndpoint}");
-
     }
+
     async Task Delete(int listingId)
     {
         if (Listings != null)
@@ -95,14 +97,22 @@ else
                 await OnInitializedAsync();
             }
         }
-
     }
+
     protected async override Task OnAfterRenderAsync(bool firstRender)
     {
         await js.InvokeVoidAsync("AddDataTable", "#buylistingsTable");
     }
+
     public void Dispose()
     {
         js.InvokeVoidAsync("DataTablesDispose", "#buylistingsTable");
+    }
+
+    private async Task<string> GetUserName()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        return user.Identity?.Name ?? "Unknown";
     }
 }

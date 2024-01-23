@@ -1,15 +1,12 @@
 ﻿@page "/listings/create/"
 @inject HttpClient _client
 @inject NavigationManager _navManager
+@inject AuthenticationStateProvider _authenticationStateProvider
 @attribute [Authorize]
+
 <h3>Create</h3>
 
-
 <FormComponent ButtonText="Create Listing" listing="listing" OnValidSubmit="@CreateListing" />
-
-
-
-
 
 @code {
     Listing listing = new Listing();
@@ -19,9 +16,24 @@
     protected async override Task OnInitializedAsync() //when the page loads
     {
         Listings = await _client.GetFromJsonAsync<List<Listing>>($"{Endpoints.ListingsEndpoint}");
+
+        // To bind listing to user
+        // Get the authenticated user's information
+        var authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        // Set the authenticated user's information in the listing object
+        listing.Lister = user.Identity.Name;
+  
+
     }
+
     private async Task CreateListing()
     {
+        // Include the authenticated user's information in the listing object
+
+
+
         await _client.PostAsJsonAsync(Endpoints.ListingsEndpoint, listing);
         _navManager.NavigateTo("/buy/");
     }

@@ -10,7 +10,8 @@ namespace SellSwap.Shared.Domain
 {
     public class Listing : BaseDomainModel
     {
-        public string? UserName { get; set; }
+        public string? Lister { get; set; }
+        public string? Buyer { get; set; }
         [Required]
         [StringLength(100,MinimumLength = 2, ErrorMessage ="Listing Name not meeting length requirement (Minimum Name length 2)")]
         public string? Name { get; set; }
@@ -22,7 +23,7 @@ namespace SellSwap.Shared.Domain
         [Required]
         public int? CategoryId { get; set; }
         public virtual Category? Category { get; set; }
-        public int? AccountId { get; set; }
+        public string? AccountId { get; set; }
         public virtual Account? Account { get; set; }
         [Required]
         public int? ListingStatusId { get; set; }

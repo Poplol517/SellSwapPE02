@@ -6,6 +6,7 @@ using SellSwap.Server.Models;
 using Microsoft.AspNetCore.Identity;
 using SellSwap.Server.IRepository;
 using SellSwap.Server.Repository;
+using AutoMapper.Internal.Mappers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddIdentityServer()
@@ -56,5 +58,47 @@ app.UseAuthorization();
 app.MapRazorPages();
 app.MapControllers();
 app.MapFallbackToFile("index.html");
+
+
+//Creating Staff whenever the program runs
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+
+    var roles = new[] { "Staff", "User" };
+
+    foreach (var role in roles)
+    {
+        if (!await roleManager.RoleExistsAsync(role))
+            await roleManager.CreateAsync(new IdentityRole(role));
+    }
+
+    string email = "staff@staff.com";
+    string password = "Test1234!";
+
+
+    var user = await userManager.FindByEmailAsync(email);
+
+    if (user == null)
+    {
+        user = new ApplicationUser
+        {
+            UserName = email,
+            Email = email
+        };
+
+        await userManager.CreateAsync(user, password);
+    }
+
+    // Check if the user is already in the "Staff" role
+    if (!await userManager.IsInRoleAsync(user, "Staff"))
+    {
+        // Assign the user to the "Staff" role
+        await userManager.AddToRoleAsync(user, "Staff");
+    }
+}
+
+
 
 app.Run();

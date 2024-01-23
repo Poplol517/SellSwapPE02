@@ -27,6 +27,6 @@
     async Task EditListing()
     {
         await _client.PutAsJsonAsync($"{Endpoints.ListingsEndpoint}/{id}",listing);
-        _navManager.NavigateTo("");
+        _navManager.NavigateTo("buy");
     }
 }
