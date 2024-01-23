@@ -4,6 +4,9 @@
 @inject IJSRuntime js
 @attribute [Authorize]
 @implements IDisposable
+@inject NavigationManager _navManager
+@inject SweetAlertService swal
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 
 
@@ -30,6 +33,7 @@ else
                 <th>Category</th>
                 <th>Listing Status</th>
                 <th>Listing Type</th>
+                <th>Created By</th>
                 <th>Actions</th>
 
             </tr>
@@ -45,6 +49,7 @@ else
                     <td>@listing.Category?.Name</td>
                     <td>@listing.ListingStatus?.Name</td>
                     <td>@listing.ListingType?.Name</td>
+                    <td>@listing.Lister</td>
                     <td>
                         <a href="/listings/view/@listing.Id" class="btn btn-primary">
                             <span class="oi oi-book"></span>
@@ -80,17 +85,36 @@ else
     }
     async Task Delete(int listingId)
     {
-        if (Listings != null)
+        var listing = Listings.FirstOrDefault(o => o.Id == listingId);
+        if (listing != null)
         {
-            var listing = Listings.First(q => q.Id == listingId);
-            var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {listing.Name}?");
-            if (confirm)
+            var result = await swal.FireAsync(new SweetAlertOptions
+                {
+                    Title = "Confirmation",
+                    Text = "Do you wish to remove this listing?",
+                    Icon = SweetAlertIcon.Warning,
+                    ShowCancelButton = true,
+                    ConfirmButtonText = "Remove",
+                    CancelButtonText = "No, let me rethink"
+                });
+            var confirm = !string.IsNullOrEmpty(result.Value);
+            if (!confirm)
             {
+
+            }
+            else
+            {
+                swal.FireAsync(new SweetAlertOptions
+                    {
+                        Title = "Removed",
+                        Text = "The listing has been removed",
+                        Icon = SweetAlertIcon.Success,
+                    });
                 await _client.DeleteAsync($"{Endpoints.ListingsEndpoint}/{listingId}");
                 await OnInitializedAsync();
+                _navManager.NavigateTo("swap");
             }
         }
-
     }
     protected async override Task OnAfterRenderAsync(bool firstRender)
     {

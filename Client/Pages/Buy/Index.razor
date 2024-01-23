@@ -5,6 +5,8 @@
 @inject IJSRuntime js
 @attribute [Authorize]
 @implements IDisposable
+@inject NavigationManager _navManager
+@inject SweetAlertService swal
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
 <h3 class="card-title">Buy Page</h3>
@@ -85,16 +87,37 @@ else
         Listings = await _client.GetFromJsonAsync<List<Listing>>($"{Endpoints.ListingsEndpoint}");
     }
 
+
     async Task Delete(int listingId)
     {
-        if (Listings != null)
+        var listing = Listings.First(o => o.Id == listingId);
+        if (listing != null)
         {
-            var listing = Listings.First(q => q.Id == listingId);
-            var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {listing.Name}?");
-            if (confirm)
+            var result = await swal.FireAsync(new SweetAlertOptions
+                {
+                    Title = "Confirmation",
+                    Text = "Do you wish to remove this listing?",
+                    Icon = SweetAlertIcon.Warning,
+                    ShowCancelButton = true,
+                    ConfirmButtonText = "Remove",
+                    CancelButtonText = "No, let me rethink"
+                });
+            var confirm = !string.IsNullOrEmpty(result.Value);
+            if (!confirm)
             {
+
+            }
+            else
+            {
+                swal.FireAsync(new SweetAlertOptions
+                    {
+                        Title = "Removed",
+                        Text = "The listing has been removed",
+                        Icon = SweetAlertIcon.Success,
+                    });
                 await _client.DeleteAsync($"{Endpoints.ListingsEndpoint}/{listingId}");
                 await OnInitializedAsync();
+                _navManager.NavigateTo("buy");
             }
         }
     }

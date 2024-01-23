@@ -64,19 +64,6 @@ else
         Offers = await _client.GetFromJsonAsync<List<Offer>>($"{Endpoints.OffersEndpoint}");
 
     }
-    async Task Approve(int offerId)
-    {
-        if (Offers != null)
-        {
-            var offer = Offers.First(q => q.Id == offerId);
-            var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to accept {offerId}?");
-            if (confirm)
-            {
-                Offers.Remove(offer);
-            }
-        }
-
-    }
     protected async override Task OnAfterRenderAsync(bool firstRender)
     {
         await js.InvokeVoidAsync("AddDataTable", "#offersTable");
