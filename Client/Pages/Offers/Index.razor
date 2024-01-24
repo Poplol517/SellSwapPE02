@@ -4,6 +4,8 @@
 @inject IJSRuntime js
 @attribute [Authorize]
 @implements IDisposable
+@inject NavigationManager _navManager
+@inject SweetAlertService swal
 
 
 
@@ -22,8 +24,9 @@ else
                 <th>Description</th>
                 <th>Price</th>
                 @* <th>Category</th>*@
-                <th>Offer Type</th>
-                <th>Offer Status</th> 
+                <th>Listing Type</th>
+                <th>Offer Status</th>
+                <th>Offered By</th>
                 @* <th>Condition Type</th> *@
                 <th>Actions</th>
 
@@ -34,21 +37,22 @@ else
             {
                 <tr>
                    @*  <td>@offer.AccountId.Name</td> *@
-                    <td>@offer.Listing.Name</td>
+                    <td>@offer.Listing?.Name</td>
                     <td>@offer.Description</td>
                     <td>@offer.Price</td>
-                    <td>@offer.Listing.ListingType.Name</td>
+                    <td>@offer.Listing?.ListingType.Name</td>
                     <td>@offer.Status</td>
+                    <td>@offer.Buyer</td>
                     <td>
                          <a href="/offers/view/@offer.Id" class="btn btn-primary">
                             <span class="oi oi-book"></span>
                         </a>
                        @*  <a href="/listing/edit/@offer.Id" class="btn btn-warning">
                             <span class="oi oi-pencil"></span>
-                        </a>
-                        <button class="btn btn-success" @onclick="@(()=>Approve(offer.Id))" >
+                        </a>*@
+                        <button class="btn btn-success" @onclick="@(()=>Delete(offer.Id))" >
                             <span class="oi oi-tick"></span>
-                        </button> *@
+                        </button> 
                     </td>
                 </tr>
             }
@@ -71,5 +75,38 @@ else
     public void Dispose()
     {
         js.InvokeVoidAsync("DataTablesDispose", "#offersTable");
+    }
+    async Task Delete(int offerId)
+    {
+        var offer = Offers.First(o => o.Id == offerId);
+        if (offer != null)
+        {
+            var result = await swal.FireAsync(new SweetAlertOptions
+                {
+                    Title = "Confirmation",
+                    Text = "Do you wish to remove this listing?",
+                    Icon = SweetAlertIcon.Warning,
+                    ShowCancelButton = true,
+                    ConfirmButtonText = "Remove",
+                    CancelButtonText = "No, let me rethink"
+                });
+            var confirm = !string.IsNullOrEmpty(result.Value);
+            if (!confirm)
+            {
+
+            }
+            else
+            {
+                swal.FireAsync(new SweetAlertOptions
+                    {
+                        Title = "Removed",
+                        Text = "The listing has been removed",
+                        Icon = SweetAlertIcon.Success,
+                    });
+                await _client.DeleteAsync($"{Endpoints.OffersEndpoint}/{offerId}");
+                await OnInitializedAsync();
+                _navManager.NavigateTo("offers");
+            }
+        }
     }
 }

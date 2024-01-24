@@ -14,12 +14,12 @@ namespace SellSwap.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OffersController : ControllerBase
+    public class RejectedOffersController : ControllerBase
     {
         //private readonly ApplicationDbContext _context;
         private readonly IUnitOfWork _unitOfWork;
 
-        public OffersController(IUnitOfWork unitOfWork)
+        public RejectedOffersController(IUnitOfWork unitOfWork)
         {
             // _context = context;
             _unitOfWork = unitOfWork;
@@ -28,41 +28,41 @@ namespace SellSwap.Server.Controllers
         // GET: api/Categories
         [HttpGet]
         //public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
-        public async Task<IActionResult> GetOffers()
+        public async Task<IActionResult> GetRejectedOffers()
         {
             // return await _context.Categories.ToListAsync();
-            var offers = await _unitOfWork.Offers.GetAll(includes: q => q.Include(x => x.Listing).Include(x => x.Account).Include(x => x.Listing.ListingType).Include(x => x.Listing.ConditionType));
-            return Ok(offers);
+            var rejectedoffers = await _unitOfWork.RejectedOffers.GetAll(includes: q => q.Include(x => x.Offer).Include(x => x.Account));
+            return Ok(rejectedoffers);
         }
 
         // GET: api/Categories/5
         [HttpGet("{id}")]
         //public async Task<ActionResult<Category>> GetCategory(int id)
-        public async Task<IActionResult> GetOffer(int id)
+        public async Task<IActionResult> GetRejectedOffer(int id)
         {
             //var category = await _context.Categories.FindAsync(id);
-            var offer = await _unitOfWork.Offers.Get(q => q.Id == id);
+            var rejectedoffer = await _unitOfWork.RejectedOffers.Get(q => q.Id == id);
 
-            if (offer == null)
+            if (rejectedoffer == null)
             {
                 return NotFound();
             }
 
-            return Ok(offer);
+            return Ok(rejectedoffer);
         }
 
         // PUT: api/Categories/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutOffer(int id, Offer offer)
+        public async Task<IActionResult> PutRejectedOffer(int id, RejectedOffer rejectedoffer)
         {
-            if (id != offer.Id)
+            if (id != rejectedoffer.Id)
             {
                 return BadRequest();
             }
 
             //_context.Entry(category).State = EntityState.Modified;
-            _unitOfWork.Offers.Update(offer);
+            _unitOfWork.RejectedOffers.Update(rejectedoffer);
 
             try
             {
@@ -72,7 +72,7 @@ namespace SellSwap.Server.Controllers
             catch (DbUpdateConcurrencyException)
             {
                 // if (!CategoryExists(id))
-                if (!await OfferExists(id))
+                if (!await RejectedOfferExists(id))
                 {
                     return NotFound();
                 }
@@ -88,40 +88,40 @@ namespace SellSwap.Server.Controllers
         // POST: api/Categories
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Offer>> PostOffer(Offer offer)
+        public async Task<ActionResult<RejectedOffer>> PostRejectedOffer(RejectedOffer rejectedoffer)
         {
             //_context.Categories.Add(category);
             //await _context.SaveChangesAsync();
-            await _unitOfWork.Offers.Insert(offer);
+            await _unitOfWork.RejectedOffers.Insert(rejectedoffer);
             await _unitOfWork.Save(HttpContext);
-            return CreatedAtAction("GetOffers", new { id = offer.Id }, offer);
+            return CreatedAtAction("GetOffers", new { id = rejectedoffer.Id }, rejectedoffer);
         }
 
         // DELETE: api/Categories/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteOffer(int id)
+        public async Task<IActionResult> DeleteRejectedOffer(int id)
         {
             //var category = await _context.Categories.FindAsync(id);
-            var offer = await _unitOfWork.Offers.Get(q => q.Id == id);
-            if (offer == null)
+            var rejectedoffer = await _unitOfWork.RejectedOffers.Get(q => q.Id == id);
+            if (rejectedoffer == null)
             {
                 return NotFound();
             }
 
             //_context.Categories.Remove(category);
             //await _context.SaveChangesAsync();
-            await _unitOfWork.Offers.Delete(id);
+            await _unitOfWork.RejectedOffers.Delete(id);
             await _unitOfWork.Save(HttpContext);
 
             return NoContent();
         }
 
         //private bool CategoryExists(int id)
-        private async Task<bool> OfferExists(int id)
+        private async Task<bool> RejectedOfferExists(int id)
         {
             // return (_context.Categories?.Any(e => e.Id == id)).GetValueOrDefault();
-            var offer = await _unitOfWork.Offers.Get(q => q.Id == id);
-            return offer != null;
+            var rejectedoffer = await _unitOfWork.RejectedOffers.Get(q => q.Id == id);
+            return rejectedoffer != null;
         }
     }
 }

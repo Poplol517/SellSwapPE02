@@ -9,6 +9,9 @@
         public static readonly string ConditionTypeEndpoint = $"{Prefix}/conditiontypes";
         public static readonly string CategoriesEndpoint = $"{Prefix}/categories";
         public static readonly string OffersEndpoint = $"{Prefix}/offers";
+        public static readonly string ApprovedOffersEndpoint = $"{Prefix}/approvedoffers";
+        public static readonly string RejectedOffersEndpoint = $"{Prefix}/rejectedoffers";
         public static readonly string UsersEndpoint = $"{Prefix}/users";
+        public static readonly string AccountsEndpoint = $"{Prefix}/accounts";
     }
 }

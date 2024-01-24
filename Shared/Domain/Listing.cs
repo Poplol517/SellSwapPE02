@@ -11,7 +11,7 @@ namespace SellSwap.Shared.Domain
     public class Listing : BaseDomainModel
     {
         public string? Lister { get; set; }
-        public string? Buyer { get; set; }
+        public string? ListerId { get; set; }
         [Required]
         [StringLength(100,MinimumLength = 2, ErrorMessage ="Listing Name not meeting length requirement (Minimum Name length 2)")]
         public string? Name { get; set; }

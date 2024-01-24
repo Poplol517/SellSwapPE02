@@ -18,6 +18,8 @@ namespace SellSwap.Server.IRepository
         IGenericRepository<ConditionType> ConditionTypes { get; }
         IGenericRepository<Favourite> Favourites { get; }
         IGenericRepository<Category> Categories { get; }
+        IGenericRepository<ApprovedOffer> ApprovedOffers { get; }
+        IGenericRepository<RejectedOffer> RejectedOffers { get; }
 
     }
 }

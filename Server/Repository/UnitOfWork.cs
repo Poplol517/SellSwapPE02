@@ -23,6 +23,8 @@ namespace SellSwap.Server.Repository
         private IGenericRepository<ListingType> _listingtype;
         private IGenericRepository<ConditionType> _conditiontype;
         private IGenericRepository<Offer> _offers;
+        private IGenericRepository<ApprovedOffer> _approvedoffers;
+        private IGenericRepository<RejectedOffer> _rejectedoffers;
         private IGenericRepository<Favourite> _favourites;
         private IGenericRepository<Category> _categories;
 
@@ -42,6 +44,10 @@ namespace SellSwap.Server.Repository
             => _listingstatus ??= new GenericRepository<ListingStatus>(_context);
         public IGenericRepository<Offer> Offers
             => _offers ??= new GenericRepository<Offer>(_context);
+        public IGenericRepository<ApprovedOffer> ApprovedOffers
+    => _approvedoffers ??= new GenericRepository<ApprovedOffer>(_context);
+        public IGenericRepository<RejectedOffer> RejectedOffers
+    => _rejectedoffers ??= new GenericRepository<RejectedOffer>(_context);
         public IGenericRepository<Favourite> Favourites
             => _favourites ??= new GenericRepository<Favourite>(_context);
         public IGenericRepository<Category> Categories

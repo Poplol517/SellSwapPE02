@@ -14,12 +14,12 @@ namespace SellSwap.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OffersController : ControllerBase
+    public class ApprovedOffersController : ControllerBase
     {
         //private readonly ApplicationDbContext _context;
         private readonly IUnitOfWork _unitOfWork;
 
-        public OffersController(IUnitOfWork unitOfWork)
+        public ApprovedOffersController(IUnitOfWork unitOfWork)
         {
             // _context = context;
             _unitOfWork = unitOfWork;
@@ -28,41 +28,41 @@ namespace SellSwap.Server.Controllers
         // GET: api/Categories
         [HttpGet]
         //public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
-        public async Task<IActionResult> GetOffers()
+        public async Task<IActionResult> GetApprovedOffers()
         {
             // return await _context.Categories.ToListAsync();
-            var offers = await _unitOfWork.Offers.GetAll(includes: q => q.Include(x => x.Listing).Include(x => x.Account).Include(x => x.Listing.ListingType).Include(x => x.Listing.ConditionType));
-            return Ok(offers);
+            var approvedoffers = await _unitOfWork.ApprovedOffers.GetAll(includes: q => q.Include(x => x.Offer).Include(x => x.Account));
+            return Ok(approvedoffers);
         }
 
         // GET: api/Categories/5
         [HttpGet("{id}")]
         //public async Task<ActionResult<Category>> GetCategory(int id)
-        public async Task<IActionResult> GetOffer(int id)
+        public async Task<IActionResult> GetApprovedOffer(int id)
         {
             //var category = await _context.Categories.FindAsync(id);
-            var offer = await _unitOfWork.Offers.Get(q => q.Id == id);
+            var approvedoffer = await _unitOfWork.ApprovedOffers.Get(q => q.Id == id);
 
-            if (offer == null)
+            if (approvedoffer == null)
             {
                 return NotFound();
             }
 
-            return Ok(offer);
+            return Ok(approvedoffer);
         }
 
         // PUT: api/Categories/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutOffer(int id, Offer offer)
+        public async Task<IActionResult> PutApprovedOffer(int id, ApprovedOffer approvedoffer)
         {
-            if (id != offer.Id)
+            if (id != approvedoffer.Id)
             {
                 return BadRequest();
             }
 
             //_context.Entry(category).State = EntityState.Modified;
-            _unitOfWork.Offers.Update(offer);
+            _unitOfWork.ApprovedOffers.Update(approvedoffer);
 
             try
             {
@@ -72,7 +72,7 @@ namespace SellSwap.Server.Controllers
             catch (DbUpdateConcurrencyException)
             {
                 // if (!CategoryExists(id))
-                if (!await OfferExists(id))
+                if (!await ApprovedOfferExists(id))
                 {
                     return NotFound();
                 }
@@ -88,40 +88,40 @@ namespace SellSwap.Server.Controllers
         // POST: api/Categories
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Offer>> PostOffer(Offer offer)
+        public async Task<ActionResult<ApprovedOffer>> PostApprovedOffer(ApprovedOffer approvedoffer)
         {
             //_context.Categories.Add(category);
             //await _context.SaveChangesAsync();
-            await _unitOfWork.Offers.Insert(offer);
+            await _unitOfWork.ApprovedOffers.Insert(approvedoffer);
             await _unitOfWork.Save(HttpContext);
-            return CreatedAtAction("GetOffers", new { id = offer.Id }, offer);
+            return CreatedAtAction("GetOffers", new { id = approvedoffer.Id }, approvedoffer);
         }
 
         // DELETE: api/Categories/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteOffer(int id)
+        public async Task<IActionResult> DeleteApprovedOffer(int id)
         {
             //var category = await _context.Categories.FindAsync(id);
-            var offer = await _unitOfWork.Offers.Get(q => q.Id == id);
-            if (offer == null)
+            var approvedoffer = await _unitOfWork.ApprovedOffers.Get(q => q.Id == id);
+            if (approvedoffer == null)
             {
                 return NotFound();
             }
 
             //_context.Categories.Remove(category);
             //await _context.SaveChangesAsync();
-            await _unitOfWork.Offers.Delete(id);
+            await _unitOfWork.ApprovedOffers.Delete(id);
             await _unitOfWork.Save(HttpContext);
 
             return NoContent();
         }
 
         //private bool CategoryExists(int id)
-        private async Task<bool> OfferExists(int id)
+        private async Task<bool> ApprovedOfferExists(int id)
         {
             // return (_context.Categories?.Any(e => e.Id == id)).GetValueOrDefault();
-            var offer = await _unitOfWork.Offers.Get(q => q.Id == id);
-            return offer != null;
+            var approvedoffer = await _unitOfWork.ApprovedOffers.Get(q => q.Id == id);
+            return approvedoffer != null;
         }
     }
 }

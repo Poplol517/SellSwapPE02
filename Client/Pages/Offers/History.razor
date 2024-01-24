@@ -1,0 +1,82 @@
+﻿@page "/offers/history"
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+@implements IDisposable
+
+<h3 class="card-title">Offer History</h3>
+<br />
+
+@if (ApprovedOffers == null || RejectedOffers == null)
+{
+    <div class="alert alert-info">Loading Offers...</div>
+}
+else
+{
+    <table class="table table-responsive" id="offersTable">
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Offer Type</th>
+                <th>Offer Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var approvedOffer in ApprovedOffers)
+            {
+                <tr>
+                    <td>@approvedOffer.Offer.Listing.Name</td>
+                    <td>@approvedOffer.Offer.Description</td>
+                    <td>@approvedOffer.Offer.Price</td>
+                    <td>@approvedOffer.Offer.Listing.ListingType.Name</td>
+                    <td>@approvedOffer.Offer.Status</td>
+                    <td>
+                        <a href="/offers/view/@approvedOffer.Offer.Id" class="btn btn-primary">
+                            <span class="oi oi-book"></span>
+                        </a>
+                    </td>
+                </tr>
+            }
+
+            @foreach (var rejectedOffer in RejectedOffers)
+            {
+                <tr>
+                    <td>@rejectedOffer.Offer.Listing.Name</td>
+                    <td>@rejectedOffer.Offer.Description</td>
+                    <td>@rejectedOffer.Offer.Price</td>
+                    <td>@rejectedOffer.Offer.Listing.ListingType.Name</td>
+                    <td>@rejectedOffer.Offer.Status</td>
+                    <td>
+                        <a href="/offers/view/@rejectedOffer.Offer.Id" class="btn btn-primary">
+                            <span class="oi oi-book"></span>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<ApprovedOffer>? ApprovedOffers;
+    private List<RejectedOffer>? RejectedOffers;
+
+    protected async override Task OnInitializedAsync()
+    {
+        ApprovedOffers = await _client.GetFromJsonAsync<List<ApprovedOffer>>($"{Endpoints.ApprovedOffersEndpoint}");
+        RejectedOffers = await _client.GetFromJsonAsync<List<RejectedOffer>>($"{Endpoints.RejectedOffersEndpoint}");
+    }
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        await js.InvokeVoidAsync("AddDataTable", "#offersTable");
+    }
+
+    public void Dispose()
+    {
+        js.InvokeVoidAsync("DataTablesDispose", "#offersTable");
+    }
+}

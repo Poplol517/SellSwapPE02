@@ -1,86 +1,51 @@
-﻿@*  @page "/account/"
-
+﻿@* @page "/account/"
 @inject HttpClient _client
-@inject IJSRuntime js
+@inject NavigationManager _navManager
+@inject AuthenticationStateProvider _authenticationStateProvider
 @attribute [Authorize]
 
+<h3>Account</h3>
 
-
-<h3 class=" = " card-title">Account Page</h3>
-<br />
-<a href="/users/create" class="btn btn-secondary">
-    <span class="oi oi-plus"></span>
-    Create New User
-</a>
-<br />
-<br />
-@if (Users == null)
-{
-    <div class="alert alert-info">Loading Users. . .</div>
-}
-else
-{
-    <table class="table table-responsive">
-        <thead>
-            <tr>
-                <th>FirstName</th>
-                <th>LastName</th>
-                <th>UserName</th>
-                <th>Phone</th>
-                <th>Address</th>
-                <th>Email</th>
-                <th>Actions</th>
-
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var user in Users)
-            {
-                <tr>
-                    <td>@user.FirstName</td>
-                    <td>@user.LastName</td> 
-                    <td>@user.UserName</td>
-                    <td>@user.Phone</td>
-                    <td>@user.Address</td>
-                    <td>@user.Email</td>
-                    <td>
-                        <a href="/user/view/@user.Id" class="btn btn-primary">
-                            <span class="oi oi-book"></span>
-                        </a>
-                        <a href="/user/edit/@user.Id" class="btn btn-warning">
-                            <span class="oi oi-pencil"></span>
-                        </a>
-                        <button class="btn btn-danger" @onclick="@(()=>Delete(user.Id))">
-                            <span class="oi oi-delete"></span>
-                        </button>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
-
+<FormComponent ButtonText="Edit Account Details" listing="listing" OnValidSubmit="@CreateListing" />
 
 @code {
-    // private List<Account>? Users;
-    // protected async override Task OnInitializedAsync()
-    // {
-    //     Users = await _client.GetFromJsonAsync<List<Account>>($"{Endpoints.UsersEndpoint}");
-    // }
-    // async Task Delete(int userId)
-    // {
-    //     if (Users != null)
-    //     {
-    //         var user = Users.First(q => q.Id == userId);
-    //         // var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {user.FirstName}?");
-    //         if (confirm)
-    //         {
-    //             await _client.DeleteAsync($"{Endpoints.UsersEndpoint}/{userId}");
-    //             await OnInitializedAsync();
-    //         }
-    //     }
+    Account account = new Account();
 
-    // }
+    private IList<Account>? Accounts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Accounts = await _client.GetFromJsonAsync<List<Account>>($"{Endpoints.AccountsEndpoint}");
+
+        // To bind listing to user
+        // Get the authenticated user's information
+        var authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        // Set the authenticated user's information in the listing object
+        account.UserName = user.Identity.Name;
+
+        // Retrieve the user ID from the claims using the 'sub' claim
+        var userIdClaim = user.FindFirst("sub");
+        if (userIdClaim != null)
+        {
+            account.UserId = userIdClaim.Value;
+        }
+        else
+        {
+            // Handle the case where user ID claim is not found
+            // You may want to redirect to an error page or take appropriate action
+        }
+    }
+
+    private async Task CreateListing()
+    {
+        // Include the authenticated user's information in the listing object
+
+        await _client.PostAsJsonAsync(Endpoints.ListingsEndpoint, listing);
+        _navManager.NavigateTo("/buy/");
+    }
 }
- *@
 
+
+ *@

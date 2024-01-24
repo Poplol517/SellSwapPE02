@@ -13,7 +13,7 @@
 
     private IList<Listing>? Listings;
 
-    protected async override Task OnInitializedAsync() //when the page loads
+    protected override async Task OnInitializedAsync()
     {
         Listings = await _client.GetFromJsonAsync<List<Listing>>($"{Endpoints.ListingsEndpoint}");
 
@@ -24,15 +24,26 @@
 
         // Set the authenticated user's information in the listing object
         listing.Lister = user.Identity.Name;
-  
 
+        // Retrieve the user ID from the claims using the 'sub' claim
+        var userIdClaim = user.FindFirst("sub");
+        if (userIdClaim != null)
+        {
+            listing.ListerId = userIdClaim.Value;
+        }
+        else
+        {
+            // Handle the case where user ID claim is not found
+            // You may want to redirect to an error page or take appropriate action
+        }
     }
 
     private async Task CreateListing()
     {
+        // checked if data is binded properly
+        Console.WriteLine($"Lister: {listing.Lister}");
+        Console.WriteLine($"ListerId: {listing.ListerId}");
         // Include the authenticated user's information in the listing object
-
-
 
         await _client.PostAsJsonAsync(Endpoints.ListingsEndpoint, listing);
         _navManager.NavigateTo("/buy/");

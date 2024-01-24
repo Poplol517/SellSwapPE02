@@ -1,0 +1,141 @@
+﻿@* Index Page for listings *@
+@page "/phone/"
+
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+@implements IDisposable
+@inject NavigationManager _navManager
+@inject SweetAlertService swal
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<h3 class="card-title">Phone</h3>
+<br />
+<a href="/listings/create" class="btn btn-secondary">
+    <span class="oi oi-plus"></span>
+    Create New Listing
+</a>
+<br />
+<br />
+@if (Listings == null)
+{
+    <div class="alert alert-info">Loading Listings. . .</div>
+}
+else
+{
+    <table class="table table-responsive" id="buylistingsTable">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Category</th>
+                <th>Listing Status</th>
+                <th>Listing Type</th>
+                <th>Condition Type</th>
+                <th>Created By</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var listing in Listings)
+            {
+                if (listing.Category.Id == 1)
+                {
+                    <tr>
+                        <td>@listing.Name</td>
+                        <td>@listing.Description</td>
+                        <td>@listing.Price</td>
+                        <td>@listing.Category?.Name</td>
+                        <td>@listing.ListingStatus?.Name</td>
+                        <td>@listing.ListingType?.Name</td>
+                        <td>@listing.ConditionType?.Name</td>
+                        <td>@listing.Lister</td>
+                        <td>
+                            <a href="/listings/view/@listing.Id" class="btn btn-primary">
+                                <span class="oi oi-book"></span>
+                            </a>
+                            <a href="/listings/edit/@listing.Id" class="btn btn-warning">
+                                <span class="oi oi-pencil"></span>
+                            </a>
+                            <a href="/listings/offer/@listing.Id" class="btn btn-info">
+                                <span class="oi oi-pencil"></span>
+                            </a>
+                            <button class="btn btn-danger" @onclick="@(()=>Delete(listing.Id))">
+                                <span class="oi oi-delete"></span>
+                            </button>
+                        </td>
+                    </tr>
+
+
+                }
+                else
+                {
+                    <div class="alert alert-info">Loading Listings. . .</div>
+                }
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Listing>? Listings;
+
+
+    protected async override Task OnInitializedAsync()
+    {
+        Listings = await _client.GetFromJsonAsync<List<Listing>>($"{Endpoints.ListingsEndpoint}");
+    }
+
+
+    async Task Delete(int listingId)
+    {
+        var listing = Listings.First(o => o.Id == listingId);
+        if (listing != null)
+        {
+            var result = await swal.FireAsync(new SweetAlertOptions
+                {
+                    Title = "Confirmation",
+                    Text = "Do you wish to remove this listing?",
+                    Icon = SweetAlertIcon.Warning,
+                    ShowCancelButton = true,
+                    ConfirmButtonText = "Remove",
+                    CancelButtonText = "No, let me rethink"
+                });
+            var confirm = !string.IsNullOrEmpty(result.Value);
+            if (!confirm)
+            {
+
+            }
+            else
+            {
+                swal.FireAsync(new SweetAlertOptions
+                    {
+                        Title = "Removed",
+                        Text = "The listing has been removed",
+                        Icon = SweetAlertIcon.Success,
+                    });
+                await _client.DeleteAsync($"{Endpoints.ListingsEndpoint}/{listingId}");
+                await OnInitializedAsync();
+                _navManager.NavigateTo("buy");
+            }
+        }
+    }
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        await js.InvokeVoidAsync("AddDataTable", "#buylistingsTable");
+    }
+
+    public void Dispose()
+    {
+        js.InvokeVoidAsync("DataTablesDispose", "#buylistingsTable");
+    }
+
+    private async Task<string> GetUserName()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        return user.Identity?.Name ?? "Unknown";
+    }
+}

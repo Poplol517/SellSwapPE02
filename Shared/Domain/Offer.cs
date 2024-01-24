@@ -8,7 +8,9 @@ using System.Threading.Tasks;
 namespace SellSwap.Shared.Domain
 {
     public class Offer : BaseDomainModel
-    { 
+    {
+        public string? Buyer { get; set; }
+        public string? BuyerId { get; set; }
         public int? AccountId { get; set; }
         public virtual Account? Account { get; set; }
         public string? Description {  get; set; }
