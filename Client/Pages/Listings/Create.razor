@@ -43,7 +43,7 @@
         // checked if data is binded properly
         Console.WriteLine($"Lister: {listing.Lister}");
         Console.WriteLine($"ListerId: {listing.ListerId}");
-        // Include the authenticated user's information in the listing object
+        listing.ListingStatusId = 1;
 
         await _client.PostAsJsonAsync(Endpoints.ListingsEndpoint, listing);
         _navManager.NavigateTo("/buy/");

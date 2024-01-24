@@ -40,7 +40,7 @@ else
         <tbody>
             @foreach (var listing in Listings)
             {
-                if (listing.ListingType.Id != 2)
+                if (listing.ListingType.Id != 2 && listing.ListingStatusId == 1)
                 {
                     <tr>
                         <td>@listing.Name</td>

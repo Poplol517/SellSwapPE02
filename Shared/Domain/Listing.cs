@@ -25,7 +25,6 @@ namespace SellSwap.Shared.Domain
         public virtual Category? Category { get; set; }
         public string? AccountId { get; set; }
         public virtual Account? Account { get; set; }
-        [Required]
         public int? ListingStatusId { get; set; }
         public virtual ListingStatus? ListingStatus { get; set; }
         [Required]

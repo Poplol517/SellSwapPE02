@@ -46,39 +46,60 @@ else
     }
     protected async Task Approve(int offerId)
     {
-
         var offer = Offers.FirstOrDefault(o => o.Id == offerId);
         if (offer != null)
         {
             var result = await swal.FireAsync(new SweetAlertOptions
                 {
                     Title = "Confirmation",
-                    Text =  "Do you wish to approve this offer?",
+                    Text = "Do you wish to approve this offer?",
                     Icon = SweetAlertIcon.Warning,
-                    ShowCancelButton =true,
-                    ConfirmButtonText ="Approve",
-                    CancelButtonText="No, let me rethink"
+                    ShowCancelButton = true,
+                    ConfirmButtonText = "Approve",
+                    CancelButtonText = "No, let me rethink"
                 });
             var confirm = !string.IsNullOrEmpty(result.Value);
             if (!confirm)
             {
-
+                return;
             }
-            else
+
+            // Retrieve the Listing associated with the Offer
+            var listingId = offer.ListingId; // Assuming there's a property like ListingId in the Offer
+            var listing = await _client.GetFromJsonAsync<Listing>($"{Endpoints.ListingsEndpoint}/{listingId}");
+
+            if (listing != null)
             {
+                // Change the status of the selected offer to "Approved"
+                offer.Status = "Approved";
+                await _client.PutAsJsonAsync($"{Endpoints.OffersEndpoint}/{offerId}", offer);
+
+                // Iterate through all offers with the same listing and reject them
+                foreach (var otherOffer in Offers.Where(o => o.ListingId == listingId && o.Id != offerId))
+                {
+                    otherOffer.Status = "Rejected";
+                    otherOffer.Reason = "A deal was made";
+                    await _client.PutAsJsonAsync($"{Endpoints.OffersEndpoint}/{otherOffer.Id}", otherOffer);
+                }
+
+                // Update the ListingStatusId property of the Listing object
+                listing.ListingStatusId = 2; // Set the desired status ID for approval
+
                 swal.FireAsync(new SweetAlertOptions
                     {
                         Title = "Approved",
                         Text = "Woo-Hoo! You have made a deal!",
                         Icon = SweetAlertIcon.Success,
                     });
-                offer.Status = "Approved";
-                await _client.PutAsJsonAsync($"{Endpoints.OffersEndpoint}/{offerId}", offer);
+
+                await _client.PutAsJsonAsync($"{Endpoints.ListingsEndpoint}/{listingId}", listing);
                 _navManager.NavigateTo("offers");
             }
         }
-
     }
+
+
+
     protected async Task Reject(int offerId)
     {
 

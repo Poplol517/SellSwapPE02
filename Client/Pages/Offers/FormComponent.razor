@@ -13,14 +13,14 @@
             </div>
         </div>
 
-       <div class="form-group">
+        <div class="form-group">
             <label>Price: </label>
             <div>
-                 <InputNumber @bind-Value="offer.Price" class="form-control" />
-                 <ValidationMessage For="@(() => offer.Price)" />
+                <InputNumber @bind-Value="offer.Price" class="form-control" />
+                <ValidationMessage For="@(() => offer.Price)" />
             </div>
-       </div>
-        
+        </div>
+
 
 
     </fieldset>
@@ -28,7 +28,7 @@
     {
         <button type="submit" class="btn btn-success btn-block">@ButtonText</button>
     }
-    
+
     <BacktoList Target="buy" />
 </EditForm>
 
@@ -41,7 +41,6 @@
     private IList<Offer>? Offers;
     private IList<Listing>? Listings;
     private IList<Category>? Categories;
-    private IList<ListingStatus>? ListingStatus;
     private IList<ListingType>? ListingTypes;
     private IList<ConditionType>? ConditionTypes;
 
@@ -50,11 +49,11 @@
         Offers = await _client.GetFromJsonAsync<List<Offer>>($"{Endpoints.OffersEndpoint}");
         Listings = await _client.GetFromJsonAsync<List<Listing>>($"{Endpoints.ListingsEndpoint}");
         Categories = await _client.GetFromJsonAsync<List<Category>>($"{Endpoints.CategoriesEndpoint}");
-        ListingStatus = await _client.GetFromJsonAsync<List<ListingStatus>>($"{Endpoints.ListingStatusEndpoint}");
         ListingTypes = await _client.GetFromJsonAsync<List<ListingType>>($"{Endpoints.ListingTypeEndpoint}");
         ConditionTypes = await _client.GetFromJsonAsync<List<ConditionType>>($"{Endpoints.ConditionTypeEndpoint}");
 
-        
+
     }
 
 }
+

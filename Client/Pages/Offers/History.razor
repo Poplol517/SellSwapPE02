@@ -7,7 +7,7 @@
 <h3 class="card-title">Offer History</h3>
 <br />
 
-@if (ApprovedOffers == null || RejectedOffers == null)
+@if (Offers == null)
 {
     <div class="alert alert-info">Loading Offers...</div>
 }
@@ -17,57 +17,36 @@ else
         <thead>
             <tr>
                 <th>Product Name</th>
-                <th>Description</th>
+                <th>Reason</th>
                 <th>Price</th>
                 <th>Offer Type</th>
                 <th>Offer Status</th>
-                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var approvedOffer in ApprovedOffers)
+            @foreach (var offer in Offers)
             {
-                <tr>
-                    <td>@approvedOffer.Offer.Listing.Name</td>
-                    <td>@approvedOffer.Offer.Description</td>
-                    <td>@approvedOffer.Offer.Price</td>
-                    <td>@approvedOffer.Offer.Listing.ListingType.Name</td>
-                    <td>@approvedOffer.Offer.Status</td>
-                    <td>
-                        <a href="/offers/view/@approvedOffer.Offer.Id" class="btn btn-primary">
-                            <span class="oi oi-book"></span>
-                        </a>
-                    </td>
-                </tr>
-            }
-
-            @foreach (var rejectedOffer in RejectedOffers)
-            {
-                <tr>
-                    <td>@rejectedOffer.Offer.Listing.Name</td>
-                    <td>@rejectedOffer.Offer.Description</td>
-                    <td>@rejectedOffer.Offer.Price</td>
-                    <td>@rejectedOffer.Offer.Listing.ListingType.Name</td>
-                    <td>@rejectedOffer.Offer.Status</td>
-                    <td>
-                        <a href="/offers/view/@rejectedOffer.Offer.Id" class="btn btn-primary">
-                            <span class="oi oi-book"></span>
-                        </a>
-                    </td>
-                </tr>
+                if(offer.Listing.ListingStatusId==2)
+                {
+                    <tr>
+                        <td>@offer.Listing.Name</td>
+                        <td>@offer.Reason</td>
+                        <td>@offer.Price</td>
+                        <td>@offer.Listing.ListingType.Name</td>
+                        <td>@offer.Status</td>
+                    </tr>
+                }
             }
         </tbody>
     </table>
 }
 
 @code {
-    private List<ApprovedOffer>? ApprovedOffers;
-    private List<RejectedOffer>? RejectedOffers;
+    private List<Offer>? Offers;
 
     protected async override Task OnInitializedAsync()
     {
-        ApprovedOffers = await _client.GetFromJsonAsync<List<ApprovedOffer>>($"{Endpoints.ApprovedOffersEndpoint}");
-        RejectedOffers = await _client.GetFromJsonAsync<List<RejectedOffer>>($"{Endpoints.RejectedOffersEndpoint}");
+        Offers = await _client.GetFromJsonAsync<List<Offer>>($"{Endpoints.OffersEndpoint}");
     }
 
     protected async override Task OnAfterRenderAsync(bool firstRender)

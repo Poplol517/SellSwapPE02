@@ -35,8 +35,10 @@ else
         <tbody>
             @foreach (var offer in Offers)
             {
-                <tr>
-                   @*  <td>@offer.AccountId.Name</td> *@
+                if (offer.Listing.ListingStatusId != 2)
+                {
+                    <tr>
+                        @*  <td>@offer.AccountId.Name</td> *@
                     <td>@offer.Listing?.Name</td>
                     <td>@offer.Description</td>
                     <td>@offer.Price</td>
@@ -54,7 +56,12 @@ else
                             <span class="oi oi-tick"></span>
                         </button> 
                     </td>
-                </tr>
+                    </tr>
+                }
+                else
+                {
+                    <div class="alert alert-info">Loading Offers. . .</div>
+                }
             }
         </tbody>
 </table>
