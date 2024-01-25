@@ -1,12 +1,12 @@
-﻿@* @page "/account/"
+﻿@page "/account/"
 @inject HttpClient _client
 @inject NavigationManager _navManager
 @inject AuthenticationStateProvider _authenticationStateProvider
-@attribute [Authorize]
+@attribute [Authorize(Roles="User")]
 
 <h3>Account</h3>
 
-<FormComponent ButtonText="Edit Account Details" listing="listing" OnValidSubmit="@CreateListing" />
+<FormComponent ButtonText="Update" OnValidSubmit="CreateAccount" account="account" />
 
 @code {
     Account account = new Account();
@@ -33,19 +33,18 @@
         }
         else
         {
-            // Handle the case where user ID claim is not found
-            // You may want to redirect to an error page or take appropriate action
+            
         }
     }
 
-    private async Task CreateListing()
+    private async Task CreateAccount()
     {
         // Include the authenticated user's information in the listing object
 
-        await _client.PostAsJsonAsync(Endpoints.ListingsEndpoint, listing);
+        await _client.PostAsJsonAsync(Endpoints.AccountsEndpoint, account);
         _navManager.NavigateTo("/buy/");
     }
+
 }
 
 
- *@

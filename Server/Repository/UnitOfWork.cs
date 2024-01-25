@@ -17,14 +17,12 @@ namespace SellSwap.Server.Repository
     public class UnitOfWork : IUnitOfWork
     {
         private readonly ApplicationDbContext _context;
-        private IGenericRepository<Account> _users;
+        private IGenericRepository<Account> _accounts;
         private IGenericRepository<Listing> _listings;
         private IGenericRepository<ListingStatus> _listingstatus;
         private IGenericRepository<ListingType> _listingtype;
         private IGenericRepository<ConditionType> _conditiontype;
         private IGenericRepository<Offer> _offers;
-        private IGenericRepository<ApprovedOffer> _approvedoffers;
-        private IGenericRepository<RejectedOffer> _rejectedoffers;
         private IGenericRepository<Favourite> _favourites;
         private IGenericRepository<Category> _categories;
 
@@ -36,18 +34,14 @@ namespace SellSwap.Server.Repository
             _userManager = userManager;
         }
 
-        public IGenericRepository<Account> Users
-            => _users ??= new GenericRepository<Account>(_context);
+        public IGenericRepository<Account> Accounts
+            => _accounts ??= new GenericRepository<Account>(_context);
         public IGenericRepository<Listing> Listings
             => _listings ??= new GenericRepository<Listing>(_context);
         public IGenericRepository<ListingStatus> ListingStatus
             => _listingstatus ??= new GenericRepository<ListingStatus>(_context);
         public IGenericRepository<Offer> Offers
             => _offers ??= new GenericRepository<Offer>(_context);
-        public IGenericRepository<ApprovedOffer> ApprovedOffers
-    => _approvedoffers ??= new GenericRepository<ApprovedOffer>(_context);
-        public IGenericRepository<RejectedOffer> RejectedOffers
-    => _rejectedoffers ??= new GenericRepository<RejectedOffer>(_context);
         public IGenericRepository<Favourite> Favourites
             => _favourites ??= new GenericRepository<Favourite>(_context);
         public IGenericRepository<Category> Categories

@@ -1,0 +1,32 @@
+﻿@page "/account/edit/{id:int}"  
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3>Edit</h3>
+<FormComponent ButtonText="Update" OnValidSubmit="EditAccount" account="account" />
+@code {
+    [Parameter] public int id { get; set; }
+    Account? account = new Account();
+    protected async override Task OnParametersSetAsync()
+    {
+        try
+        {
+            account = await _client.GetFromJsonAsync<Account>($"{Endpoints.AccountsEndpoint}/{id}");
+            if (account == null)
+            {
+                
+                _navManager.NavigateTo("/404");
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            
+            Console.WriteLine($"Exception: {ex.Message}");
+        }
+    }
+    async Task EditAccount()
+    {
+        await _client.PutAsJsonAsync($"{Endpoints.AccountsEndpoint}/{id}",account);
+        _navManager.NavigateTo("account");
+    }
+}
