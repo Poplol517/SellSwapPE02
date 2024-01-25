@@ -1,4 +1,4 @@
-﻿@page "/offers/"
+﻿@page "/staff/offers"
 
 @inject HttpClient _client
 @inject IJSRuntime js
@@ -35,8 +35,6 @@ else
         <tbody>
             @foreach (var offer in Offers)
             {
-                if (offer.Listing.ListingStatusId != 2)
-                {
                     <tr>
                         @*  <td>@offer.AccountId.Name</td> *@
                     <td>@offer.Listing?.Name</td>
@@ -46,23 +44,18 @@ else
                     <td>@offer.Status</td>
                     <td>@offer.Buyer</td>
                     <td>
-                         <a href="/offers/view/@offer.Id" class="btn btn-primary">
+@*                          <a href="/offers/view/@offer.Id" class="btn btn-primary">
                             <span class="oi oi-book"></span>
                         </a>
-                       @*  <a href="/listing/edit/@offer.Id" class="btn btn-warning">
+                        <a href="/listing/edit/@offer.Id" class="btn btn-warning">
                             <span class="oi oi-pencil"></span>
-                        </a>*@
-                        <button class="btn btn-success" @onclick="@(()=>Delete(offer.Id))" >
+                        </a> *@
+                        <button class="btn btn-warning" @onclick="@(()=>Delete(offer.Id))" >
                             <span class="oi oi-tick"></span>
                         </button> 
                     </td>
                     </tr>
-                }
-                else
-                {
-                    <div class="alert alert-info">Loading Offers. . .</div>
-                }
-            }
+             }
         </tbody>
 </table>
 }

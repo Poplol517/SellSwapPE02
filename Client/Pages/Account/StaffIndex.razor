@@ -1,15 +1,15 @@
 ﻿@* Index Page for listings *@
-@page "/account/satff"
+@page "/staff/account"
 
 @inject HttpClient _client
 @inject IJSRuntime js
-@attribute [Authorize(Roles ="Staff")]
+@attribute [Authorize]
 @implements IDisposable
 @inject NavigationManager _navManager
 @inject SweetAlertService swal
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
-<h3 class="card-title">Buy Page</h3>
+<h3 class="card-title">Staff View Account Page</h3>
 <br />
 <a href="/listings/create" class="btn btn-secondary">
     <span class="oi oi-plus"></span>
@@ -17,86 +17,73 @@
 </a>
 <br />
 <br />
-@if (Listings == null)
+@if (Accounts == null)
 {
-    <div class="alert alert-info">Loading Listings. . .</div>
+    <div class="alert alert-info">Loading Accounts. . .</div>
 }
 else
 {
     <table class="table table-responsive" id="buylistingsTable">
         <thead>
             <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Category</th>
-                <th>Listing Status</th>
-                <th>Listing Type</th>
-                <th>Condition Type</th>
-                <th>Created By</th>
+                <th>UserName</th>
+                <th>Phone Number</th>
+                <th>Email</th>
+                @*              <th>Category</th>
+            <th>Listing Status</th>
+            <th>Listing Type</th>
+            <th>Condition Type</th>
+            <th>Created By</th> *@
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var listing in Listings)
+            @foreach (var account in Accounts)
             {
-                if (listing.ListingType.Id != 2 && listing.ListingStatusId == 1)
-                {
-                    <tr>
-                        <td>@listing.Name</td>
-                        <td>@listing.Description</td>
-                        <td>@listing.Price</td>
-                        <td>@listing.Category?.Name</td>
-                        <td>@listing.ListingStatus?.Name</td>
-                        <td>@listing.ListingType?.Name</td>
-                        <td>@listing.ConditionType?.Name</td>
-                        <td>@listing.Lister</td>
-                        <td>
-                            <a href="/listings/view/@listing.Id" class="btn btn-primary">
-                                <span class="oi oi-book"></span>
-                            </a>
-                            <a href="/listings/edit/@listing.Id" class="btn btn-warning">
-                                <span class="oi oi-pencil"></span>
-                            </a>
-                            <a href="/listings/offer/@listing.Id" class="btn btn-info">
-                                <span class="oi oi-pencil"></span>
-                            </a>
-                            <button class="btn btn-danger" @onclick="@(()=>Delete(listing.Id))">
-                                <span class="oi oi-delete"></span>
-                            </button>
-                      </td>
-                    </tr>
-                    
+                <tr>
+                    <td>@account.UserName</td>
+                    <td>@account.Phone</td>
+                    <td>@account.Email</td>
+                    @*                         <td>@listing.Category?.Name</td>
+            <td>@listing.ListingStatus?.Name</td>
+            <td>@listing.ListingType?.Name</td>
+            <td>@listing.ConditionType?.Name</td>
+            <td>@listing.Lister</td> *@
+                    <td>
+                        <a href="/accounts/edit/@account.Id" class="btn btn-warning">
+                            <span class="oi oi-pencil"></span>
+                        </a>
+                        <button class="btn btn-danger" @onclick="@(()=>Delete(account.Id))">
+                            <span class="oi oi-delete"></span>
+                        </button>
+                    </td>
+                </tr>
 
-                }
-                else
-                {
-                    <div class="alert alert-info">Loading Listings. . .</div>
-                }
+
             }
         </tbody>
     </table>
 }
 
 @code {
-    private List<Listing>? Listings;
+    private List<Account>? Accounts;
 
 
     protected async override Task OnInitializedAsync()
     {
-        Listings = await _client.GetFromJsonAsync<List<Listing>>($"{Endpoints.ListingsEndpoint}");
+        Accounts = await _client.GetFromJsonAsync<List<Account>>($"{Endpoints.AccountsEndpoint}");
     }
 
 
-    async Task Delete(int listingId)
+    async Task Delete(int accountId)
     {
-        var listing = Listings.First(o => o.Id == listingId);
-        if (listing != null)
+        var account = Accounts.First(o => o.Id == accountId);
+        if (account != null)
         {
             var result = await swal.FireAsync(new SweetAlertOptions
                 {
                     Title = "Confirmation",
-                    Text = "Do you wish to remove this listing?",
+                    Text = "Do you wish to remove this account?",
                     Icon = SweetAlertIcon.Warning,
                     ShowCancelButton = true,
                     ConfirmButtonText = "Remove",
@@ -115,9 +102,9 @@ else
                         Text = "The listing has been removed",
                         Icon = SweetAlertIcon.Success,
                     });
-                await _client.DeleteAsync($"{Endpoints.ListingsEndpoint}/{listingId}");
+                await _client.DeleteAsync($"{Endpoints.AccountsEndpoint}/{accountId}");
                 await OnInitializedAsync();
-                _navManager.NavigateTo("buy");
+                _navManager.NavigateTo("staff/account");
             }
         }
     }

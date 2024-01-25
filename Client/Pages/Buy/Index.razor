@@ -7,7 +7,7 @@
 @implements IDisposable
 @inject NavigationManager _navManager
 @inject SweetAlertService swal
-@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject AuthenticationStateProvider _authStateProvider
 
 <h3 class="card-title">Buy Page</h3>
 <br />
@@ -51,8 +51,10 @@ else
                         <td>@listing.ListingType?.Name</td>
                         <td>@listing.ConditionType?.Name</td>
                         <td>@listing.Lister</td>
-                        <td>
-                            <a href="/listings/view/@listing.Id" class="btn btn-primary">
+                        @if (listing.Lister == currentUser)
+                        {
+                            <td>
+                                <a href="/listings/view/@listing.Id" class="btn btn-primary">
                                 <span class="oi oi-book"></span>
                             </a>
                             <a href="/listings/edit/@listing.Id" class="btn btn-warning">
@@ -64,7 +66,19 @@ else
                             <button class="btn btn-danger" @onclick="@(()=>Delete(listing.Id))">
                                 <span class="oi oi-delete"></span>
                             </button>
-                      </td>
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                <a href="/listings/view/@listing.Id" class="btn btn-primary">
+                                <span class="oi oi-book"></span>
+                                </a>
+                                <a href="/listings/offer/@listing.Id" class="btn btn-info">
+                                    <span class="oi oi-pencil"></span>
+                                </a>
+                            </td>
+                        }
                     </tr>
                     
 
@@ -80,10 +94,14 @@ else
 
 @code {
     private List<Listing>? Listings;
-
+    private string currentUser;
 
     protected async override Task OnInitializedAsync()
     {
+        var authState = await _authStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        //for the filtering of action that can be done by differnt users
+        currentUser = user.Identity.Name;
         Listings = await _client.GetFromJsonAsync<List<Listing>>($"{Endpoints.ListingsEndpoint}");
     }
 
@@ -134,7 +152,7 @@ else
 
     private async Task<string> GetUserName()
     {
-        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var authState = await _authStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
         return user.Identity?.Name ?? "Unknown";
     }

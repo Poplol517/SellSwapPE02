@@ -1,0 +1,151 @@
+﻿@page "/offers/"
+
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+@implements IDisposable
+@inject NavigationManager _navManager
+@inject AuthenticationStateProvider _authStateProvider
+@inject SweetAlertService swal
+
+
+
+<h3 class=" = " card-title">Offers</h3>
+<br />
+@if (Offers == null)
+{
+    <div class="alert alert-info">Loading Offers. . .</div>
+}
+else
+{
+    <table class="table table-responsive" id="offersTable">
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                @* <th>Category</th>*@
+                <th>Listing Type</th>
+                <th>Offer Status</th>
+                <th>Offered By</th>
+                @* <th>Condition Type</th> *@
+                <th>Actions</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var offer in Offers)
+            {
+                if (offer.Listing.ListingStatusId != 2)
+                {
+                    @if (offer.Buyer == currentUser)
+                    {
+                        <tr>
+                            @*  <td>@offer.accountid.name</td> *@
+                            <td>@offer.Listing?.Name</td>
+                            <td>@offer.Description</td>
+                            <td>@offer.Price</td>
+                            <td>@offer.Listing?.ListingType.Name</td>
+                            <td>@offer.Status</td>
+                            <td>@offer.Buyer</td>
+                            <td>
+                                <a href="/offers/view/@offer.Id" class="btn btn-primary">
+                                    <span class="oi oi-book"></span>
+                                </a>
+                                <a href="/listing/edit/@offer.Id" class="btn btn-warning">
+                                    <span class="oi oi-pencil"></span>
+                                </a>
+                                <button class="btn btn-success" @onclick="@(()=>Delete(offer.Id))">
+                                    <span class="oi oi-tick"></span>
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            @*  <td>@offer.AccountId.Name</td> *@
+                            <td>@offer.Listing?.Name</td>
+                            <td>@offer.Description</td>
+                            <td>@offer.Price</td>
+                            <td>@offer.Listing?.ListingType.Name</td>
+                            <td>@offer.Status</td>
+                            <td>@offer.Buyer</td>
+                            <td>
+                                <a href="/offers/view/@offer.Id" class="btn btn-primary">
+                                    <span class="oi oi-book"></span>
+                                </a>
+                                @*                                 <a href="/listing/edit/@offer.Id" class="btn btn-warning">
+                <span class="oi oi-pencil"></span>
+                </a>
+                <button class="btn btn-success" @onclick="@(()=>Delete(offer.Id))">
+                <span class="oi oi-tick"></span>
+                </button> *@
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <div class="alert alert-info">Loading Offers. . .</div>
+                }
+            }
+        </tbody>
+    </table>
+}
+
+
+@code {
+    private List<Offer>? Offers;
+    private string currentUser;
+    protected async override Task OnInitializedAsync()
+    {
+        var authState = await _authStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        //for the filtering of action that can be done by differnt users
+        currentUser = user.Identity.Name;
+        Offers = await _client.GetFromJsonAsync<List<Offer>>($"{Endpoints.OffersEndpoint}");
+
+    }
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        await js.InvokeVoidAsync("AddDataTable", "#offersTable");
+    }
+    public void Dispose()
+    {
+        js.InvokeVoidAsync("DataTablesDispose", "#offersTable");
+    }
+    async Task Delete(int offerId)
+    {
+        var offer = Offers.First(o => o.Id == offerId);
+        if (offer != null)
+        {
+            var result = await swal.FireAsync(new SweetAlertOptions
+                {
+                    Title = "Confirmation",
+                    Text = "Do you wish to remove this offer?",
+                    Icon = SweetAlertIcon.Warning,
+                    ShowCancelButton = true,
+                    ConfirmButtonText = "Remove",
+                    CancelButtonText = "No, let me rethink"
+                });
+            var confirm = !string.IsNullOrEmpty(result.Value);
+            if (!confirm)
+            {
+
+            }
+            else
+            {
+                swal.FireAsync(new SweetAlertOptions
+                    {
+                        Title = "Removed",
+                        Text = "The offer has been removed",
+                        Icon = SweetAlertIcon.Success,
+                    });
+                await _client.DeleteAsync($"{Endpoints.OffersEndpoint}/{offerId}");
+                await OnInitializedAsync();
+                _navManager.NavigateTo("offers");
+            }
+        }
+    }
+}
