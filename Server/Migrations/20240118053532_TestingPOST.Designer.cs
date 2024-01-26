@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SellSwap.Server.Data;
 
@@ -11,9 +12,11 @@ using SellSwap.Server.Data;
 namespace SellSwap.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240118053532_TestingPOST")]
+    partial class TestingPOST
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -388,42 +391,6 @@ namespace SellSwap.Server.Migrations
                             SecurityStamp = "ee3feabc-288b-4fd2-b7f6-c47f8084c37f",
                             TwoFactorEnabled = false,
                             UserName = "admin@localhost.com"
-                        },
-                        new
-                        {
-                            Id = "673b6b78-250e-422e-9e4c-bae4bb50db41",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "dc11e088-1175-4329-a8c5-cb04c26dba8d",
-                            Email = "ggwp@gmail.com",
-                            EmailConfirmed = false,
-                            FirstName = "Tom",
-                            LastName = "Tan",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "GGWP@GMAIL.COM",
-                            NormalizedUserName = "GGWP@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIy0D6ZW0EafBiMe6PZ+vyFACe7OIPE7/+v/uVWI5DL+Z5GPIvg9ApaNLDFQxzSNFg==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "5e4be4b5-173e-4822-a2a7-33ca869c5c56",
-                            TwoFactorEnabled = false,
-                            UserName = "ggwp@gmail.com"
-                        },
-                        new
-                        {
-                            Id = "c3a0c046-d1b0-4607-a5d9-78b32026709c",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "1f5869b8-3157-4bce-aa47-5ce3e8fa2946",
-                            Email = "staff@gmail.com",
-                            EmailConfirmed = false,
-                            FirstName = "Mary",
-                            LastName = "Tan",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "STAFF@GMAIL.COM",
-                            NormalizedUserName = "STAFF@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEBhJZo3Nj0VTBBU+wBC56enBpcQ3WkK/9hea3NGeJmvxpoLSOV9vT/GvT2BW3AzLhA==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "507918b9-3438-4e77-a958-00512d9150c9",
-                            TwoFactorEnabled = false,
-                            UserName = "staff@gmail.com"
                         });
                 });
 
@@ -450,11 +417,14 @@ namespace SellSwap.Server.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Phone")
                         .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(max)");
@@ -482,7 +452,6 @@ namespace SellSwap.Server.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -526,7 +495,6 @@ namespace SellSwap.Server.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -610,18 +578,13 @@ namespace SellSwap.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AccountId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("AccountId1")
+                    b.Property<int?>("AccountId")
                         .HasColumnType("int");
 
                     b.Property<int?>("CategoryId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int?>("ConditionTypeId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("CreatedBy")
@@ -636,30 +599,24 @@ namespace SellSwap.Server.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Lister")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ListerId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int?>("ListingStatusId")
                         .HasColumnType("int");
 
                     b.Property<int?>("ListingTypeId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("Price")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("AccountId1");
+                    b.HasIndex("AccountId");
 
                     b.HasIndex("CategoryId");
 
@@ -719,7 +676,6 @@ namespace SellSwap.Server.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -763,7 +719,6 @@ namespace SellSwap.Server.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -808,12 +763,6 @@ namespace SellSwap.Server.Migrations
                     b.Property<int?>("AccountId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Buyer")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("BuyerId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
@@ -823,20 +772,11 @@ namespace SellSwap.Server.Migrations
                     b.Property<DateTime>("DateUpdated")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int?>("ListingId")
                         .HasColumnType("int");
 
                     b.Property<int?>("Price")
                         .HasColumnType("int");
-
-                    b.Property<string>("Reason")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -854,8 +794,7 @@ namespace SellSwap.Server.Migrations
                             DateCreated = new DateTime(2024, 1, 18, 13, 35, 31, 851, DateTimeKind.Local).AddTicks(7351),
                             DateUpdated = new DateTime(2024, 1, 18, 13, 35, 31, 851, DateTimeKind.Local).AddTicks(7352),
                             ListingId = 1,
-                            Price = 10,
-                            Status = "Pending"
+                            Price = 10
                         },
                         new
                         {
@@ -864,18 +803,7 @@ namespace SellSwap.Server.Migrations
                             DateCreated = new DateTime(2024, 1, 18, 13, 35, 31, 851, DateTimeKind.Local).AddTicks(7354),
                             DateUpdated = new DateTime(2024, 1, 18, 13, 35, 31, 851, DateTimeKind.Local).AddTicks(7355),
                             ListingId = 1,
-                            Price = 100,
-                            Status = "Pending"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CreatedBy = "System",
-                            DateCreated = new DateTime(2024, 1, 25, 3, 8, 35, 630, DateTimeKind.Local).AddTicks(9747),
-                            DateUpdated = new DateTime(2024, 1, 25, 3, 8, 35, 630, DateTimeKind.Local).AddTicks(9748),
-                            Description = "Really like it",
-                            ListingId = 2,
-                            Status = "Pending"
+                            Price = 100
                         });
                 });
 
@@ -951,19 +879,15 @@ namespace SellSwap.Server.Migrations
                 {
                     b.HasOne("SellSwap.Shared.Domain.Account", "Account")
                         .WithMany("Listing")
-                        .HasForeignKey("AccountId1");
+                        .HasForeignKey("AccountId");
 
                     b.HasOne("SellSwap.Shared.Domain.Category", "Category")
                         .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CategoryId");
 
                     b.HasOne("SellSwap.Shared.Domain.ConditionType", "ConditionType")
                         .WithMany()
-                        .HasForeignKey("ConditionTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ConditionTypeId");
 
                     b.HasOne("SellSwap.Shared.Domain.ListingStatus", "ListingStatus")
                         .WithMany()
@@ -971,9 +895,7 @@ namespace SellSwap.Server.Migrations
 
                     b.HasOne("SellSwap.Shared.Domain.ListingType", "ListingType")
                         .WithMany()
-                        .HasForeignKey("ListingTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ListingTypeId");
 
                     b.Navigation("Account");
 
