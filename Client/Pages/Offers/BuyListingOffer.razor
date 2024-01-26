@@ -1,0 +1,58 @@
+﻿@page "/listings/offer/{id:int}"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+@inject AuthenticationStateProvider _authenticationStateProvider
+@attribute [Authorize]
+
+<h3>Offer</h3>
+
+<BuyFormComponent offer="offers" OnValidSubmit="@CreateOffer" />
+
+@code {
+    [Parameter] public int id { get; set; }
+    Offer offers = new Offer();
+
+    private IList<Listing>? Listings;
+
+    protected async override Task OnInitializedAsync()
+    {
+        Listings = await _client.GetFromJsonAsync<List<Listing>>($"{Endpoints.ListingsEndpoint}");
+
+        // To bind listing to user
+        // Get the authenticated user's information
+        var authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        // Set the authenticated user's information in the listing object
+        offers.Buyer = user.Identity.Name;
+
+        // Retrieve the user ID from the claims using the 'sub' claim
+        var userIdClaim = user.FindFirst("sub");
+        if (userIdClaim != null)
+        {
+            offers.BuyerId = userIdClaim.Value;
+        }
+        else
+        {
+            
+        }
+    }
+
+    private async Task CreateOffer()
+    {
+        // Set the listing ID for the offer
+        offers.ListingId = id;
+        offers.Status = "Pending";
+
+         // Post the offer to the server
+         await _client.PostAsJsonAsync(Endpoints.OffersEndpoint, offers);
+        _navManager.NavigateTo("/offers/");
+
+         // Navigate to the offers page
+         _navManager.NavigateTo("/offers/");
+        
+    }
+
+}
+
+ 

@@ -12,12 +12,12 @@
 
 <h3 class=" = " card-title">Swap Page</h3>
 <br />
-<a href="/listings/create" class="btn btn-secondary">
+@* <a href="/listings/create" class="btn btn-secondary">
     <span class="oi oi-plus"></span>
     Create New Listing
 </a>
 <br />
-<br />
+<br /> *@
 @if (Listings == null)
 {
     <div class="alert alert-info">Loading Listings. . .</div>
@@ -58,7 +58,7 @@ else
                         <a href="/listings/edit/@listing.Id" class="btn btn-warning">
                             <span class="oi oi-pencil"></span>
                         </a>
-                         <a href="/listings/offer/@listing.Id" class="btn btn-info">
+                         <a href="/listings/swapoffer/@listing.Id" class="btn btn-info">
                             <span class="oi oi-pencil"></span>
                         </a>
                         <button class="btn btn-danger" @onclick="@(()=>Delete(listing.Id))">

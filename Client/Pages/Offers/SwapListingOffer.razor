@@ -1,4 +1,4 @@
-﻿@page "/listings/offer/{id:int}"
+﻿@page "/listings/swapoffer/{id:int}"
 @inject HttpClient _client
 @inject NavigationManager _navManager
 @inject AuthenticationStateProvider _authenticationStateProvider
@@ -6,7 +6,7 @@
 
 <h3>Offer</h3>
 
-<FormComponent offer="offers" OnValidSubmit="@CreateOffer" />
+<SwapFormComponent offer="offers" OnValidSubmit="@CreateOffer" />
 
 @code {
     [Parameter] public int id { get; set; }

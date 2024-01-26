@@ -1,5 +1,5 @@
 ﻿@* Index Page for listings *@
-@page "/buy/"
+@page "/favourites/"
 @using CurrieTechnologies.Razor.SweetAlert2;
 
 @inject HttpClient _client
@@ -10,7 +10,7 @@
 @inject SweetAlertService swal
 @inject AuthenticationStateProvider _authStateProvider
 
-<h3 class="card-title">Buy Page</h3>
+<h3 class="card-title">Favourite Page</h3>
 <br />
 @* <a href="/listings/create" class="btn btn-secondary">
     <span class="oi oi-plus"></span>
@@ -18,7 +18,7 @@
 </a>
 <br />
 <br /> *@
-@if (Listings == null)
+@if (Favourites == null)
 {
     <div class="alert alert-info">Loading Listings. . .</div>
 }
@@ -39,53 +39,33 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var listing in Listings)
+            @foreach (var favourite in Favourites)
             {
-                if (listing.ListingTypeId != 2 && listing.ListingStatusId == 1)
+                if (favourite.Account.UserName == currentUser)
                 {
                     <tr>
-                        <td>@listing.Name</td>
-                        <td>@listing.Description</td>
-                        <td>@listing.Price</td>
-                        <td>@listing.Category?.Name</td>
-                        <td>@listing.ListingStatus?.Name</td>
-                        <td>@listing.ListingType?.Name</td>
-                        <td>@listing.ConditionType?.Name</td>
-                        <td>@listing.Lister</td>
-                        @if (listing.Lister == currentUser)
-                        {
+                        <td>@favourite.Listing.Name</td>
+                        <td>@favourite.Listing.Description</td>
+                        <td>@favourite.Listing.Price</td>
+                        <td>@favourite.Listing.Category?.Name</td>
+                        <td>@favourite.Listing.ListingStatus?.Name</td>
+                        <td>@favourite.Listing.ListingType?.Name</td>
+                        <td>@favourite.Listing.ConditionType?.Name</td>
+                        <td>@favourite.Listing.Lister</td>
                             <td>
-                                <a href="/listings/view/@listing.Id" class="btn btn-primary">
+                                <a href="/listings/view/@favourite.Listing.Id" class="btn btn-primary">
                                 <span class="oi oi-book"></span>
                             </a>
-                            <a href="/listings/edit/@listing.Id" class="btn btn-warning">
+@*                             <a href="/listings/edit/@listing.Id" class="btn btn-warning">
+                                <span class="oi oi-pencil"></span>
+                            </a> *@
+                            <a href="/listings/offer/@favourite.Listing.Id" class="btn btn-info">
                                 <span class="oi oi-pencil"></span>
                             </a>
-                            <a href="/listings/offer/@listing.Id" class="btn btn-info">
-                                <span class="oi oi-pencil"></span>
-                            </a>
-                            <button class="btn btn-danger" @onclick="@(()=>Delete(listing.Id))">
+                            <button class="btn btn-danger" @onclick="@(()=>Delete(favourite.Listing.Id))">
                                 <span class="oi oi-delete"></span>
                             </button>
-@*                                 <button class="btn btn-danger" @onclick="@(()=>FavouriteItem(listing.Id))">
-                                    <span class="oi oi-delete"></span>
-                                </button> *@
                             </td>
-                        }
-                        else
-                        {
-                            <td>
-                                <a href="/listings/view/@listing.Id" class="btn btn-primary">
-                                <span class="oi oi-book"></span>
-                                </a>
-                                <a href="/listings/offer/@listing.Id" class="btn btn-info">
-                                    <span class="oi oi-pencil"></span>
-                                </a>
-                                <button class="btn btn-danger" @onclick="@(()=>FavouriteItem(listing.Id))">
-                                    <span class="oi oi-delete"></span>
-                                </button>
-                            </td>
-                        }
                     </tr>
                     
 
@@ -100,23 +80,23 @@ else
 }
 
 @code {
-    Favourite favourite = new Favourite();
-    private IList<Listing>? Listings;
+    private List<Favourite>? Favourites;
     private string currentUser;
 
     protected async override Task OnInitializedAsync()
     {
         var authState = await _authStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
-        //for the filtering of action that can be done by different users
+        //for the filtering of action that can be done by differnt users
         currentUser = user.Identity.Name;
-        Listings = await _client.GetFromJsonAsync<List<Listing>>($"{Endpoints.ListingsEndpoint}");
+        Favourites = await _client.GetFromJsonAsync<List<Favourite>>($"{Endpoints.FavouritesEndpoint}");
     }
 
-    async Task Delete(int listingId)
+
+    async Task Delete(int favouriteId)
     {
-        var listing = Listings.First(o => o.Id == listingId);
-        if (listing != null)
+        var favourite = Favourites.First(o => o.Id == favouriteId);
+        if (favourite != null)
         {
             var result = await swal.FireAsync(new SweetAlertOptions
                 {
@@ -130,7 +110,7 @@ else
             var confirm = !string.IsNullOrEmpty(result.Value);
             if (!confirm)
             {
-                // User canceled the delete action
+
             }
             else
             {
@@ -140,28 +120,11 @@ else
                         Text = "The listing has been removed",
                         Icon = SweetAlertIcon.Success,
                     });
-                await _client.DeleteAsync($"{Endpoints.ListingsEndpoint}/{listingId}");
+                await _client.DeleteAsync($"{Endpoints.FavouritesEndpoint}/{favouriteId}");
                 await OnInitializedAsync();
-                _navManager.NavigateTo("buy");
+                _navManager.NavigateTo("favourites");
             }
         }
-    }
-
-    private async Task FavouriteItem(int listingId)
-    {
-        // Initialize the Favourite object with the necessary data
-        favourite.ListingId = listingId;
-
-        // Get the user's ID or any other required information
-        var authState = await _authStateProvider.GetAuthenticationStateAsync();
-        var user = authState.User;
-        var userIdClaim = user.FindFirst("sub");
-        favourite.AccountId = userIdClaim.Value;
-
-        // Send the POST request to mark the listing as a favorite
-        await _client.PostAsJsonAsync(Endpoints.FavouritesEndpoint, favourite);
-
-        _navManager.NavigateTo("/buy/");
     }
 
     protected async override Task OnAfterRenderAsync(bool firstRender)
@@ -180,5 +143,4 @@ else
         var user = authState.User;
         return user.Identity?.Name ?? "Unknown";
     }
-
 }

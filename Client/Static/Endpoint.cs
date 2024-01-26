@@ -10,6 +10,7 @@
         public static readonly string CategoriesEndpoint = $"{Prefix}/categories";
         public static readonly string OffersEndpoint = $"{Prefix}/offers";
         public static readonly string UsersEndpoint = $"{Prefix}/users";
+        public static readonly string FavouritesEndpoint = $"{Prefix}/favourites";
         public static readonly string AccountsEndpoint = $"{Prefix}/accounts";
     }
 }
