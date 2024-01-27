@@ -6,3 +6,44 @@
 
 
 @* <SurveyPrompt Title="How is Blazor working for you?" /> *@
+@page "/"
+
+<PageTitle>Welcome to SellSwap</PageTitle>
+
+<div class="jumbotron">
+    <h1 class="display-4">Sell and Swap with Ease</h1>
+    <p class="lead">Discover great deals and find unique items in our online marketplace.</p>
+    <hr class="my-4">
+    <div class="mx-auto" style="max-width: 700px;">
+        <p class="lead">Whether you're looking to buy or sell, SellSwap is the perfect platform for you.</p>
+        <br>
+    </div>
+</div>
+
+<section class="container text-center">
+    <h2>How It Works</h2>
+    <br>
+    <div class="row">
+
+        <div class="col-md-4">
+            <h3>1. Browse Listings</h3>
+            <p>Explore a variety of listings, including items for sale and swap.</p>
+            <a href="/categories" class="btn btn-primary mx-auto">Browse Categories</a>
+
+        </div>
+        <div class="col-md-4">
+            <h3>2. List Your Items</h3>
+            <p>Create listings for items you want to sell or swap with others.</p>
+            <a href="/listings/create" class="btn btn-primary mx-auto">Create Lisitngs</a>
+        </div>
+        <div class="col-md-4">
+            <h3>3. Make Deals</h3>
+            <p>Connect with other users, negotiate, and finalize deals.</p>
+            <a href="/offers" class="btn btn-primary mx-auto">Explore Offers</a>
+        </div>
+    </div>
+</section>
+<footer class="text-center mt-5">
+    <p>&copy; 2024 SellSwap</p>
+</footer>
+
