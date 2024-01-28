@@ -50,6 +50,39 @@
         </div>
 
         <div class="nav-item px-3">
+            <NavLink class="nav-link" href="buy">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Buy
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="swap">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Swap
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" @onclick="()=>expandSubMenu3= !expandSubMenu3 ">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Offers
+            </NavLink>
+            @if (expandSubMenu3)
+            {
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="offers">
+                        <span class="oi oi-list-rich" aria-hidden="true"></span> Offers (User)
+                    </NavLink>
+                    <NavLink class="expand-menu" href="/staff/offers">
+                        <span class="oi oi-shirt" aria-hidden="true"></span> Offers (Staff)
+                    </NavLink>
+                    <NavLink class="expand-menu" href="offers/history">
+                        <span class="oi oi-shirt" aria-hidden="true"></span> Offer History
+                    </NavLink>
+                    
+                </div>
+            }
+        </div>
+
+        <div class="nav-item px-3">
             <NavLink class="nav-link" @onclick="()=>expandSubMenu= !expandSubMenu">
                 <span class="oi oi-list-rich" aria-hidden="true"></span> Categories (User)
             </NavLink>
@@ -71,17 +104,9 @@
                 </div>
             }
         </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="buy">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Buy
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="swap">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Swap
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
+       
+        
+        @* <div class="nav-item px-3">
             <NavLink class="nav-link" href="offers" Match="NavLinkMatch.All">
                 <span class="oi oi-list-rich" aria-hidden="true"></span> Offers (User)
             </NavLink>
@@ -95,21 +120,21 @@
             <NavLink class="nav-link" href="offers/history" Match="NavLinkMatch.All">
                 <span class="oi oi-list-rich" aria-hidden="true"></span> Offer History
             </NavLink>
-        </div>
+        </div> *@
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" @onclick="()=>expandSubMenu2= !expandSubMenu2">
+            <NavLink class="nav-link" href="/user/account" @onclick="()=>expandSubMenu2= !expandSubMenu2">
                 <span class="oi oi-list-rich" aria-hidden="true"></span> Account(User)
             </NavLink>
             @if (expandSubMenu2)
             {
                 <div class="nav-item px-3">
-                    <NavLink class="expand-menu" href="">
+                    <NavLink class="expand-menu" href="/account/favourites">
                         <span class="oi oi-home" aria-hidden="true"></span> Favorites
                     </NavLink>
-                    <NavLink class="expand-menu" href="">
+                    <NavLink class="expand-menu" href="/account/listings">
                         <span class="oi oi-list rich" aria-hidden="true"></span> My Listings
                     </NavLink>
-                    <NavLink class="expand-menu" href="account">
+                    <NavLink class="expand-menu" href="/account">
                         <span class="oi oi-list rich" aria-hidden="true"></span> Edit Account
                     </NavLink>
                 </div>
@@ -142,6 +167,7 @@
     private bool collapseNavMenu = true;
     private bool expandSubMenu;
     private bool expandSubMenu2;
+    private bool expandSubMenu3;
 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 

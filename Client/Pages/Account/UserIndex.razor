@@ -1,50 +1,119 @@
-﻿@page "/account/"
+﻿
+@page "/user/account"
+
 @inject HttpClient _client
-@inject NavigationManager _navManager
-@inject AuthenticationStateProvider _authenticationStateProvider
+@inject IJSRuntime js
 @attribute [Authorize]
+@implements IDisposable
+@inject NavigationManager _navManager
+@inject SweetAlertService swal
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
-<h3>Account</h3>
+<h3 class="card-title">View Account Page</h3>
+<br />
+ <a href="/account" class="btn btn-secondary">
+    <span class="oi oi-plus"></span>
+    Create New Account
+</a> 
+<br />
+<br />
+@if (Accounts == null)
+{
+    <div class="alert alert-info">Loading Accounts. . .</div>
+}
+else
+{
+    <table class="table table-responsive" id="buylistingsTable">
+        <thead>
+            <tr>
+                <th>UserName</th>
+                <th>Phone Number</th>
+                <th>Email</th>
+                <th>Address</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var account in Accounts)
+            {
+                <tr>
+                    <td>@account.UserName</td>
+                    <td>@account.Phone</td>
+                    <td>@account.Email</td>
+                    <td>@account.Address</td>
+                    
+                    <td>
+                        <a href="/accounts/edit/@account.Id" class="btn btn-warning">
+                            <span class="oi oi-pencil"></span>
+                        </a>
+                        <button class="btn btn-danger" @onclick="@(()=>Delete(account.Id))">
+                            <span class="oi oi-delete"></span>
+                        </button>
+                    </td>
+                </tr>
 
-<FormComponent ButtonText="Update" OnValidSubmit="CreateAccount" account="account" />
 
-@code {
-    Account account = new Account();
-
-    private IList<Account>? Accounts;
-
-    protected override async Task OnInitializedAsync()
-    {
-        Accounts = await _client.GetFromJsonAsync<List<Account>>($"{Endpoints.AccountsEndpoint}");
-
-        // To bind listing to user
-        // Get the authenticated user's information
-        var authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
-        var user = authState.User;
-
-        // Set the authenticated user's information in the listing object
-        account.UserName = user.Identity.Name;
-
-        // Retrieve the user ID from the claims using the 'sub' claim
-        var userIdClaim = user.FindFirst("sub");
-        if (userIdClaim != null)
-        {
-            account.UserId = userIdClaim.Value;
-        }
-        else
-        {
-            
-        }
-    }
-
-    private async Task CreateAccount()
-    {
-        // Include the authenticated user's information in the listing object
-
-        await _client.PostAsJsonAsync(Endpoints.AccountsEndpoint, account);
-        _navManager.NavigateTo("/buy/");
-    }
-
+            }
+        </tbody>
+    </table>
 }
 
+@code {
+    private List<Account>? Accounts;
 
+    protected async override Task OnInitializedAsync()
+    {
+        Accounts = await _client.GetFromJsonAsync<List<Account>>($"{Endpoints.AccountsEndpoint}");
+    }
+
+    async Task Delete(int accountId)
+    {
+        var account = Accounts.First(o => o.Id == accountId);
+        if (account != null)
+        {
+            var result = await swal.FireAsync(new SweetAlertOptions
+                {
+                    Title = "Confirmation",
+                    Text = "Do you wish to remove this account?",
+                    Icon = SweetAlertIcon.Warning,
+                    ShowCancelButton = true,
+                    ConfirmButtonText = "Remove",
+                    CancelButtonText = "No, let me rethink"
+                });
+            var confirm = !string.IsNullOrEmpty(result.Value);
+            if (!confirm)
+            {
+
+            }
+            else
+            {
+                swal.FireAsync(new SweetAlertOptions
+                    {
+                        Title = "Removed",
+                        Text = "The listing has been removed",
+                        Icon = SweetAlertIcon.Success,
+                    });
+                await _client.DeleteAsync($"{Endpoints.AccountsEndpoint}/{accountId}");
+                await OnInitializedAsync();
+                _navManager.NavigateTo("staff/account");
+            }
+        }
+    }
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        await js.InvokeVoidAsync("AddDataTable", "#buylistingsTable");
+    }
+
+    public void Dispose()
+    {
+        js.InvokeVoidAsync("DataTablesDispose", "#buylistingsTable");
+    }
+
+    private async Task<string> GetUserName()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        return user.Identity?.Name ?? "Unknown";
+    }
+}

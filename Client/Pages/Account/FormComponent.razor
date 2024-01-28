@@ -4,14 +4,14 @@
     <DataAnnotationsValidator />
     <ValidationSummary />
     <fieldset disabled="@Disabled">
-@* 
+ 
         <div class="form-group">
             <label>UserName: </label>
             <div>
                 <InputText @bind-Value="account.UserName" class="form-control" />
                 <ValidationMessage For="@(() => account.UserName)" />
             </div>
-        </div> *@
+        </div> 
 
         <div class="form-group">
             <label>Phone Number: </label>
@@ -20,14 +20,14 @@
                 <ValidationMessage For="@(() => account.Phone)" />
             </div>
         </div>
-@* 
+
             <div class="form-group">
                 <label>Address: </label>
                 <div>
                     <InputText @bind-Value="account.Address" class="form-control" />
                     <ValidationMessage For="@(() => account.Address)" />
                 </div>
-            </div> *@
+            </div> 
         <div class="form-group">
             <label>Email: </label>
             <div>
@@ -36,22 +36,7 @@
             </div>
         </div>
 
-        @*      <div class="form-group">
-        <label>Listing Status: </label>
-        <div>
-        <InputSelect @bind-Value="listing.ListingStatusId" class="form-control">
-        <option value="">-- Select Status --</option>
-        @if (ListingStatus != null)
-        {
-        foreach (var status in ListingStatus)
-        {
-        <option value="@status.Id">@status.Name</option>
-        }
-        }
-        </InputSelect>
-        <ValidationMessage For="@(() => listing.Id)" />
-        </div>
-        </div>   *@
+        
     </fieldset>
 
     @if (!Disabled)
@@ -59,7 +44,7 @@
         <button type="submit" class="btn btn-success btn-block">@ButtonText</button>
     }
 
-    <BacktoList Target="buy" />
+    <BacktoList Target="user/account" />
 </EditForm>
 @code {
     [Parameter] public bool Disabled { get; set; } = false;

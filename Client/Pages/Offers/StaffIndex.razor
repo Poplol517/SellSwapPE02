@@ -39,7 +39,16 @@ else
                         @*  <td>@offer.AccountId.Name</td> *@
                     <td>@offer.Listing?.Name</td>
                     <td>@offer.Description</td>
-                    <td>@offer.Price</td>
+                    <td>
+                        @if (offer.Listing.ListingType.Name != "Swap")
+                        {
+                            @offer.Price
+                        }
+                        else
+                        {
+                            <text>Not Applicable</text>
+                        }
+                    </td>
                     <td>@offer.Listing?.ListingType.Name</td>
                     <td>@offer.Status</td>
                     <td>@offer.Buyer</td>

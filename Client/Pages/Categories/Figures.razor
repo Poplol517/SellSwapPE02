@@ -41,11 +41,20 @@ else
             @foreach (var listing in Listings)
             {
                 if (listing.Category.Id == 2)
-                {
+                {   
                     <tr>
                         <td>@listing.Name</td>
                         <td>@listing.Description</td>
-                        <td>@listing.Price</td>
+                        <td>
+                            @if (listing.ListingType?.Name != "Swap")
+                            {
+                                @listing.Price
+                            }
+                            else
+                            {
+                                <text>Not Applicable</text>
+                            }
+                        </td>
                         <td>@listing.Category?.Name</td>
                         <td>@listing.ListingStatus?.Name</td>
                         <td>@listing.ListingType?.Name</td>
