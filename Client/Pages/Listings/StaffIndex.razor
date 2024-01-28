@@ -1,5 +1,5 @@
 ﻿@* Index Page for listings *@
-@page "/buy/"
+@page "/staff/listing"
 @using CurrieTechnologies.Razor.SweetAlert2;
 
 @inject HttpClient _client
@@ -41,57 +41,32 @@ else
         <tbody>
             @foreach (var listing in Listings)
             {
-                if (listing.ListingTypeId != 2 && listing.ListingStatusId == 1)
-                {
-                    <tr>
-                        <td>@listing.Name</td>
-                        <td>@listing.Description</td>
-                        <td>@listing.Price</td>
-                        <td>@listing.Category?.Name</td>
-                        <td>@listing.ListingStatus?.Name</td>
-                        <td>@listing.ListingType?.Name</td>
-                        <td>@listing.ConditionType?.Name</td>
-                        <td>@listing.Lister</td>
-                        @if (listing.Lister == currentUser)
-                        {
-                            <td>
-                                <a href="/listings/view/@listing.Id" class="btn btn-primary">
-                                <span class="oi oi-book"></span>
-                            </a>
-                            <a href="/listings/edit/@listing.Id" class="btn btn-warning">
-                                <span class="oi oi-pencil"></span>
-                            </a>
-                            <a href="/listings/offer/@listing.Id" class="btn btn-info">
-                                <span class="oi oi-pencil"></span>
-                            </a>
-                            <button class="btn btn-danger" @onclick="@(()=>Delete(listing.Id))">
-                                <span class="oi oi-delete"></span>
-                            </button>
-                            </td>
-                        }
-                        else
-                        {
-                            <td>
-                                <a href="/listings/view/@listing.Id" class="btn btn-primary">
-                                <span class="oi oi-book"></span>
-                                </a>
-                                <a href="/listings/offer/@listing.Id" class="btn btn-info">
-                                    <span class="oi oi-pencil"></span>
-                                </a>
-                                <button class="btn btn-basic" @onclick="@(()=>FavouriteItem(listing.Id))">
-                                    <span class="oi oi-star"></span>
-                                </button>
-                            </td>
-                        }
-                    </tr>
-                    
-
-                }
-                else
-                {
-                    <div class="alert alert-info">Loading Listings. . .</div>
-                }
+                <tr>
+                    <td>@listing.Name</td>
+                    <td>@listing.Description</td>
+                    <td>@listing.Price</td>
+                    <td>@listing.Category?.Name</td>
+                    <td>@listing.ListingStatus?.Name</td>
+                    <td>@listing.ListingType?.Name</td>
+                    <td>@listing.ConditionType?.Name</td>
+                     <td>@listing.Lister</td>
+                     <td>
+                        <a href="/listings/view/@listing.Id" class="btn btn-primary">
+                        <span class="oi oi-book"></span>
+                        </a>
+@*                         <a href="/listings/edit/@listing.Id" class="btn btn-warning">
+                        <span class="oi oi-pencil"></span>
+                        </a> 
+                        <a href="/listings/offer/@listing.Id" class="btn btn-info">
+                        <span class="oi oi-pencil"></span>
+                        </a>*@
+                        <button class="btn btn-danger" @onclick="@(()=>Delete(listing.Id))">
+                        <span class="oi oi-delete"></span>
+                        </button>
+                        </td>
+                </tr>
             }
+           
         </tbody>
     </table>
 }

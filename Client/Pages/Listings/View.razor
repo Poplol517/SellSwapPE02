@@ -1,9 +1,11 @@
 ﻿@page "/listings/view/{id:int}"
 @inject HttpClient _client
 @inject NavigationManager _navManager
+
+
 <h3>View</h3>
 <FormComponent listing="listing" Disabled="true" />
-<a href="/listings/create" class="btn btn-secondary">
+<a href="/listings/offer/{id:int}" class="btn btn-secondary">
     <span class="oi oi-plus"></span>
     Offer
 </a>
@@ -17,4 +19,5 @@
         listing = await
         _client.GetFromJsonAsync<Listing>($"{Endpoints.ListingsEndpoint}/{id}");
     }
+
 }

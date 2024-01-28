@@ -1,5 +1,5 @@
 ﻿@* Index Page for listings *@
-@page "/favourites/"
+@page "/account/favourites/"
 @using CurrieTechnologies.Razor.SweetAlert2;
 
 @inject HttpClient _client
@@ -21,10 +21,11 @@
 @if (Favourites == null)
 {
     <div class="alert alert-info">Loading Listings. . .</div>
+    Console.WriteLine("not fetching data");
 }
 else
 {
-    <table class="table table-responsive" id="buylistingsTable">
+    <table class="table table-responsive" id="favourtiesTable">
         <thead>
             <tr>
                 <th>Name</th>
@@ -129,12 +130,12 @@ else
 
     protected async override Task OnAfterRenderAsync(bool firstRender)
     {
-        await js.InvokeVoidAsync("AddDataTable", "#buylistingsTable");
+        await js.InvokeVoidAsync("AddDataTable", "#favouritesTable");
     }
 
     public void Dispose()
     {
-        js.InvokeVoidAsync("DataTablesDispose", "#buylistingsTable");
+        js.InvokeVoidAsync("DataTablesDispose", "#favouritesTable");
     }
 
     private async Task<string> GetUserName()
