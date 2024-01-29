@@ -145,6 +145,51 @@ namespace SellSwap.Server.Configurations.Entities
                     DateCreated = DateTime.Now,
                     DateUpdated = DateTime.Now,
                     CreatedBy = "System"
+                },
+                new Listing
+                {
+                    Id = 9,
+                    Name = "Samsung Galaxy S21",
+                    ConditionTypeId = 2,
+                    Description = "Brand new in box, never opened.",
+                    Price = 899,
+                    CategoryId = 1, // Phone
+                    AccountId = null,
+                    ListingStatusId = 1, // Available
+                    ListingTypeId = 1, // Sell
+                    DateCreated = DateTime.Now,
+                    DateUpdated = DateTime.Now,
+                    CreatedBy = "System"
+                },
+                new Listing
+                {
+                    Id = 10,
+                    Name = "Lego Star Wars Millennium Falcon",
+                    ConditionTypeId = 1,
+                    Description = "Complete set with original box.",
+                    Price = 150,
+                    CategoryId = 9, // Toys & Games
+                    AccountId = null,
+                    ListingStatusId = 1, // Available
+                    ListingTypeId = 2, // Swap
+                    DateCreated = DateTime.Now,
+                    DateUpdated = DateTime.Now,
+                    CreatedBy = "System"
+                },
+                new Listing
+                {
+                    Id = 11,
+                    Name = "Amazon Echo Dot (3rd Gen)",
+                    ConditionTypeId = 3,
+                    Description = "Used but in excellent condition.",
+                    Price = 30,
+                    CategoryId = 3, // Electronics
+                    AccountId = null,
+                    ListingStatusId = 1, // Available
+                    ListingTypeId = 1, // Sell
+                    DateCreated = DateTime.Now,
+                    DateUpdated = DateTime.Now,
+                    CreatedBy = "System"
                 }
 
                 ) ;
