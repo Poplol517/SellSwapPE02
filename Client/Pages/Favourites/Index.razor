@@ -42,7 +42,7 @@ else
         <tbody>
             @foreach (var favourite in Favourites)
             {
-                if (favourite.Account.UserName == currentUser)
+                if (favourite.AccountId == currentUser)
                 {
                     <tr>
                         <td>@favourite.Listing.Name</td>
@@ -88,8 +88,9 @@ else
     {
         var authState = await _authStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
+        var userIdClaim = user.FindFirst("sub");
         //for the filtering of action that can be done by differnt users
-        currentUser = user.Identity.Name;
+        currentUser = userIdClaim.Value;
         Favourites = await _client.GetFromJsonAsync<List<Favourite>>($"{Endpoints.FavouritesEndpoint}");
     }
 
