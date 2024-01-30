@@ -12,7 +12,7 @@ using SellSwap.Server.Data;
 namespace SellSwap.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240128162529_AddDataTable")]
+    [Migration("20240129015419_AddDataTable")]
     partial class AddDataTable
     {
         /// <inheritdoc />
@@ -378,7 +378,7 @@ namespace SellSwap.Server.Migrations
                         {
                             Id = "3781efa7-66dc-47f0-860f-e506d04102e4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "14afd4a1-6801-4e02-95a3-29eb16cb93ca",
+                            ConcurrencyStamp = "dbbbd9de-565a-4073-a5a6-76974840ae58",
                             Email = "admin@localhost.com",
                             EmailConfirmed = false,
                             FirstName = "Admin",
@@ -386,9 +386,9 @@ namespace SellSwap.Server.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFjpytaQBk0giMxyd7N4aPTQZvrkS4EopraIobFX66XQeMy/eseF6A1ARD4+atd1qA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAoOvO6jbJ68aqPWqTw6Nb5zqL/fT0uv02gE2w7qNMk2VnsO3gtWT8QOz/Uv4daZkA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "da72a918-ed15-4423-9d65-f22e13515d2e",
+                            SecurityStamp = "dc533055-5742-41e2-be0b-18c9d5d916db",
                             TwoFactorEnabled = false,
                             UserName = "admin@localhost.com"
                         },
@@ -396,7 +396,7 @@ namespace SellSwap.Server.Migrations
                         {
                             Id = "673b6b78-250e-422e-9e4c-bae4bb50db41",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5acd2c18-0560-4f8e-8835-3eeb882171a5",
+                            ConcurrencyStamp = "f77d7ff0-2026-4d57-a3ed-ca3b99a03f5d",
                             Email = "ggwp@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Tom",
@@ -404,9 +404,9 @@ namespace SellSwap.Server.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "GGWP@GMAIL.COM",
                             NormalizedUserName = "GGWP@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEF+DGUI8v3mpyr3UJS5heUTGMCNmytYWMVOHcItyPpGDyWOILkfWxoqOrU8uxR7EfA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIPeM7XFfLLFi4iN6YuCcRYL/mJhqpmb4r/YvlckVv/QGVgk6SE181VkWoe5EqCHSg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "99780ad9-f368-40fb-b5b5-7f7c2a433b30",
+                            SecurityStamp = "628dd28a-e3ec-4588-a8a5-bacc3c5e79ca",
                             TwoFactorEnabled = false,
                             UserName = "ggwp@gmail.com"
                         },
@@ -414,7 +414,7 @@ namespace SellSwap.Server.Migrations
                         {
                             Id = "c3a0c046-d1b0-4607-a5d9-78b32026709c",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a416770a-a090-4c21-995d-082adbe1c970",
+                            ConcurrencyStamp = "81397df5-7595-47f1-8378-a3b0cb3fd0c5",
                             Email = "staff@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Mary",
@@ -422,9 +422,9 @@ namespace SellSwap.Server.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "STAFF@GMAIL.COM",
                             NormalizedUserName = "STAFF@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJzhxU9Q9v54DJ+NgR9V6Jxik2eX+jVc8QZKjE5Sd+gOOYavfExigX9vLgRFcHSwrg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENRAIQE7Hp1DXwmSwOusxaMVYFk2DYWIDpFpQt4EPgHeeOepFm+Y9zA9IYK7mW7SGA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "1203dbf7-5572-43ad-9697-f676e0e883ec",
+                            SecurityStamp = "2ba2c749-e7db-4952-9aa4-eaaee737d693",
                             TwoFactorEnabled = false,
                             UserName = "staff@gmail.com"
                         });
@@ -497,16 +497,16 @@ namespace SellSwap.Server.Migrations
                         {
                             Id = 1,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2024, 1, 29, 0, 25, 29, 40, DateTimeKind.Local).AddTicks(7412),
-                            DateUpdated = new DateTime(2024, 1, 29, 0, 25, 29, 40, DateTimeKind.Local).AddTicks(7415),
+                            DateCreated = new DateTime(2024, 1, 29, 9, 54, 19, 405, DateTimeKind.Local).AddTicks(9924),
+                            DateUpdated = new DateTime(2024, 1, 29, 9, 54, 19, 405, DateTimeKind.Local).AddTicks(9925),
                             Name = "Phone"
                         },
                         new
                         {
                             Id = 2,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2024, 1, 29, 0, 25, 29, 40, DateTimeKind.Local).AddTicks(7418),
-                            DateUpdated = new DateTime(2024, 1, 29, 0, 25, 29, 40, DateTimeKind.Local).AddTicks(7419),
+                            DateCreated = new DateTime(2024, 1, 29, 9, 54, 19, 405, DateTimeKind.Local).AddTicks(9927),
+                            DateUpdated = new DateTime(2024, 1, 29, 9, 54, 19, 405, DateTimeKind.Local).AddTicks(9928),
                             Name = "Figure"
                         });
                 });
@@ -541,24 +541,24 @@ namespace SellSwap.Server.Migrations
                         {
                             Id = 1,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2024, 1, 29, 0, 25, 29, 40, DateTimeKind.Local).AddTicks(7862),
-                            DateUpdated = new DateTime(2024, 1, 29, 0, 25, 29, 40, DateTimeKind.Local).AddTicks(7864),
+                            DateCreated = new DateTime(2024, 1, 29, 9, 54, 19, 406, DateTimeKind.Local).AddTicks(119),
+                            DateUpdated = new DateTime(2024, 1, 29, 9, 54, 19, 406, DateTimeKind.Local).AddTicks(120),
                             Name = "New"
                         },
                         new
                         {
                             Id = 2,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2024, 1, 29, 0, 25, 29, 40, DateTimeKind.Local).AddTicks(7868),
-                            DateUpdated = new DateTime(2024, 1, 29, 0, 25, 29, 40, DateTimeKind.Local).AddTicks(7869),
+                            DateCreated = new DateTime(2024, 1, 29, 9, 54, 19, 406, DateTimeKind.Local).AddTicks(121),
+                            DateUpdated = new DateTime(2024, 1, 29, 9, 54, 19, 406, DateTimeKind.Local).AddTicks(122),
                             Name = "Well Used"
                         },
                         new
                         {
                             Id = 3,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2024, 1, 29, 0, 25, 29, 40, DateTimeKind.Local).AddTicks(7871),
-                            DateUpdated = new DateTime(2024, 1, 29, 0, 25, 29, 40, DateTimeKind.Local).AddTicks(7872),
+                            DateCreated = new DateTime(2024, 1, 29, 9, 54, 19, 406, DateTimeKind.Local).AddTicks(123),
+                            DateUpdated = new DateTime(2024, 1, 29, 9, 54, 19, 406, DateTimeKind.Local).AddTicks(123),
                             Name = "Damaged"
                         });
                 });
@@ -602,16 +602,16 @@ namespace SellSwap.Server.Migrations
                         {
                             Id = 1,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2024, 1, 29, 0, 25, 29, 41, DateTimeKind.Local).AddTicks(391),
-                            DateUpdated = new DateTime(2024, 1, 29, 0, 25, 29, 41, DateTimeKind.Local).AddTicks(393),
+                            DateCreated = new DateTime(2024, 1, 29, 9, 54, 19, 406, DateTimeKind.Local).AddTicks(1295),
+                            DateUpdated = new DateTime(2024, 1, 29, 9, 54, 19, 406, DateTimeKind.Local).AddTicks(1295),
                             ListingId = 1
                         },
                         new
                         {
                             Id = 2,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2024, 1, 29, 0, 25, 29, 41, DateTimeKind.Local).AddTicks(397),
-                            DateUpdated = new DateTime(2024, 1, 29, 0, 25, 29, 41, DateTimeKind.Local).AddTicks(399),
+                            DateCreated = new DateTime(2024, 1, 29, 9, 54, 19, 406, DateTimeKind.Local).AddTicks(1297),
+                            DateUpdated = new DateTime(2024, 1, 29, 9, 54, 19, 406, DateTimeKind.Local).AddTicks(1298),
                             ListingId = 2
                         });
                 });
@@ -692,8 +692,8 @@ namespace SellSwap.Server.Migrations
                             CategoryId = 1,
                             ConditionTypeId = 2,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2024, 1, 29, 0, 25, 29, 40, DateTimeKind.Local).AddTicks(6703),
-                            DateUpdated = new DateTime(2024, 1, 29, 0, 25, 29, 40, DateTimeKind.Local).AddTicks(6728),
+                            DateCreated = new DateTime(2024, 1, 29, 9, 54, 19, 405, DateTimeKind.Local).AddTicks(9518),
+                            DateUpdated = new DateTime(2024, 1, 29, 9, 54, 19, 405, DateTimeKind.Local).AddTicks(9535),
                             Description = "well used without a scratch",
                             ListingStatusId = 1,
                             ListingTypeId = 1,
@@ -706,8 +706,8 @@ namespace SellSwap.Server.Migrations
                             CategoryId = 1,
                             ConditionTypeId = 1,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2024, 1, 29, 0, 25, 29, 40, DateTimeKind.Local).AddTicks(6737),
-                            DateUpdated = new DateTime(2024, 1, 29, 0, 25, 29, 40, DateTimeKind.Local).AddTicks(6738),
+                            DateCreated = new DateTime(2024, 1, 29, 9, 54, 19, 405, DateTimeKind.Local).AddTicks(9539),
+                            DateUpdated = new DateTime(2024, 1, 29, 9, 54, 19, 405, DateTimeKind.Local).AddTicks(9540),
                             Description = "well used without a scratch",
                             ListingStatusId = 1,
                             ListingTypeId = 2,
@@ -745,16 +745,16 @@ namespace SellSwap.Server.Migrations
                         {
                             Id = 1,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2024, 1, 29, 0, 25, 29, 40, DateTimeKind.Local).AddTicks(9743),
-                            DateUpdated = new DateTime(2024, 1, 29, 0, 25, 29, 40, DateTimeKind.Local).AddTicks(9745),
+                            DateCreated = new DateTime(2024, 1, 29, 9, 54, 19, 406, DateTimeKind.Local).AddTicks(1097),
+                            DateUpdated = new DateTime(2024, 1, 29, 9, 54, 19, 406, DateTimeKind.Local).AddTicks(1098),
                             Name = "Avaliable"
                         },
                         new
                         {
                             Id = 2,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2024, 1, 29, 0, 25, 29, 40, DateTimeKind.Local).AddTicks(9792),
-                            DateUpdated = new DateTime(2024, 1, 29, 0, 25, 29, 40, DateTimeKind.Local).AddTicks(9798),
+                            DateCreated = new DateTime(2024, 1, 29, 9, 54, 19, 406, DateTimeKind.Local).AddTicks(1100),
+                            DateUpdated = new DateTime(2024, 1, 29, 9, 54, 19, 406, DateTimeKind.Local).AddTicks(1101),
                             Name = "Sold"
                         });
                 });
@@ -789,24 +789,24 @@ namespace SellSwap.Server.Migrations
                         {
                             Id = 1,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2024, 1, 29, 0, 25, 29, 40, DateTimeKind.Local).AddTicks(9067),
-                            DateUpdated = new DateTime(2024, 1, 29, 0, 25, 29, 40, DateTimeKind.Local).AddTicks(9069),
+                            DateCreated = new DateTime(2024, 1, 29, 9, 54, 19, 406, DateTimeKind.Local).AddTicks(724),
+                            DateUpdated = new DateTime(2024, 1, 29, 9, 54, 19, 406, DateTimeKind.Local).AddTicks(724),
                             Name = "Sell"
                         },
                         new
                         {
                             Id = 2,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2024, 1, 29, 0, 25, 29, 40, DateTimeKind.Local).AddTicks(9073),
-                            DateUpdated = new DateTime(2024, 1, 29, 0, 25, 29, 40, DateTimeKind.Local).AddTicks(9074),
+                            DateCreated = new DateTime(2024, 1, 29, 9, 54, 19, 406, DateTimeKind.Local).AddTicks(726),
+                            DateUpdated = new DateTime(2024, 1, 29, 9, 54, 19, 406, DateTimeKind.Local).AddTicks(726),
                             Name = "Swap"
                         },
                         new
                         {
                             Id = 3,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2024, 1, 29, 0, 25, 29, 40, DateTimeKind.Local).AddTicks(9077),
-                            DateUpdated = new DateTime(2024, 1, 29, 0, 25, 29, 40, DateTimeKind.Local).AddTicks(9079),
+                            DateCreated = new DateTime(2024, 1, 29, 9, 54, 19, 406, DateTimeKind.Local).AddTicks(728),
+                            DateUpdated = new DateTime(2024, 1, 29, 9, 54, 19, 406, DateTimeKind.Local).AddTicks(728),
                             Name = "Sell and Swap"
                         });
                 });
@@ -865,8 +865,8 @@ namespace SellSwap.Server.Migrations
                         {
                             Id = 1,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2024, 1, 29, 0, 25, 29, 41, DateTimeKind.Local).AddTicks(892),
-                            DateUpdated = new DateTime(2024, 1, 29, 0, 25, 29, 41, DateTimeKind.Local).AddTicks(894),
+                            DateCreated = new DateTime(2024, 1, 29, 9, 54, 19, 406, DateTimeKind.Local).AddTicks(1496),
+                            DateUpdated = new DateTime(2024, 1, 29, 9, 54, 19, 406, DateTimeKind.Local).AddTicks(1497),
                             Description = "",
                             ListingId = 1,
                             Price = 10,
@@ -876,8 +876,8 @@ namespace SellSwap.Server.Migrations
                         {
                             Id = 2,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2024, 1, 29, 0, 25, 29, 41, DateTimeKind.Local).AddTicks(900),
-                            DateUpdated = new DateTime(2024, 1, 29, 0, 25, 29, 41, DateTimeKind.Local).AddTicks(902),
+                            DateCreated = new DateTime(2024, 1, 29, 9, 54, 19, 406, DateTimeKind.Local).AddTicks(1499),
+                            DateUpdated = new DateTime(2024, 1, 29, 9, 54, 19, 406, DateTimeKind.Local).AddTicks(1501),
                             Description = "Really like it",
                             ListingId = 1,
                             Price = 100,
@@ -887,8 +887,8 @@ namespace SellSwap.Server.Migrations
                         {
                             Id = 3,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2024, 1, 29, 0, 25, 29, 41, DateTimeKind.Local).AddTicks(906),
-                            DateUpdated = new DateTime(2024, 1, 29, 0, 25, 29, 41, DateTimeKind.Local).AddTicks(907),
+                            DateCreated = new DateTime(2024, 1, 29, 9, 54, 19, 406, DateTimeKind.Local).AddTicks(1502),
+                            DateUpdated = new DateTime(2024, 1, 29, 9, 54, 19, 406, DateTimeKind.Local).AddTicks(1503),
                             Description = "Really like it",
                             ListingId = 2,
                             Status = "Pending"
