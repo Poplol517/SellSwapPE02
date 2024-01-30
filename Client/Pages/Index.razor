@@ -1,17 +1,50 @@
-﻿s
+﻿    
 @page "/"
 
+@* <PageTitle>Welcome to SellSwap</PageTitle> *@
+<style>
+    .title-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: row;
+    }
+
+    .centered-image {
+        max-width: 50%;
+        height: auto;
+        margin-top: 10px; 
+    }
+</style>
 <PageTitle>Welcome to SellSwap</PageTitle>
 
-<div class="jumbotron">
+<div class="container text-center">
+    <div class="jumbotron">
+        <div class="title-container">
+            <h1 class="display-4">Sell and Swap with Ease</h1>
+            <img src="/images/marketplace-800x450.jpeg" alt="Welcome Image" class="img-fluid centered-image" />
+        </div>
+        <p class="lead">Discover great deals and find unique items in our online marketplace.</p>
+        <hr class="my-4">
+        <div class="mx-auto" style="max-width: 700px;">
+            <p class="lead">Whether you're looking to buy or sell, SellSwap is the perfect platform for you.</p>
+            <br>
+        </div>
+    </div>
+    </div>
+@* <div class="jumbotron">
     <h1 class="display-4">Sell and Swap with Ease</h1>
     <p class="lead">Discover great deals and find unique items in our online marketplace.</p>
+    <div class="title-image-container">
+        <img src="/images/welcome.jpg" alt="Welcome Image" class="img-fluid centered-image" />
+        <!-- Use a relative path from the wwwroot folder -->
+    </div>
     <hr class="my-4">
     <div class="mx-auto" style="max-width: 700px;">
         <p class="lead">Whether you're looking to buy or sell, SellSwap is the perfect platform for you.</p>
         <br>
     </div>
-</div>
+</div> *@
 
 <section class="container text-center">
     <h2>How It Works</h2>

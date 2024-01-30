@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SellSwap.Server.Configurations.Entities
 {
@@ -30,9 +31,78 @@ namespace SellSwap.Server.Configurations.Entities
                     DateCreated = DateTime.Now,
                     DateUpdated = DateTime.Now,
                     CreatedBy = "System"
+                },
+                
+                new Category
+                {
+                    Id = 3,
+                    Name = "Electronics",
+                    DateCreated = DateTime.Now,
+                    DateUpdated = DateTime.Now,
+                    CreatedBy = "System"
+                },
+
+               
+                new Category
+                {
+                    Id = 4,
+                    Name = "Furniture",
+                    DateCreated = DateTime.Now,
+                    DateUpdated = DateTime.Now,
+                    CreatedBy = "System"
+                },
+
+               
+                new Category
+                {
+                    Id = 5,
+                    Name = "Clothing & Accessories",
+                    DateCreated = DateTime.Now,
+                    DateUpdated = DateTime.Now,
+                    CreatedBy = "System"
+                },
+
+                
+                new Category
+                {
+                    Id = 6,
+                    Name = "Home & Garden",
+                    DateCreated = DateTime.Now,
+                    DateUpdated = DateTime.Now,
+                    CreatedBy = "System"
+                },
+
+                
+                new Category
+                {
+                    Id = 7,
+                    Name = "Books & Media",
+                    DateCreated = DateTime.Now,
+                    DateUpdated = DateTime.Now,
+                    CreatedBy = "System"
+                },
+
+                new Category
+                {
+                    Id = 8,
+                    Name = "Sports & Outdoors",
+                    DateCreated = DateTime.Now,
+                    DateUpdated = DateTime.Now,
+                    CreatedBy = "System"
+                },
+
+                
+                new Category
+                {
+                    Id = 9,
+                    Name = "Toys & Games",
+                    DateCreated = DateTime.Now,
+                    DateUpdated = DateTime.Now,
+                    CreatedBy = "System"
                 }
 
-                );
+
+                                );
 
         }
     }

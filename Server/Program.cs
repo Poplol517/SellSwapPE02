@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using SellSwap.Server.IRepository;
 using SellSwap.Server.Repository;
 using AutoMapper.Internal.Mappers;
+using SellSwap.Server.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,8 +29,13 @@ builder.Services.AddAuthentication()
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+builder.Services.AddSignalR();
+builder.Services.AddResponseCompression(options =>
+    options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] {"application/octet-stream"}));
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
+
 var app = builder.Build();
+app.UseResponseCompression();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -57,6 +63,7 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 app.MapControllers();
+app.MapHub<ChatHub>("/chathub");
 app.MapFallbackToFile("index.html");
 
 

@@ -35,7 +35,6 @@ namespace SellSwap.Server.Data
             builder.ApplyConfiguration(new ConditionTypeSeedConfiguration());
             builder.ApplyConfiguration(new ListingTypeSeedConfiguration());
             builder.ApplyConfiguration(new ListingStatusSeedConfiguration());
-            builder.ApplyConfiguration(new FavouriteSeedConfiguration());
             builder.ApplyConfiguration(new OfferSeedConfiguration());
             builder.ApplyConfiguration(new UserSeedConfiguration());
         }

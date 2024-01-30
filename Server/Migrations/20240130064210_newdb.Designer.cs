@@ -12,8 +12,8 @@ using SellSwap.Server.Data;
 namespace SellSwap.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240129015419_AddDataTable")]
-    partial class AddDataTable
+    [Migration("20240130064210_newdb")]
+    partial class newdb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -508,6 +508,62 @@ namespace SellSwap.Server.Migrations
                             DateCreated = new DateTime(2024, 1, 29, 9, 54, 19, 405, DateTimeKind.Local).AddTicks(9927),
                             DateUpdated = new DateTime(2024, 1, 29, 9, 54, 19, 405, DateTimeKind.Local).AddTicks(9928),
                             Name = "Figure"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedBy = "System",
+                            DateCreated = new DateTime(2024, 1, 30, 14, 42, 10, 662, DateTimeKind.Local).AddTicks(6715),
+                            DateUpdated = new DateTime(2024, 1, 30, 14, 42, 10, 662, DateTimeKind.Local).AddTicks(6715),
+                            Name = "Electronics"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreatedBy = "System",
+                            DateCreated = new DateTime(2024, 1, 30, 14, 42, 10, 662, DateTimeKind.Local).AddTicks(6716),
+                            DateUpdated = new DateTime(2024, 1, 30, 14, 42, 10, 662, DateTimeKind.Local).AddTicks(6717),
+                            Name = "Furniture"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CreatedBy = "System",
+                            DateCreated = new DateTime(2024, 1, 30, 14, 42, 10, 662, DateTimeKind.Local).AddTicks(6718),
+                            DateUpdated = new DateTime(2024, 1, 30, 14, 42, 10, 662, DateTimeKind.Local).AddTicks(6719),
+                            Name = "Clothing & Accessories"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CreatedBy = "System",
+                            DateCreated = new DateTime(2024, 1, 30, 14, 42, 10, 662, DateTimeKind.Local).AddTicks(6720),
+                            DateUpdated = new DateTime(2024, 1, 30, 14, 42, 10, 662, DateTimeKind.Local).AddTicks(6721),
+                            Name = "Home & Garden"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CreatedBy = "System",
+                            DateCreated = new DateTime(2024, 1, 30, 14, 42, 10, 662, DateTimeKind.Local).AddTicks(6722),
+                            DateUpdated = new DateTime(2024, 1, 30, 14, 42, 10, 662, DateTimeKind.Local).AddTicks(6723),
+                            Name = "Books & Media"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CreatedBy = "System",
+                            DateCreated = new DateTime(2024, 1, 30, 14, 42, 10, 662, DateTimeKind.Local).AddTicks(6724),
+                            DateUpdated = new DateTime(2024, 1, 30, 14, 42, 10, 662, DateTimeKind.Local).AddTicks(6724),
+                            Name = "Sports & Outdoors"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CreatedBy = "System",
+                            DateCreated = new DateTime(2024, 1, 30, 14, 42, 10, 662, DateTimeKind.Local).AddTicks(6726),
+                            DateUpdated = new DateTime(2024, 1, 30, 14, 42, 10, 662, DateTimeKind.Local).AddTicks(6726),
+                            Name = "Toys & Games"
                         });
                 });
 
@@ -668,8 +724,8 @@ namespace SellSwap.Server.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int?>("Price")
-                        .HasColumnType("int");
+                    b.Property<double?>("Price")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
@@ -698,7 +754,7 @@ namespace SellSwap.Server.Migrations
                             ListingStatusId = 1,
                             ListingTypeId = 1,
                             Name = "Iphone",
-                            Price = 1200
+                            Price = 1200.0
                         },
                         new
                         {
@@ -712,6 +768,131 @@ namespace SellSwap.Server.Migrations
                             ListingStatusId = 1,
                             ListingTypeId = 2,
                             Name = "POP Mart figure"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CategoryId = 3,
+                            ConditionTypeId = 2,
+                            CreatedBy = "System",
+                            DateCreated = new DateTime(2024, 1, 30, 14, 42, 10, 662, DateTimeKind.Local).AddTicks(6112),
+                            DateUpdated = new DateTime(2024, 1, 30, 14, 42, 10, 662, DateTimeKind.Local).AddTicks(6112),
+                            Description = "Full HD Smart TV with great picture quality",
+                            ListingStatusId = 1,
+                            ListingTypeId = 1,
+                            Name = "Smart TV",
+                            Price = 800.0
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CategoryId = 4,
+                            ConditionTypeId = 3,
+                            CreatedBy = "System",
+                            DateCreated = new DateTime(2024, 1, 30, 14, 42, 10, 662, DateTimeKind.Local).AddTicks(6157),
+                            DateUpdated = new DateTime(2024, 1, 30, 14, 42, 10, 662, DateTimeKind.Local).AddTicks(6157),
+                            Description = "Comfortable leather sofa in excellent condition",
+                            ListingStatusId = 1,
+                            ListingTypeId = 1,
+                            Name = "Leather Sofa",
+                            Price = 500.0
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CategoryId = 5,
+                            ConditionTypeId = 1,
+                            CreatedBy = "System",
+                            DateCreated = new DateTime(2024, 1, 30, 14, 42, 10, 662, DateTimeKind.Local).AddTicks(6160),
+                            DateUpdated = new DateTime(2024, 1, 30, 14, 42, 10, 662, DateTimeKind.Local).AddTicks(6160),
+                            Description = "Stylish men's winter jacket, size XL",
+                            ListingStatusId = 1,
+                            ListingTypeId = 1,
+                            Name = "Men's Winter Jacket",
+                            Price = 80.0
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CategoryId = 6,
+                            ConditionTypeId = 2,
+                            CreatedBy = "System",
+                            DateCreated = new DateTime(2024, 1, 30, 14, 42, 10, 662, DateTimeKind.Local).AddTicks(6162),
+                            DateUpdated = new DateTime(2024, 1, 30, 14, 42, 10, 662, DateTimeKind.Local).AddTicks(6162),
+                            Description = "Outdoor table and chairs set for your garden",
+                            ListingStatusId = 1,
+                            ListingTypeId = 1,
+                            Name = "Garden Table and Chairs",
+                            Price = 150.0
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CategoryId = 7,
+                            ConditionTypeId = 2,
+                            CreatedBy = "System",
+                            DateCreated = new DateTime(2024, 1, 30, 14, 42, 10, 662, DateTimeKind.Local).AddTicks(6165),
+                            DateUpdated = new DateTime(2024, 1, 30, 14, 42, 10, 662, DateTimeKind.Local).AddTicks(6165),
+                            Description = "Complete set of Harry Potter books in good condition",
+                            ListingStatusId = 1,
+                            ListingTypeId = 2,
+                            Name = "Harry Potter Book Set",
+                            Price = 60.0
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CategoryId = 8,
+                            ConditionTypeId = 3,
+                            CreatedBy = "System",
+                            DateCreated = new DateTime(2024, 1, 30, 14, 42, 10, 662, DateTimeKind.Local).AddTicks(6167),
+                            DateUpdated = new DateTime(2024, 1, 30, 14, 42, 10, 662, DateTimeKind.Local).AddTicks(6168),
+                            Description = "Hardtail mountain bike with front suspension",
+                            ListingStatusId = 1,
+                            ListingTypeId = 1,
+                            Name = "Mountain Bike",
+                            Price = 300.0
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CategoryId = 1,
+                            ConditionTypeId = 2,
+                            CreatedBy = "System",
+                            DateCreated = new DateTime(2024, 1, 30, 14, 42, 10, 662, DateTimeKind.Local).AddTicks(6170),
+                            DateUpdated = new DateTime(2024, 1, 30, 14, 42, 10, 662, DateTimeKind.Local).AddTicks(6170),
+                            Description = "Brand new in box, never opened.",
+                            ListingStatusId = 1,
+                            ListingTypeId = 1,
+                            Name = "Samsung Galaxy S21",
+                            Price = 899.99000000000001
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CategoryId = 9,
+                            ConditionTypeId = 1,
+                            CreatedBy = "System",
+                            DateCreated = new DateTime(2024, 1, 30, 14, 42, 10, 662, DateTimeKind.Local).AddTicks(6172),
+                            DateUpdated = new DateTime(2024, 1, 30, 14, 42, 10, 662, DateTimeKind.Local).AddTicks(6173),
+                            Description = "Complete set with original box.",
+                            ListingStatusId = 1,
+                            ListingTypeId = 2,
+                            Name = "Lego Star Wars Millennium Falcon"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            CategoryId = 3,
+                            ConditionTypeId = 3,
+                            CreatedBy = "System",
+                            DateCreated = new DateTime(2024, 1, 30, 14, 42, 10, 662, DateTimeKind.Local).AddTicks(6175),
+                            DateUpdated = new DateTime(2024, 1, 30, 14, 42, 10, 662, DateTimeKind.Local).AddTicks(6175),
+                            Description = "Used but in excellent condition.",
+                            ListingStatusId = 1,
+                            ListingTypeId = 1,
+                            Name = "Amazon Echo Dot (3rd Gen)",
+                            Price = 30.0
                         });
                 });
 
