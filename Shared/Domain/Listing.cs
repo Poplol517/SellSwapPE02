@@ -31,7 +31,9 @@ namespace SellSwap.Shared.Domain
         public int? ListingTypeId { get; set; }
         public virtual ListingType? ListingType { get; set; }
         //public virtual List<Favourite>? Favourites { get; set; }
+        public string? Image { get; set; }
 
-        
+
+
     }
 }

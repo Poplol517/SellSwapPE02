@@ -8,6 +8,14 @@
         <div class="form-group">
             <label>Name: </label>
             <div>
+                <InputText @bind-Value="listing.Name" class="form-control" />
+                <ValidationMessage For="@(() => listing.Name)" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Name: </label>
+            <div>
                 <InputText @bind-Value="listing.Name" class="form-control"/>
                 <ValidationMessage For="@(() => listing.Name)" />
             </div>
