@@ -21,7 +21,7 @@ namespace SellSwap.Server.Configurations.Entities
                     Name = "Iphone",
                     ConditionTypeId = 2,
                     Description = "well used without a scratch",
-                    Price = 1200,
+                    Price = 1200.00,
                     CategoryId = 1,
                     AccountId = null,
                     ListingStatusId = 1, //Avaliable
@@ -52,7 +52,7 @@ namespace SellSwap.Server.Configurations.Entities
                      Name = "Smart TV",
                      ConditionTypeId = 2,
                      Description = "Full HD Smart TV with great picture quality",
-                     Price = 800,
+                     Price = 800.00,
                      CategoryId = 3, // Electronics
                      AccountId = null,
                      ListingStatusId = 1, // Available
@@ -69,7 +69,7 @@ namespace SellSwap.Server.Configurations.Entities
                     Name = "Leather Sofa",
                     ConditionTypeId = 3,
                     Description = "Comfortable leather sofa in excellent condition",
-                    Price = 500,
+                    Price = 500.00,
                     CategoryId = 4, // Furniture
                     AccountId = null,
                     ListingStatusId = 1, // Available
@@ -86,7 +86,7 @@ namespace SellSwap.Server.Configurations.Entities
                     Name = "Men's Winter Jacket",
                     ConditionTypeId = 1,
                     Description = "Stylish men's winter jacket, size XL",
-                    Price = 80,
+                    Price = 80.00,
                     CategoryId = 5, // Clothing & Accessories
                     AccountId = null,
                     ListingStatusId = 1, // Available
@@ -103,7 +103,7 @@ namespace SellSwap.Server.Configurations.Entities
                     Name = "Garden Table and Chairs",
                     ConditionTypeId = 2,
                     Description = "Outdoor table and chairs set for your garden",
-                    Price = 150,
+                    Price = 150.00,
                     CategoryId = 6, // Home & Garden
                     AccountId = null,
                     ListingStatusId = 1, // Available
@@ -120,7 +120,7 @@ namespace SellSwap.Server.Configurations.Entities
                     Name = "Harry Potter Book Set",
                     ConditionTypeId = 2,
                     Description = "Complete set of Harry Potter books in good condition",
-                    Price = 60,
+                    Price = 60.00,
                     CategoryId = 7, // Books & Media
                     AccountId = null,
                     ListingStatusId = 1, // Available
@@ -137,7 +137,7 @@ namespace SellSwap.Server.Configurations.Entities
                     Name = "Mountain Bike",
                     ConditionTypeId = 3,
                     Description = "Hardtail mountain bike with front suspension",
-                    Price = 300,
+                    Price = 300.00,
                     CategoryId = 8, // Sports & Outdoors
                     AccountId = null,
                     ListingStatusId = 1, // Available
@@ -152,7 +152,7 @@ namespace SellSwap.Server.Configurations.Entities
                     Name = "Samsung Galaxy S21",
                     ConditionTypeId = 2,
                     Description = "Brand new in box, never opened.",
-                    Price = 899,
+                    Price = 899.99,
                     CategoryId = 1, // Phone
                     AccountId = null,
                     ListingStatusId = 1, // Available
@@ -167,7 +167,7 @@ namespace SellSwap.Server.Configurations.Entities
                     Name = "Lego Star Wars Millennium Falcon",
                     ConditionTypeId = 1,
                     Description = "Complete set with original box.",
-                    Price = 150,
+                    Price = null,
                     CategoryId = 9, // Toys & Games
                     AccountId = null,
                     ListingStatusId = 1, // Available
@@ -182,7 +182,7 @@ namespace SellSwap.Server.Configurations.Entities
                     Name = "Amazon Echo Dot (3rd Gen)",
                     ConditionTypeId = 3,
                     Description = "Used but in excellent condition.",
-                    Price = 30,
+                    Price = 30.00,
                     CategoryId = 3, // Electronics
                     AccountId = null,
                     ListingStatusId = 1, // Available

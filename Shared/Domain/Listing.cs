@@ -19,7 +19,7 @@ namespace SellSwap.Shared.Domain
         public int? ConditionTypeId { get; set; }
         public virtual ConditionType?  ConditionType { get; set; }
         public string? Description { get; set; }
-        public int? Price { get; set; }
+        public double? Price { get; set; }
         [Required]
         public int? CategoryId { get; set; }
         public virtual Category? Category { get; set; }
