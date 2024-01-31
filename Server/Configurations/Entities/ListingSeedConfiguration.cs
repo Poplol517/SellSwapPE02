@@ -77,7 +77,7 @@ namespace SellSwap.Server.Configurations.Entities
                     CategoryId  = 4, // Furniture
                     AccountId = null,
                     ListingStatusId = 1, // Available
-                    ListingTypeId = 1, // Sell
+                    ListingTypeId = 2, // Sell
                     DateCreated = DateTime.Now,
                     DateUpdated = DateTime.Now,
                     CreatedBy = "System"
@@ -165,7 +165,7 @@ namespace SellSwap.Server.Configurations.Entities
                     CategoryId = 1, // Phone
                     AccountId = null,
                     ListingStatusId = 1, // Available
-                    ListingTypeId = 1, // Sell
+                    ListingTypeId = 2, // Sell
                     DateCreated = DateTime.Now,
                     DateUpdated = DateTime.Now,
                     CreatedBy = "System"
