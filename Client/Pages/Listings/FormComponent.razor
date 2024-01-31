@@ -1,4 +1,5 @@
 ﻿@inject HttpClient _client
+@inject IJSRuntime JSRuntime
 
 <EditForm Model="@listing" OnValidSubmit="@OnValidSubmit">
     <DataAnnotationsValidator />
@@ -6,12 +7,16 @@
     <fieldset disabled="@Disabled">
 
         <div class="form-group">
-            <label>Name: </label>
+            <label>Add Image Link: </label>
             <div>
-                <InputText @bind-Value="listing.Name" class="form-control" />
-                <ValidationMessage For="@(() => listing.Name)" />
+                <InputText @bind-Value="listing.Image" class="form-control" />
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-outline-secondary" @onclick="ShowImageHelp">?</button>
+                </div>
+                <ValidationMessage For="@(() => listing.Image)" />
             </div>
         </div>
+
 
         <div class="form-group">
             <label>Name: </label>
@@ -139,6 +144,13 @@
         ConditionTypes = await _client.GetFromJsonAsync<List<ConditionType>>($"{Endpoints.ConditionTypeEndpoint}");
 
         
+    }
+    private void ShowImageHelp()
+    {
+        string message = "Instructions on how to submit an image:\n\n1. Copy the absolute image link.\n2. Paste the link into the 'Image Link' field.\n3. Click the 'Save' button to submit the form.";
+
+        // Display alert with instructions
+        JSRuntime.InvokeVoidAsync("alert", message);
     }
 
 }
