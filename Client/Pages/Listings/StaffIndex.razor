@@ -10,7 +10,7 @@
 @inject SweetAlertService swal
 @inject AuthenticationStateProvider _authStateProvider
 
-<h3 class="card-title">Buy Page</h3>
+<h3 class="card-title">Staff Listings View Page</h3>
 <br />
 @* <a href="/listings/create" class="btn btn-secondary">
     <span class="oi oi-plus"></span>
@@ -27,6 +27,7 @@ else
     <table class="table table-responsive" id="buylistingsTable">
         <thead>
             <tr>
+                <th></th>
                 <th>Name</th>
                 <th>Description</th>
                 <th>Price</th>
@@ -42,6 +43,7 @@ else
             @foreach (var listing in Listings)
             {
                 <tr>
+                    <td><img src="@listing.Image" alt="Listing Image" style="max-width: 100px; max-height: 100px;" /></td>
                     <td>@listing.Name</td>
                     <td>@listing.Description</td>
                     <td>@listing.Price</td>
