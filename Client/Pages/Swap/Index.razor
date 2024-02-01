@@ -6,8 +6,7 @@
 @implements IDisposable
 @inject NavigationManager _navManager
 @inject SweetAlertService swal
-@inject AuthenticationStateProvider AuthenticationStateProvider
-
+@inject AuthenticationStateProvider _authStateProvider
 
 
 <h3 class=" = " card-title">Swap Page</h3>
@@ -71,7 +70,17 @@ else
                 }
                 else
                 {
-                    <div class="alert alert-info">Loading Listings. . .</div>
+                <td>
+                    <a href="/listings/view/@listing.Id" class="btn btn-primary">
+                        <span class="oi oi-book"></span>
+                    </a>
+                    <a href="/listings/offer/@listing.Id" class="btn btn-info">
+                        <span class="oi oi-pencil"></span>
+                    </a>
+                    <button class="btn btn-outline-warning" @onclick="@(()=>FavouriteItem(listing.Id))">
+                        <span class="oi oi-star"></span>
+                    </button>
+                </td>
                 }
             }
         </tbody>
@@ -80,6 +89,7 @@ else
 
 
 @code {
+    Favourite favourite = new Favourite();
     private List<Listing>? Listings;
     protected async override Task OnInitializedAsync()
     {
@@ -118,6 +128,22 @@ else
                 _navManager.NavigateTo("swap");
             }
         }
+    }
+    private async Task FavouriteItem(int listingId)
+    {
+        // Initialize the Favourite object with the necessary data
+        favourite.ListingId = listingId;
+
+        // Get the user's ID or any other required information
+        var authState = await _authStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        var userIdClaim = user.FindFirst("sub");
+        favourite.AccountId = userIdClaim.Value;
+
+        // Send the POST request to mark the listing as a favorite
+        await _client.PostAsJsonAsync(Endpoints.FavouritesEndpoint, favourite);
+
+        _navManager.NavigateTo("/swap/");
     }
     protected async override Task OnAfterRenderAsync(bool firstRender)
     {
