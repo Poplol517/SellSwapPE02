@@ -6,7 +6,7 @@
     <ValidationSummary />
     <fieldset disabled="@Disabled">
 
-        <div class="form-group">
+        @* <div class="form-group">
             <label>Add Image Link: </label>
             <div>
                 <InputText @bind-Value="listing.Image" class="form-control" />
@@ -15,7 +15,22 @@
                 </div>
                 <ValidationMessage For="@(() => listing.Image)" />
             </div>
+        </div> *@
+        <div class="form-group">
+            <label>Add Image Link: </label>
+            <div class="input-group">
+                <InputText @bind-Value="listing.Image" class="form-control" />
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-outline-secondary" @onclick="ShowImageHelp">?</button>
+                </div>
+                <ValidationMessage For="@(() => listing.Image)" />
+            </div>
+            @if (!string.IsNullOrEmpty(listing.Image))
+            {
+                <img src="@listing.Image" alt="Listing Image" @onerror="HandleImageError" style="max-width: 100px; max-height: 100px; margin-top: 10px;" />
+            }
         </div>
+
 
 
         <div class="form-group">
@@ -143,14 +158,19 @@
         ListingTypes = await _client.GetFromJsonAsync<List<ListingType>>($"{Endpoints.ListingTypeEndpoint}");
         ConditionTypes = await _client.GetFromJsonAsync<List<ConditionType>>($"{Endpoints.ConditionTypeEndpoint}");
 
-        
+
     }
     private void ShowImageHelp()
     {
-        string message = "Instructions on how to submit an image:\n\n1. Copy the absolute image link.\n2. Paste the link into the 'Image Link' field.\n3. Click the 'Save' button to submit the form.";
+        string message = "Instructions on how to submit an image:\n\n1. Copy the image address.\n2. Paste the link into the 'Image Link' field.\n3. Click the 'Create Listing' button to submit the form.";
 
         // Display alert with instructions
         JSRuntime.InvokeVoidAsync("alert", message);
+    }
+    private void HandleImageError()
+    {
+        // listing.Image = "/images/404_image.jpg";
+        Console.WriteLine("Error loading image: " + listing.Image);
     }
 
 }
