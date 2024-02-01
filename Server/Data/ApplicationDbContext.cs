@@ -26,6 +26,7 @@ namespace SellSwap.Server.Data
         public DbSet<ListingType> ListingType { get; set; }
         public DbSet<Offer> Offers { get; set; }
         public DbSet<Account> Users { get; set; }
+        public DbSet<ChatMessage> ChatMessages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SellSwap.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class swapseeds : Migration
+    public partial class newdb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -68,6 +68,25 @@ namespace SellSwap.Server.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ChatMessages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Sender = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Reciver = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Message = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Timestamp = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ChatMessages", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -423,9 +442,9 @@ namespace SellSwap.Server.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "3781efa7-66dc-47f0-860f-e506d04102e4", 0, "dd8cc2dd-2798-417f-a658-48f8298f894f", "admin@localhost.com", false, "Admin", "User", false, null, "ADMIN@LOCALHOST.COM", "ADMIN@LOCALHOST.COM", "AQAAAAIAAYagAAAAEICXePEnr0AjethXIAtaEVkzJ7I1f9IresMGHezRjHDlQ0Cx22+V8rT7Vu5ympbecQ==", null, false, "63e2458d-0a7e-42a1-9768-7240218a5efd", false, "admin@localhost.com" },
-                    { "673b6b78-250e-422e-9e4c-bae4bb50db41", 0, "b401c5ac-c76e-48ee-8bc7-ad24b8f4399f", "ggwp@gmail.com", false, "Tom", "Tan", false, null, "GGWP@GMAIL.COM", "GGWP@GMAIL.COM", "AQAAAAIAAYagAAAAEC/xMJo32+btCvuW22fouTdXp3rhDeWuXwl7E3P7irgwX9RGYfpHJHN31ZTtINqHmQ==", null, false, "0f5bc5fa-807b-4405-bcd6-88d426643a6a", false, "ggwp@gmail.com" },
-                    { "c3a0c046-d1b0-4607-a5d9-78b32026709c", 0, "d7961491-f89d-4077-ab4e-3d3085cdddf8", "staff@gmail.com", false, "Mary", "Tan", false, null, "STAFF@GMAIL.COM", "STAFF@GMAIL.COM", "AQAAAAIAAYagAAAAEJc2Nh8qvoquGqOWlJR1gVQun4iBSegFkToLb+sZW6mLoDSH+O8bywNMbjuoCQlxDQ==", null, false, "b441c047-8f8f-4d31-ada4-8f6f0b6f7470", false, "staff@gmail.com" }
+                    { "3781efa7-66dc-47f0-860f-e506d04102e4", 0, "69787528-2dce-427c-9d06-d8d3f1d1e657", "admin@localhost.com", false, "Admin", "User", false, null, "ADMIN@LOCALHOST.COM", "ADMIN@LOCALHOST.COM", "AQAAAAIAAYagAAAAEJlO1regKJEIYTcd5Am3oEZGmG9WnoEBmp9jupOJ3xrobX2ZdOLGXSJ82IzrgysXpg==", null, false, "18a67404-ec5c-4b20-97ba-7ed9afe732c4", false, "admin@localhost.com" },
+                    { "673b6b78-250e-422e-9e4c-bae4bb50db41", 0, "eb3b15bf-6089-42b7-8dd4-5701d7011de1", "ggwp@gmail.com", false, "Tom", "Tan", false, null, "GGWP@GMAIL.COM", "GGWP@GMAIL.COM", "AQAAAAIAAYagAAAAEK3r0yf6TSO3WPYgxH6sS+AV9UTMhN6t/ou2W/UQfBeLXeu6ThbjQPA1kKSh7t5e7Q==", null, false, "348c8b06-cb82-4b3d-92ad-29afc0b34366", false, "ggwp@gmail.com" },
+                    { "c3a0c046-d1b0-4607-a5d9-78b32026709c", 0, "1eee2dba-20e0-4948-886d-5a3bbdda4d50", "staff@gmail.com", false, "Mary", "Tan", false, null, "STAFF@GMAIL.COM", "STAFF@GMAIL.COM", "AQAAAAIAAYagAAAAEJoq1P7PFfMS8sSFbR1qXC1fOdzG36dNpyuCMczsRKgnqC0RY4XexJpRbCBPv7XVgQ==", null, false, "8dc7077d-6e75-449c-9f8d-d79571e18a41", false, "staff@gmail.com" }
                 });
 
             migrationBuilder.InsertData(
@@ -433,15 +452,15 @@ namespace SellSwap.Server.Migrations
                 columns: new[] { "Id", "CreatedBy", "DateCreated", "DateUpdated", "Name" },
                 values: new object[,]
                 {
-                    { 1, "System", new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(6793), new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(6794), "Phone" },
-                    { 2, "System", new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(6796), new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(6796), "Figure" },
-                    { 3, "System", new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(6798), new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(6798), "Electronics" },
-                    { 4, "System", new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(6799), new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(6799), "Furniture" },
-                    { 5, "System", new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(6800), new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(6801), "Clothing & Accessories" },
-                    { 6, "System", new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(6802), new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(6803), "Home & Garden" },
-                    { 7, "System", new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(6804), new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(6804), "Books & Media" },
-                    { 8, "System", new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(6805), new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(6806), "Sports & Outdoors" },
-                    { 9, "System", new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(6807), new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(6807), "Toys & Games" }
+                    { 1, "System", new DateTime(2024, 2, 1, 11, 56, 31, 967, DateTimeKind.Local).AddTicks(9527), new DateTime(2024, 2, 1, 11, 56, 31, 967, DateTimeKind.Local).AddTicks(9528), "Phone" },
+                    { 2, "System", new DateTime(2024, 2, 1, 11, 56, 31, 967, DateTimeKind.Local).AddTicks(9531), new DateTime(2024, 2, 1, 11, 56, 31, 967, DateTimeKind.Local).AddTicks(9532), "Figure" },
+                    { 3, "System", new DateTime(2024, 2, 1, 11, 56, 31, 967, DateTimeKind.Local).AddTicks(9539), new DateTime(2024, 2, 1, 11, 56, 31, 967, DateTimeKind.Local).AddTicks(9540), "Electronics" },
+                    { 4, "System", new DateTime(2024, 2, 1, 11, 56, 31, 967, DateTimeKind.Local).AddTicks(9541), new DateTime(2024, 2, 1, 11, 56, 31, 967, DateTimeKind.Local).AddTicks(9553), "Furniture" },
+                    { 5, "System", new DateTime(2024, 2, 1, 11, 56, 31, 967, DateTimeKind.Local).AddTicks(9572), new DateTime(2024, 2, 1, 11, 56, 31, 967, DateTimeKind.Local).AddTicks(9573), "Clothing & Accessories" },
+                    { 6, "System", new DateTime(2024, 2, 1, 11, 56, 31, 967, DateTimeKind.Local).AddTicks(9575), new DateTime(2024, 2, 1, 11, 56, 31, 967, DateTimeKind.Local).AddTicks(9575), "Home & Garden" },
+                    { 7, "System", new DateTime(2024, 2, 1, 11, 56, 31, 967, DateTimeKind.Local).AddTicks(9577), new DateTime(2024, 2, 1, 11, 56, 31, 967, DateTimeKind.Local).AddTicks(9577), "Books & Media" },
+                    { 8, "System", new DateTime(2024, 2, 1, 11, 56, 31, 967, DateTimeKind.Local).AddTicks(9579), new DateTime(2024, 2, 1, 11, 56, 31, 967, DateTimeKind.Local).AddTicks(9579), "Sports & Outdoors" },
+                    { 9, "System", new DateTime(2024, 2, 1, 11, 56, 31, 967, DateTimeKind.Local).AddTicks(9581), new DateTime(2024, 2, 1, 11, 56, 31, 967, DateTimeKind.Local).AddTicks(9581), "Toys & Games" }
                 });
 
             migrationBuilder.InsertData(
@@ -449,9 +468,9 @@ namespace SellSwap.Server.Migrations
                 columns: new[] { "Id", "CreatedBy", "DateCreated", "DateUpdated", "Name" },
                 values: new object[,]
                 {
-                    { 1, "System", new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(7169), new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(7170), "New" },
-                    { 2, "System", new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(7172), new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(7172), "Well Used" },
-                    { 3, "System", new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(7173), new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(7174), "Damaged" }
+                    { 1, "System", new DateTime(2024, 2, 1, 11, 56, 31, 967, DateTimeKind.Local).AddTicks(9841), new DateTime(2024, 2, 1, 11, 56, 31, 967, DateTimeKind.Local).AddTicks(9842), "New" },
+                    { 2, "System", new DateTime(2024, 2, 1, 11, 56, 31, 967, DateTimeKind.Local).AddTicks(9844), new DateTime(2024, 2, 1, 11, 56, 31, 967, DateTimeKind.Local).AddTicks(9845), "Well Used" },
+                    { 3, "System", new DateTime(2024, 2, 1, 11, 56, 31, 967, DateTimeKind.Local).AddTicks(9846), new DateTime(2024, 2, 1, 11, 56, 31, 967, DateTimeKind.Local).AddTicks(9847), "Damaged" }
                 });
 
             migrationBuilder.InsertData(
@@ -459,8 +478,8 @@ namespace SellSwap.Server.Migrations
                 columns: new[] { "Id", "CreatedBy", "DateCreated", "DateUpdated", "Name" },
                 values: new object[,]
                 {
-                    { 1, "System", new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(7625), new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(7626), "Avaliable" },
-                    { 2, "System", new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(7627), new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(7628), "Sold" }
+                    { 1, "System", new DateTime(2024, 2, 1, 11, 56, 31, 968, DateTimeKind.Local).AddTicks(403), new DateTime(2024, 2, 1, 11, 56, 31, 968, DateTimeKind.Local).AddTicks(404), "Avaliable" },
+                    { 2, "System", new DateTime(2024, 2, 1, 11, 56, 31, 968, DateTimeKind.Local).AddTicks(406), new DateTime(2024, 2, 1, 11, 56, 31, 968, DateTimeKind.Local).AddTicks(407), "Sold" }
                 });
 
             migrationBuilder.InsertData(
@@ -468,9 +487,9 @@ namespace SellSwap.Server.Migrations
                 columns: new[] { "Id", "CreatedBy", "DateCreated", "DateUpdated", "Name" },
                 values: new object[,]
                 {
-                    { 1, "System", new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(7409), new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(7410), "Sell" },
-                    { 2, "System", new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(7411), new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(7412), "Swap" },
-                    { 3, "System", new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(7413), new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(7413), "Sell and Swap" }
+                    { 1, "System", new DateTime(2024, 2, 1, 11, 56, 31, 968, DateTimeKind.Local).AddTicks(103), new DateTime(2024, 2, 1, 11, 56, 31, 968, DateTimeKind.Local).AddTicks(104), "Sell" },
+                    { 2, "System", new DateTime(2024, 2, 1, 11, 56, 31, 968, DateTimeKind.Local).AddTicks(106), new DateTime(2024, 2, 1, 11, 56, 31, 968, DateTimeKind.Local).AddTicks(107), "Swap" },
+                    { 3, "System", new DateTime(2024, 2, 1, 11, 56, 31, 968, DateTimeKind.Local).AddTicks(108), new DateTime(2024, 2, 1, 11, 56, 31, 968, DateTimeKind.Local).AddTicks(109), "Sell and Swap" }
                 });
 
             migrationBuilder.InsertData(
@@ -478,17 +497,17 @@ namespace SellSwap.Server.Migrations
                 columns: new[] { "Id", "AccountId", "AccountId1", "CategoryId", "ConditionTypeId", "CreatedBy", "DateCreated", "DateUpdated", "Description", "Image", "Lister", "ListerId", "ListingStatusId", "ListingTypeId", "Name", "Price" },
                 values: new object[,]
                 {
-                    { 1, null, null, 1, 2, "System", new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(6224), new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(6239), "well used without a scratch", "/images/iphone-15-finish-select-202309-6-1inch-black.jpg", null, null, 1, 1, "Iphone", 1200.0 },
-                    { 2, null, null, 1, 1, "System", new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(6243), new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(6243), "well used without a scratch", "/images/vn-11134207-7r98o-ll5dstlhxsjad9_880302e6f6444e4189236838fbb1c647.jpg", null, null, 1, 2, "POP Mart figure", null },
-                    { 3, null, null, 3, 2, "System", new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(6247), new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(6248), "Full HD Smart TV with great picture quality", "/images/Hisense-A4-32-HD-Smart-TV.jpg", null, null, 1, 1, "Smart TV", 800.0 },
-                    { 4, null, null, 4, 3, "System", new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(6251), new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(6252), "Comfortable leather sofa in excellent condition", "/images/_mg_9210_2.jpg", null, null, 1, 2, "Leather Sofa", 500.0 },
-                    { 5, null, null, 5, 1, "System", new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(6257), new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(6257), "Stylish men's winter jacket, size XL", "/images/download.jpg", null, null, 1, 1, "Men's Winter Jacket", 80.0 },
-                    { 6, null, null, 6, 2, "System", new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(6260), new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(6261), "Outdoor table and chairs set for your garden", "/images/img_0509-edit.jpg", null, null, 1, 1, "Garden Table and Chairs", 150.0 },
-                    { 7, null, null, 7, 2, "System", new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(6264), new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(6264), "Complete set of Harry Potter books in good condition", "/images/718X1SWIsjL._AC_UF1000,1000_QL80_.jpg", null, null, 1, 2, "Harry Potter Book Set", 60.0 },
-                    { 8, null, null, 8, 3, "System", new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(6267), new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(6268), "Hardtail mountain bike with front suspension", "/images/download (1).jpg", null, null, 1, 1, "Mountain Bike", 300.0 },
-                    { 9, null, null, 1, 2, "System", new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(6271), new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(6271), "Brand new in box, never opened.", "/images/81IWsqrVMTL._AC_UF894,1000_QL80_.jpg", null, null, 1, 2, "Samsung Galaxy S21", 899.99000000000001 },
-                    { 10, null, null, 9, 1, "System", new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(6274), new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(6274), "Complete set with original box.", "/images/81kmuPJ9IOL.jpg", null, null, 1, 2, "Lego Star Wars Millennium Falcon", null },
-                    { 11, null, null, 3, 3, "System", new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(6277), new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(6278), "Used but in excellent condition.", "/images/amazon_echo_dot_3__echo_dot_3r_1610044909_d1b25298_progressive.jpg", null, null, 1, 1, "Amazon Echo Dot (3rd Gen)", 30.0 }
+                    { 1, null, null, 1, 2, "System", new DateTime(2024, 2, 1, 11, 56, 31, 967, DateTimeKind.Local).AddTicks(8891), new DateTime(2024, 2, 1, 11, 56, 31, 967, DateTimeKind.Local).AddTicks(8910), "well used without a scratch", "/images/iphone-15-finish-select-202309-6-1inch-black.jpg", null, null, 1, 1, "Iphone", 1200.0 },
+                    { 2, null, null, 1, 1, "System", new DateTime(2024, 2, 1, 11, 56, 31, 967, DateTimeKind.Local).AddTicks(8916), new DateTime(2024, 2, 1, 11, 56, 31, 967, DateTimeKind.Local).AddTicks(8916), "well used without a scratch", "/images/vn-11134207-7r98o-ll5dstlhxsjad9_880302e6f6444e4189236838fbb1c647.jpg", null, null, 1, 2, "POP Mart figure", null },
+                    { 3, null, null, 3, 2, "System", new DateTime(2024, 2, 1, 11, 56, 31, 967, DateTimeKind.Local).AddTicks(8920), new DateTime(2024, 2, 1, 11, 56, 31, 967, DateTimeKind.Local).AddTicks(8921), "Full HD Smart TV with great picture quality", "/images/Hisense-A4-32-HD-Smart-TV.jpg", null, null, 1, 1, "Smart TV", 800.0 },
+                    { 4, null, null, 4, 3, "System", new DateTime(2024, 2, 1, 11, 56, 31, 967, DateTimeKind.Local).AddTicks(8924), new DateTime(2024, 2, 1, 11, 56, 31, 967, DateTimeKind.Local).AddTicks(8925), "Comfortable leather sofa in excellent condition", "/images/_mg_9210_2.jpg", null, null, 1, 2, "Leather Sofa", 500.0 },
+                    { 5, null, null, 5, 1, "System", new DateTime(2024, 2, 1, 11, 56, 31, 967, DateTimeKind.Local).AddTicks(8928), new DateTime(2024, 2, 1, 11, 56, 31, 967, DateTimeKind.Local).AddTicks(8928), "Stylish men's winter jacket, size XL", "/images/download.jpg", null, null, 1, 1, "Men's Winter Jacket", 80.0 },
+                    { 6, null, null, 6, 2, "System", new DateTime(2024, 2, 1, 11, 56, 31, 967, DateTimeKind.Local).AddTicks(8931), new DateTime(2024, 2, 1, 11, 56, 31, 967, DateTimeKind.Local).AddTicks(8932), "Outdoor table and chairs set for your garden", "/images/img_0509-edit.jpg", null, null, 1, 1, "Garden Table and Chairs", 150.0 },
+                    { 7, null, null, 7, 2, "System", new DateTime(2024, 2, 1, 11, 56, 31, 967, DateTimeKind.Local).AddTicks(8935), new DateTime(2024, 2, 1, 11, 56, 31, 967, DateTimeKind.Local).AddTicks(8936), "Complete set of Harry Potter books in good condition", "/images/718X1SWIsjL._AC_UF1000,1000_QL80_.jpg", null, null, 1, 2, "Harry Potter Book Set", 60.0 },
+                    { 8, null, null, 8, 3, "System", new DateTime(2024, 2, 1, 11, 56, 31, 967, DateTimeKind.Local).AddTicks(8939), new DateTime(2024, 2, 1, 11, 56, 31, 967, DateTimeKind.Local).AddTicks(8940), "Hardtail mountain bike with front suspension", "/images/download (1).jpg", null, null, 1, 1, "Mountain Bike", 300.0 },
+                    { 9, null, null, 1, 2, "System", new DateTime(2024, 2, 1, 11, 56, 31, 967, DateTimeKind.Local).AddTicks(8943), new DateTime(2024, 2, 1, 11, 56, 31, 967, DateTimeKind.Local).AddTicks(8943), "Brand new in box, never opened.", "/images/81IWsqrVMTL._AC_UF894,1000_QL80_.jpg", null, null, 1, 2, "Samsung Galaxy S21", 899.99000000000001 },
+                    { 10, null, null, 9, 1, "System", new DateTime(2024, 2, 1, 11, 56, 31, 967, DateTimeKind.Local).AddTicks(8946), new DateTime(2024, 2, 1, 11, 56, 31, 967, DateTimeKind.Local).AddTicks(8947), "Complete set with original box.", "/images/81kmuPJ9IOL.jpg", null, null, 1, 2, "Lego Star Wars Millennium Falcon", null },
+                    { 11, null, null, 3, 3, "System", new DateTime(2024, 2, 1, 11, 56, 31, 967, DateTimeKind.Local).AddTicks(8950), new DateTime(2024, 2, 1, 11, 56, 31, 967, DateTimeKind.Local).AddTicks(8951), "Used but in excellent condition.", "/images/amazon_echo_dot_3__echo_dot_3r_1610044909_d1b25298_progressive.jpg", null, null, 1, 1, "Amazon Echo Dot (3rd Gen)", 30.0 }
                 });
 
             migrationBuilder.InsertData(
@@ -496,9 +515,9 @@ namespace SellSwap.Server.Migrations
                 columns: new[] { "Id", "AccountId", "Buyer", "BuyerId", "CreatedBy", "DateCreated", "DateUpdated", "Description", "ListingId", "Price", "Reason", "Status" },
                 values: new object[,]
                 {
-                    { 1, null, null, null, "System", new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(7919), new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(7924), "", 1, 10, null, "Pending" },
-                    { 2, null, null, null, "System", new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(7926), new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(7927), "Really like it", 1, 100, null, "Pending" },
-                    { 3, null, null, null, "System", new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(7929), new DateTime(2024, 1, 31, 19, 26, 36, 138, DateTimeKind.Local).AddTicks(7929), "Really like it", 2, null, null, "Pending" }
+                    { 1, null, null, null, "System", new DateTime(2024, 2, 1, 11, 56, 31, 968, DateTimeKind.Local).AddTicks(630), new DateTime(2024, 2, 1, 11, 56, 31, 968, DateTimeKind.Local).AddTicks(631), "", 1, 10, null, "Pending" },
+                    { 2, null, null, null, "System", new DateTime(2024, 2, 1, 11, 56, 31, 968, DateTimeKind.Local).AddTicks(634), new DateTime(2024, 2, 1, 11, 56, 31, 968, DateTimeKind.Local).AddTicks(634), "Really like it", 1, 100, null, "Pending" },
+                    { 3, null, null, null, "System", new DateTime(2024, 2, 1, 11, 56, 31, 968, DateTimeKind.Local).AddTicks(637), new DateTime(2024, 2, 1, 11, 56, 31, 968, DateTimeKind.Local).AddTicks(637), "Really like it", 2, null, null, "Pending" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -639,6 +658,9 @@ namespace SellSwap.Server.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "ChatMessages");
 
             migrationBuilder.DropTable(
                 name: "DeviceCodes");

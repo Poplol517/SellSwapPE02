@@ -1,0 +1,69 @@
+﻿@page "/globalchat"
+@inject HttpClient _client
+@inject IJSRuntime js
+@inject AuthenticationStateProvider _authStateProvider
+@attribute [Authorize]
+
+<h3 class="card-title">Let's Connect!</h3>
+<br />
+
+<div>
+    @if (ChatMessages != null)
+    {
+        <ul id="chatMessages">
+        <textarea style="width: 100%; height: 500px;" @ref="TextAreaRef">
+            @foreach (var message in ChatMessages)
+            {
+                    @($"{message.Sender}: {message.Message}\n")
+            }
+          </textarea>
+        </ul>
+    }
+</div>
+
+ <div>
+     @*<textarea style="width: 100%; height: 500px;" @ref="TextAreaRef">
+        @message.Sender: @message.Message
+     </textarea>  *@
+@*     <textarea id="messageInput" rows="3" cols="40"></textarea> *@
+    <InputText @bind-Value="chatmessage.Message" class="form-control" />
+@*     <ValidationMessage For="@(() => chatmessage.Message)" />  *@
+    <button @onclick="SendMessage">Send Message</button>
+</div>
+
+@code {
+    ChatMessage chatmessage = new ChatMessage();
+    private IList<ChatMessage> ChatMessages; // Initialize as an empty list
+    private string currentUser;
+    ElementReference TextAreaRef;
+
+    protected async override Task OnInitializedAsync()
+    {
+        // for sender
+        var authState = await _authStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        // for the filtering of action that can be done by different users
+        currentUser = user.Identity.Name;
+        chatmessage.Sender = currentUser;
+        ChatMessages = await _client.GetFromJsonAsync<List<ChatMessage>>($"{Endpoints.ChatMessagesEndpoint}");
+    }
+
+
+    private async Task SendMessage()
+    {
+        // Set the sender and timestamp for the new message
+        chatmessage.Sender = currentUser;
+        chatmessage.Timestamp = DateTime.Now;
+
+        // Send the message to the server by calling the CreateMessage method
+        await _client.PostAsJsonAsync(Endpoints.ChatMessagesEndpoint, chatmessage);
+
+        // Clear the InputText box by resetting the chatmessage object
+        chatmessage = new ChatMessage();
+
+        // Update the chat messages
+        ChatMessages = await _client.GetFromJsonAsync<List<ChatMessage>>($"{Endpoints.ChatMessagesEndpoint}");
+    }
+}
+
+
