@@ -40,7 +40,7 @@ namespace SellSwap.Server.Configurations.Entities
                     ConditionTypeId = 1,
                     Description = "well used without a scratch",
                     Price = null,
-                    CategoryId = 1,
+                    CategoryId = 2,
                     AccountId = null,
                     ListingStatusId = 1, //Avaliable
                     ListingTypeId = 2, //Swap
