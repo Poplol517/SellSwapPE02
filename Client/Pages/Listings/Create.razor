@@ -44,7 +44,10 @@
         Console.WriteLine($"Lister: {listing.Lister}");
         Console.WriteLine($"ListerId: {listing.ListerId}");
         listing.ListingStatusId = 1;
-
+        if (string.IsNullOrEmpty(listing.Image))
+        {
+            listing.Image = "/images/noimage.jpg";
+        }
         await _client.PostAsJsonAsync(Endpoints.ListingsEndpoint, listing);
         _navManager.NavigateTo("/buy/");
     }
