@@ -1,59 +1,83 @@
-﻿@page "/chat"
+﻿@page "/buy/chat/{id:int}"
 @inject HttpClient _client
 @inject IJSRuntime js
 @inject AuthenticationStateProvider _authStateProvider
 @attribute [Authorize]
 
-<h3 class="card-title">Let's Connect!</h3>
+<h3 class="card-title">Chat</h3>
 <br />
 
 <div>
     @if (ChatMessages != null)
     {
         <ul id="chatMessages">
-        <textarea style="width: 100%; height: 500px;" @ref="TextAreaRef">
-            @foreach (var message in ChatMessages)
-            {
-                    @($"{message.Sender}: {message.Message}\n")
-            }
-          </textarea>
+            <textarea style="width: 100%; height: 500px;" @ref="TextAreaRef">
+                @foreach (var message in ChatMessages
+                 .Where(m => (m.Sender == currentUser && m.Reciver == listing.Lister) || (m.Sender == listing.Lister && m.Reciver == currentUser))
+                 .OrderBy(m => m.Timestamp))
+                {
+                    var sender = GetDisplayName(message.Sender);
+                    var receiver = GetDisplayName(message.Reciver);
+
+                    @($"{sender}: {message.Message}\n")
+                }
+                </textarea>
         </ul>
     }
 </div>
 
- <div>
-     @*<textarea style="width: 100%; height: 500px;" @ref="TextAreaRef">
-        @message.Sender: @message.Message
-     </textarea>  *@
-@*     <textarea id="messageInput" rows="3" cols="40"></textarea> *@
+<div>
     <InputText @bind-Value="chatmessage.Message" class="form-control" />
-@*     <ValidationMessage For="@(() => chatmessage.Message)" />  *@
     <button @onclick="SendMessage">Send Message</button>
 </div>
 
 @code {
+    [Parameter] public int id { get; set; }
     ChatMessage chatmessage = new ChatMessage();
+    Listing listing = new Listing(); // Change to non-nullable Listing
     private IList<ChatMessage> ChatMessages; // Initialize as an empty list
     private string currentUser;
+    private string originalSender;
     ElementReference TextAreaRef;
 
     protected async override Task OnInitializedAsync()
     {
-        // for sender
         var authState = await _authStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
-        // for the filtering of action that can be done by different users
         currentUser = user.Identity.Name;
-        chatmessage.Sender = currentUser;
+        originalSender = currentUser;
         ChatMessages = await _client.GetFromJsonAsync<List<ChatMessage>>($"{Endpoints.ChatMessagesEndpoint}");
     }
 
+    protected async override Task OnParametersSetAsync()
+    {
+        try
+        {
+            // Ensure that the id parameter is being passed correctly
+            listing = await _client.GetFromJsonAsync<Listing>($"{Endpoints.ListingsEndpoint}/{id}");
+        }
+        catch (Exception ex)
+        {
+            // Handle the exception, log it, or display an error message
+            Console.WriteLine($"Error fetching Listing: {ex.Message}");
+        }
+    }
 
     private async Task SendMessage()
     {
-        // Set the sender and timestamp for the new message
+        // Set the sender, recipient, timestamp, and listingId for the new message
         chatmessage.Sender = currentUser;
+        chatmessage.Reciver = listing.Lister;
         chatmessage.Timestamp = DateTime.Now;
+        chatmessage.ListingId = listing.Id;
+
+        // Check if it's the first message in the conversation
+        if (ChatMessages.All(m => m.Sender != currentUser && m.Reciver != listing.Lister))
+        {
+            // Swap the roles for the first message
+            chatmessage.Sender = listing.Lister;
+            chatmessage.Reciver = currentUser;
+        }
 
         // Send the message to the server by calling the CreateMessage method
         await _client.PostAsJsonAsync(Endpoints.ChatMessagesEndpoint, chatmessage);
@@ -64,6 +88,9 @@
         // Update the chat messages
         ChatMessages = await _client.GetFromJsonAsync<List<ChatMessage>>($"{Endpoints.ChatMessagesEndpoint}");
     }
+
+    private string GetDisplayName(string username)
+    {
+        return (username == currentUser) ? "You" : (username == listing.Lister) ? listing.Lister : "Other User";
+    }
 }
-
-
