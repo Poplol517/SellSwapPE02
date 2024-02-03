@@ -74,5 +74,6 @@
 
         // Update the chat messages for the current conversation
         ChatMessages = await _client.GetFromJsonAsync<List<ChatMessage>>($"{Endpoints.ChatMessagesEndpoint}?conversationId={id}");
+
     }
 }

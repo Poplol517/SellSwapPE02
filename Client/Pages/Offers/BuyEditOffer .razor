@@ -1,0 +1,32 @@
+﻿@page "/offers/buyedit/{id:int}"  
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3>Edit</h3>
+<BuyFormComponent ButtonText="Update" OnValidSubmit="EditBuyOffer" offer="offer" />
+@code {
+    [Parameter] public int id { get; set; }
+    Offer? offer = new Offer();
+    protected async override Task OnParametersSetAsync()
+    {
+        try
+        {
+            offer = await _client.GetFromJsonAsync<Offer>($"{Endpoints.OffersEndpoint}/{id}");
+            if (offer == null)
+            {
+                
+                _navManager.NavigateTo("/404");
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            
+            Console.WriteLine($"Exception: {ex.Message}");
+        }
+    }
+    async Task EditBuyOffer()
+    {
+        await _client.PutAsJsonAsync($"{Endpoints.OffersEndpoint}/{id}",offer);
+        _navManager.NavigateTo("offers");
+    }
+}

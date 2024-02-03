@@ -1,0 +1,102 @@
+﻿@* Index Page for listings *@
+@page "/Conversations/"
+@using CurrieTechnologies.Razor.SweetAlert2;
+
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+@implements IDisposable
+@inject NavigationManager _navManager
+@inject SweetAlertService swal
+@inject AuthenticationStateProvider _authStateProvider
+
+<h3 class="card-title">Chats</h3>
+<br />
+@* <a href="/listings/create" class="btn btn-secondary">
+    <span class="oi oi-plus"></span>
+    Create New Listing
+</a>
+<br />
+<br /> *@
+@if (Conversations == null)
+{
+    <div class="alert alert-info">Loading Conversationss. . .</div>
+}
+else
+{
+    <table class="table table-responsive" id="buylistingsTable">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Listing</th>
+                <th>Lister</th>
+                <th>Buyer</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var conversation in Conversations)
+            {
+                if (conversation.User1==currentUser || conversation.User2==currentUser)
+                {
+                    <tr>
+                        <td><img src="@conversation.Listing.Image" alt="Listing Image" style="max-width: 100px; max-height: 100px;" /></td>
+                        <td>@conversation.Listing.Name</td>
+                        <td>@conversation.User2</td>
+                        <td>@conversation.User1</td>
+
+                            <td>
+                                <a href="/conversations/@conversation.Id" class="btn btn-primary">
+                                    <span class="oi oi-book"></span>
+                                </a>
+                            </td>
+                    </tr>
+
+
+                }
+                else
+                {
+                    <div class="alert alert-info">Loading Listings. . .</div>
+                }
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    Conversation conversation = new Conversation();
+    private IList<Conversation>? Conversations;
+    private string currentUser;
+
+    protected async override Task OnInitializedAsync()
+    {
+        var authState = await _authStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        //for the filtering of action that can be done by different users
+        currentUser = user.Identity.Name;
+        Conversations = await _client.GetFromJsonAsync<List<Conversation>>($"{Endpoints.ConversationsEndpoint}");
+    }
+
+    
+
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        await js.InvokeVoidAsync("AddDataTable", "#buylistingsTable");
+    }
+
+    public void Dispose()
+    {
+        js.InvokeVoidAsync("DataTablesDispose", "#buylistingsTable");
+    }
+
+    private async Task<string> GetUserName()
+    {
+        var authState = await _authStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        return user.Identity?.Name ?? "Unknown";
+    }
+
+
+
+}

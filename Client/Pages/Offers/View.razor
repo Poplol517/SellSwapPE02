@@ -2,6 +2,7 @@
 @inject HttpClient _client
 @inject IJSRuntime js
 @inject NavigationManager _navManager
+@inject AuthenticationStateProvider _authStateProvider
 @inject SweetAlertService swal
 <h3>View</h3>
 
@@ -22,8 +23,9 @@
             <p>Lisited Price:@offer.Listing.Price</p>
             <p>Offered Price:@offer.Price</p>
         }
+        if (offer.Listing.Lister==currentUser){
         <button @onclick="() => Approve(offer.Id)">Approve</button>
-        <button @onclick="() => Reject(offer.Id)">Reject</button>
+        <button @onclick="() => Reject(offer.Id)">Reject</button>}
     }
 }
 else
@@ -39,8 +41,12 @@ else
 
     private List<Offer>? Offers;
     Offer? offers = new Offer();
+    private string currentUser;
     protected async override Task OnInitializedAsync()
     {
+        var authState = await _authStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        currentUser = user.Identity.Name;
         Offers = await _client.GetFromJsonAsync<List<Offer>>($"{Endpoints.OffersEndpoint}");
 
     }

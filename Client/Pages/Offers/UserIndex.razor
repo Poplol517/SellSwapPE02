@@ -28,6 +28,7 @@ else
                 <th>Listing Type</th>
                 <th>Offer Status</th>
                 <th>Offered By</th>
+                <th>Offered To</th>
                 @* <th>Condition Type</th> *@
                 <th>Actions</th>
 
@@ -36,10 +37,9 @@ else
         <tbody>
             @foreach (var offer in Offers)
             {
-                if (offer.Listing.ListingStatusId != 2)
+                if (offer.Listing.ListingStatusId != 2 && offer.Buyer==currentUser || offer.Listing.Lister==currentUser && offer.Status=="Pending")
                 {
-                    @if (offer.Buyer == currentUser)
-                    {
+                   
                         <tr>
                             @*  <td>@offer.accountid.name</td> *@
                             <td>@offer.Listing?.Name</td>
@@ -57,51 +57,40 @@ else
                             <td>@offer.Listing?.ListingType.Name</td>
                             <td>@offer.Status</td>
                             <td>@offer.Buyer</td>
+                            <td>@offer.Listing.Lister</td>
+                        @if (offer.Buyer == currentUser)
+                        {
                             <td>
                                 <a href="/offers/view/@offer.Id" class="btn btn-primary">
                                     <span class="oi oi-book"></span>
                                 </a>
-                                <a href="/listing/edit/@offer.Id" class="btn btn-warning">
-                                    <span class="oi oi-pencil"></span>
-                                </a>
-                                <button class="btn btn-success" @onclick="@(()=>Delete(offer.Id))">
-                                    <span class="oi oi-tick"></span>
-                                </button>
-                            </td>
-                        </tr>
-                    }
-                    else
-                    {
-                        <tr>
-                            @*  <td>@offer.AccountId.Name</td> *@
-                            <td>@offer.Listing?.Name</td>
-                            <td>@offer.Description</td>
-                            <td>
-                                @if (offer.Listing.ListingType.Name != "Swap")
+                                @if (offer.Listing.ListingTypeId== 1)
                                 {
-                                    @offer.Price
+                                    <a href="/offers/buyedit/@offer.Id" class="btn btn-warning">
+                                        <span class="oi oi-pencil"></span>
+                                    </a>
                                 }
                                 else
                                 {
-                                    <text>Not Applicable</text>
+                                    <a href="/offers/swapedit/@offer.Id" class="btn btn-warning">
+                                        <span class="oi oi-pencil"></span>
+                                    </a>
                                 }
+                                <button class="btn btn-danger" @onclick="@(()=>Delete(offer.Id))">
+                                    <span class="oi oi-delete"></span>
+                                </button>
                             </td>
-                            <td>@offer.Listing?.ListingType.Name</td>
-                            <td>@offer.Status</td>
-                            <td>@offer.Buyer</td>
-                            <td>
-                                <a href="/offers/view/@offer.Id" class="btn btn-primary">
-                                    <span class="oi oi-book"></span>
-                                </a>
-                                @*                                 <a href="/listing/edit/@offer.Id" class="btn btn-warning">
-                <span class="oi oi-pencil"></span>
-                </a>
-                <button class="btn btn-success" @onclick="@(()=>Delete(offer.Id))">
-                <span class="oi oi-tick"></span>
-                </button> *@
-                            </td>
-                        </tr>
+                        
                     }
+                    else
+                    {
+                        <td>
+                            <a href="/offers/view/@offer.Id" class="btn btn-primary">
+                                <span class="oi oi-book"></span>
+                            </a>
+                        </td>
+                    }
+                    </tr>
                 }
                 else
                 {

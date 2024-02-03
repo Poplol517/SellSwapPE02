@@ -155,6 +155,12 @@ else
 
     private async Task FavouriteItem(int listingId)
     {
+        swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Success",
+                Text = "The listing has been added to favourite",
+                Icon = SweetAlertIcon.Success,
+            });
 
         favourite.ListingId = listingId;
 
