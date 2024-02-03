@@ -80,9 +80,9 @@ else
                                 <a href="/listings/offer/@listing.Id" class="btn btn-info">
                                     <span class="oi oi-pencil"></span>
                                 </a>
-                                <a href="/buy/chat/@listing.Id" class="btn btn-info">
-                                    <span class="oi oi-chat-dots"></span>
-                                </a>
+                                <button class="btn btn-outline-success" @onclick="@(()=>CreateConversation(listing.Id))">
+                                    <span class="oi oi-comment-square"></span> 
+                                </button>
                                 <button class="btn btn-outline-warning" @onclick="@(()=>FavouriteItem(listing.Id))">
                                     <span class="oi oi-star"></span>
                                 </button>
@@ -103,6 +103,7 @@ else
 
 @code {
     Favourite favourite = new Favourite();
+    Conversation conversation = new Conversation();
     private IList<Listing>? Listings;
     private string currentUser;
 
@@ -149,9 +150,12 @@ else
         }
     }
 
+
+
+
     private async Task FavouriteItem(int listingId)
     {
-        // Initialize the Favourite object with the necessary data
+
         favourite.ListingId = listingId;
 
         // Get the user's ID or any other required information
@@ -160,11 +164,54 @@ else
         var userIdClaim = user.FindFirst("sub");
         favourite.AccountId = userIdClaim.Value;
 
-        // Send the POST request to mark the listing as a favorite
+
         await _client.PostAsJsonAsync(Endpoints.FavouritesEndpoint, favourite);
 
         _navManager.NavigateTo("/buy/");
     }
+
+    private async Task CreateConversation(int listingId)
+    {
+        var authState = await _authStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        // Assuming you have a Conversation model
+        var existingConversation = await GetExistingConversation(user.Identity.Name, Listings.First(l => l.Id == listingId)?.Lister, listingId);
+
+        if (existingConversation != null)
+        {
+            // Navigate to the existing conversation
+            _navManager.NavigateTo($"/conversations/{existingConversation.Id}");
+        }
+        else
+        {
+            var conversation = new Conversation
+                {
+                    User1 = user.Identity.Name,
+                    User2 = Listings.First(l => l.Id == listingId)?.Lister,
+                    ListingId = listingId
+                };
+
+            await _client.PostAsJsonAsync(Endpoints.ConversationsEndpoint, conversation);
+            _navManager.NavigateTo($"/conversations/{conversation.Id}");
+        }
+    }
+
+    private async Task<Conversation?> GetExistingConversation(string user1, string user2, int listingId)
+    {
+        // Assuming you have a Conversations endpoint and a ConversationsService
+        // Adjust the endpoint and service according to your actual implementation
+
+        var conversations = await _client.GetFromJsonAsync<List<Conversation>>($"{Endpoints.ConversationsEndpoint}");
+
+        // Check if there is an existing conversation with the same participants and listingId
+        return conversations.FirstOrDefault(c =>
+            (c.User1 == user1 && c.User2 == user2 || c.User1 == user2 && c.User2 == user1) && c.ListingId == listingId);
+    }
+
+
+
+
 
     protected async override Task OnAfterRenderAsync(bool firstRender)
     {
@@ -182,5 +229,7 @@ else
         var user = authState.User;
         return user.Identity?.Name ?? "Unknown";
     }
+
+    
 
 }

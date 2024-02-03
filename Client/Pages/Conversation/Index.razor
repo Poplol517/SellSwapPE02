@@ -1,4 +1,4 @@
-﻿@page "/buy/chat/{id:int}"
+﻿@page "/conversations/{id:int}"
 @inject HttpClient _client
 @inject IJSRuntime js
 @inject AuthenticationStateProvider _authStateProvider
@@ -13,11 +13,9 @@
         <ul id="chatMessages">
             <textarea style="width: 100%; height: 500px;" @ref="TextAreaRef">
                 @foreach (var message in ChatMessages
-                 .Where(m => (m.Sender == currentUser && m.Reciver == listing.Lister) || (m.Sender == listing.Lister && m.Reciver == currentUser))
-                 .OrderBy(m => m.Timestamp))
+                   .Where(m => m.ConversationId == id))
                 {
-                    var sender = GetDisplayName(message.Sender);
-                    var receiver = GetDisplayName(message.Reciver);
+                    var sender = (message.Sender == currentUser) ? "You" : message.Sender;
 
                     @($"{sender}: {message.Message}\n")
                 }
@@ -37,7 +35,6 @@
     Listing listing = new Listing(); // Change to non-nullable Listing
     private IList<ChatMessage> ChatMessages; // Initialize as an empty list
     private string currentUser;
-    private string originalSender;
     ElementReference TextAreaRef;
 
     protected async override Task OnInitializedAsync()
@@ -45,7 +42,6 @@
         var authState = await _authStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
         currentUser = user.Identity.Name;
-        originalSender = currentUser;
         ChatMessages = await _client.GetFromJsonAsync<List<ChatMessage>>($"{Endpoints.ChatMessagesEndpoint}");
     }
 
@@ -65,19 +61,10 @@
 
     private async Task SendMessage()
     {
-        // Set the sender, recipient, timestamp, and listingId for the new message
+        // Set the sender, timestamp, and listingId for the new message
         chatmessage.Sender = currentUser;
-        chatmessage.Reciver = listing.Lister;
         chatmessage.Timestamp = DateTime.Now;
-        chatmessage.ListingId = listing.Id;
-
-        // Check if it's the first message in the conversation
-        if (ChatMessages.All(m => m.Sender != currentUser && m.Reciver != listing.Lister))
-        {
-            // Swap the roles for the first message
-            chatmessage.Sender = listing.Lister;
-            chatmessage.Reciver = currentUser;
-        }
+        chatmessage.ConversationId = id;
 
         // Send the message to the server by calling the CreateMessage method
         await _client.PostAsJsonAsync(Endpoints.ChatMessagesEndpoint, chatmessage);
@@ -85,12 +72,7 @@
         // Clear the InputText box by resetting the chatmessage object
         chatmessage = new ChatMessage();
 
-        // Update the chat messages
-        ChatMessages = await _client.GetFromJsonAsync<List<ChatMessage>>($"{Endpoints.ChatMessagesEndpoint}");
-    }
-
-    private string GetDisplayName(string username)
-    {
-        return (username == currentUser) ? "You" : (username == listing.Lister) ? listing.Lister : "Other User";
+        // Update the chat messages for the current conversation
+        ChatMessages = await _client.GetFromJsonAsync<List<ChatMessage>>($"{Endpoints.ChatMessagesEndpoint}?conversationId={id}");
     }
 }

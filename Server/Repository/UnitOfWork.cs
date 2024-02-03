@@ -26,6 +26,7 @@ namespace SellSwap.Server.Repository
         private IGenericRepository<Favourite> _favourites;
         private IGenericRepository<Category> _categories;
         private IGenericRepository<ChatMessage> _chatmessages;
+        private IGenericRepository<Conversation> _conversations;
 
         private UserManager<ApplicationUser> _userManager;
 
@@ -53,6 +54,8 @@ namespace SellSwap.Server.Repository
             => _conditiontype ??= new GenericRepository<ConditionType>(_context);
         public IGenericRepository<ListingType> ListingTypes
             => _listingtype ??= new GenericRepository<ListingType>(_context);
+        public IGenericRepository<Conversation> Conversations
+    => _conversations ??= new GenericRepository<Conversation>(_context);
 
         public void Dispose()
         {

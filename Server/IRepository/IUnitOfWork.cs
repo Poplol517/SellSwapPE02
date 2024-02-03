@@ -19,5 +19,6 @@ namespace SellSwap.Server.IRepository
         IGenericRepository<Favourite> Favourites { get; }
         IGenericRepository<Category> Categories { get; }
         IGenericRepository<ChatMessage> ChatMessages { get; }
+        IGenericRepository<Conversation> Conversations { get; }
     }
 }

@@ -9,10 +9,9 @@ namespace SellSwap.Shared.Domain
     public class ChatMessage : BaseDomainModel
     {
         public string? Sender { get; set; }
-        public string? Reciver { get; set; }
         public string? Message { get; set; }
         public DateTime? Timestamp { get; set; }
-        public int? ListingId { get; set; }
-        public virtual Listing? Listing { get; set; }
+        public int? ConversationId { get; set; }
+        public virtual Conversation? Coversation { get; set; }
     }
 }

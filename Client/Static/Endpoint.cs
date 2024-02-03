@@ -13,5 +13,6 @@
         public static readonly string UsersEndpoint = $"{Prefix}/users";
         public static readonly string FavouritesEndpoint = $"{Prefix}/favourites";
         public static readonly string AccountsEndpoint = $"{Prefix}/accounts";
+        public static readonly string ConversationsEndpoint = $"{Prefix}/conversations";
     }
 }

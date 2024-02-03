@@ -27,6 +27,7 @@ namespace SellSwap.Server.Data
         public DbSet<Offer> Offers { get; set; }
         public DbSet<Account> Users { get; set; }
         public DbSet<ChatMessage> ChatMessages { get; set; }
+        public DbSet<Conversation> Conversations { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -38,6 +39,7 @@ namespace SellSwap.Server.Data
             builder.ApplyConfiguration(new ListingStatusSeedConfiguration());
             builder.ApplyConfiguration(new OfferSeedConfiguration());
             builder.ApplyConfiguration(new UserSeedConfiguration());
+
         }
 
     }
