@@ -14,19 +14,27 @@
             listing = await _client.GetFromJsonAsync<Listing>($"{Endpoints.ListingsEndpoint}/{id}");
             if (listing == null)
             {
-                
+
                 _navManager.NavigateTo("/404");
             }
         }
         catch (HttpRequestException ex)
         {
-            
+
             Console.WriteLine($"Exception: {ex.Message}");
         }
     }
     async Task EditListing()
     {
         await _client.PutAsJsonAsync($"{Endpoints.ListingsEndpoint}/{id}",listing);
-        _navManager.NavigateTo("buy");
+        if (listing != null && listing.ListingType != null && listing.ListingType.Id != 2)
+        {
+            _navManager.NavigateTo("buy");
+        }
+        else
+        {
+            _navManager.NavigateTo("swap");
+        }
+
     }
 }

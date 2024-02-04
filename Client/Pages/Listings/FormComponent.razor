@@ -135,8 +135,17 @@
     {
         <button type="submit" class="btn btn-success btn-block">@ButtonText</button>
     }
+
+    @if (listing != null && listing.ListingType != null && listing.ListingType.Id != 2)
+    {
+        <BacktoList Target="buy" />
+    }
+    else
+    {
+        <BacktoList Target="swap" />
+    }
+
     
-    <BacktoList Target="buy" />
 </EditForm>
 @code {
     [Parameter] public bool Disabled { get; set; } = false;
