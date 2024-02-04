@@ -1,49 +1,4 @@
 ﻿
-@* @page "/categories"
-@inject HttpClient _client
-@inject NavigationManager _navManager
-
-<div class="container">
-    <h3 class="mt-4">View All Categories</h3>
-
-    <div class="row mt-4">
-        @if (Categories == null)
-        {
-            <p>Loading categories...</p>
-        }
-        else
-        {
-            @foreach (var category in Categories)
-            {
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">@category.Name</h5>
-                            <p class="card-text">Description or additional information about the category.</p>
-                            <button class="btn btn-primary" @onclick="() => ViewCategory(category.Name)">View Listings</button>
-                        </div>
-                    </div>
-                </div>
-            }
-        }   
-    </div>
-</div> 
-
-@code {
-    private List<Category> Categories;
-
-    protected override async Task OnInitializedAsync()
-    {
-        Categories = await _client.GetFromJsonAsync<List<Category>>($"{Endpoints.CategoriesEndpoint}");
-    }
-
-    private void ViewCategory(string categorySlug)
-    {
-        _navManager.NavigateTo($"/{categorySlug}");
-    }
-}
-
-*@
 @page "/categories"
 @inject HttpClient _client
 @inject NavigationManager _navManager
@@ -92,3 +47,6 @@
         _navManager.NavigateTo($"/{categorySlug}");
     }
 }
+ 
+
+

@@ -155,6 +155,8 @@ else
         _navManager.NavigateTo("/account/listings");
     }
 
+   
+   
     protected async override Task OnAfterRenderAsync(bool firstRender)
     {
         await js.InvokeVoidAsync("AddDataTable", "#buylistingsTable");
