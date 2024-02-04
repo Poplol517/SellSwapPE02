@@ -1,5 +1,8 @@
 ﻿@inject NavigationManager Navigation
+
+
 @using Microsoft.AspNetCore.Components.Web
+
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">Sell and Swap</a>
@@ -129,24 +132,32 @@
             }
         </div>
 
+         <div class="nav-item px-3">
+            <NavLink class="nav-link" @onclick="()=>expandSubMenu= !expandSubMenu">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Categories 
+            </NavLink>
+            @if (expandSubMenu)
+            {
+                <div class="nav-item px-3">
+                    <NavLink class="expand-menu" href="phone">
+                        <span class="oi oi-phone" aria-hidden="true"></span> Phones
+                    </NavLink>
+                    <NavLink class="expand-menu" href="figure">
+                        <span class="oi oi-person" aria-hidden="true"></span> Figurines
+                    </NavLink>
+                    <NavLink class="expand-menu nav-links" href="Toys & Games">
+                        <span class="oi oi-puzzle-piece" aria-hidden="true"></span> Toys & Games
+                    </NavLink>
+                    <NavLink class="expand-menu" href="categories">
+                        <span class="oi oi-list-rich" aria-hidden="true"></span> View All Categories
+                    </NavLink>
+                </div>
+            }
+        </div> 
+ 
+     
+
        
-       
-        
-        @* <div class="nav-item px-3">
-            <NavLink class="nav-link" href="offers" Match="NavLinkMatch.All">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Offers (User)
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="staff/offers" Match="NavLinkMatch.All">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Offers (Staff)
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="offers/history" Match="NavLinkMatch.All">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Offer History
-            </NavLink>
-        </div> *@
         <div class="nav-item px-3">
             <NavLink class="nav-link" @onclick="()=>expandSubMenu2= !expandSubMenu2">
                 <span class="oi oi-list-rich" aria-hidden="true"></span> Account(User)
@@ -178,7 +189,7 @@
 
 
         <div class="nav-item px-3">
-            <NavLink class="nav-link nav-links" href="staff/listing">
+            <NavLink class="nav-link" href="staff/listing">
                 <span class="oi oi-list-rich" aria-hidden="true"></span> Listing Management Page(Satff)
             </NavLink>
         </div>
@@ -216,4 +227,5 @@
     {
         Navigation.NavigateToLogout("authentication/logout", "/");
     }
+    
 }
