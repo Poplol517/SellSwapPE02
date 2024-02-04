@@ -16,7 +16,8 @@ else
     <table class="table table-responsive" id="offersTable">
         <thead>
             <tr>
-                <th>Product Name</th>
+                <th>Product</th>
+                <th>Name</th>
                 <th>Reason</th>
                 <th>Price</th>
                 <th>Offer Type</th>
@@ -29,6 +30,7 @@ else
                 if(offer.Listing.ListingStatusId==2)
                 {
                     <tr>
+                        <td><img src="@offer.Listing.Image" alt="Listing Image" style="max-width: 100px; max-height: 100px;" /></td>
                         <td>@offer.Listing.Name</td>
                         <td>@offer.Reason</td>
                         <td>@offer.Price</td>

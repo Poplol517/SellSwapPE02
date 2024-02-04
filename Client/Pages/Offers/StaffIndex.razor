@@ -20,12 +20,14 @@ else
     <table class="table table-responsive" id="offersTable">
         <thead>
             <tr>
-                <th>Product Name</th>
+                <th>Product</th>
+                <th>Name</th>
                 <th>Description</th>
                 <th>Price</th>
                 @* <th>Category</th>*@
                 <th>Listing Type</th>
                 <th>Offer Status</th>
+                <th>Offered By</th>
                 <th>Offered By</th>
                 @* <th>Condition Type</th> *@
                 <th>Actions</th>
@@ -37,6 +39,7 @@ else
             {
                     <tr>
                         @*  <td>@offer.AccountId.Name</td> *@
+                    <td><img src="@offer.Listing.Image" alt="Listing Image" style="max-width: 100px; max-height: 100px;" /></td>
                     <td>@offer.Listing?.Name</td>
                     <td>@offer.Description</td>
                     <td>
@@ -52,6 +55,7 @@ else
                     <td>@offer.Listing?.ListingType.Name</td>
                     <td>@offer.Status</td>
                     <td>@offer.Buyer</td>
+                    <td>@offer.Listing.Lister</td>
                     <td>
 @*                          <a href="/offers/view/@offer.Id" class="btn btn-primary">
                             <span class="oi oi-book"></span>
@@ -59,8 +63,8 @@ else
                         <a href="/listing/edit/@offer.Id" class="btn btn-warning">
                             <span class="oi oi-pencil"></span>
                         </a> *@
-                        <button class="btn btn-warning" @onclick="@(()=>Delete(offer.Id))" >
-                            <span class="oi oi-tick"></span>
+                        <button class="btn btn-danger" @onclick="@(()=>Delete(offer.Id))" >
+                            <span class="oi oi-delete"></span>
                         </button> 
                     </td>
                     </tr>

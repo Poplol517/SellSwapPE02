@@ -1,14 +1,10 @@
-﻿@* @page "/listings/view/{id:int}"
+﻿ @page "/listings/view/{id:int}"
 @inject HttpClient _client
 @inject NavigationManager _navManager
 
 
 <h3>View</h3>
 <FormComponent listing="listing" Disabled="true" />
-<a href="/listings/offer/{id:int}" class="btn btn-secondary">
-    <span class="oi oi-plus"></span>
-    Offer
-</a>
 <br />
 <br />
 @code {
@@ -19,39 +15,6 @@
         listing = await _client.GetFromJsonAsync<Listing>($"{Endpoints.ListingsEndpoint}/{id}");
     }
 
-} *@
+} 
 
-@page "/listings/view/{id:int}"
-@inject HttpClient _client
-@inject NavigationManager _navManager
-@inject AuthenticationStateProvider _authenticationStateProvider
 
-<h3>View</h3>
-<FormComponent listing="listing" Disabled="true" />
-@if (!IsCurrentUserLister())
-{
-    <a href="/listings/offer/{id:int}" class="btn btn-secondary">
-        <span class="oi oi-plus"></span>
-        Offer
-    </a>
-}
-<br />
-<br />
-@code {
-    [Parameter] public int id { get; set; }
-    Listing? listing = new Listing();
-
-    private bool IsCurrentUserLister()
-    {
-        var authState = _authenticationStateProvider.GetAuthenticationStateAsync().Result;
-        var user = authState.User;
-
-        // Check if the current user is the lister of the listing
-        return listing?.ListerId == user.FindFirst("sub")?.Value;
-    }
-
-    protected async override Task OnParametersSetAsync()
-    {
-        listing = await _client.GetFromJsonAsync<Listing>($"{Endpoints.ListingsEndpoint}/{id}");
-    }
-}
