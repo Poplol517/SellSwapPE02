@@ -1,5 +1,6 @@
 ﻿@inject HttpClient _client
 @inject IJSRuntime JSRuntime
+@inject NavigationManager _navManager
 
 <EditForm Model="@listing" OnValidSubmit="@OnValidSubmit">
     <DataAnnotationsValidator />
@@ -133,18 +134,12 @@
     </fieldset>
     @if (!Disabled)
     {
-        <button type="submit" class="btn btn-success btn-block">@ButtonText</button>
+        <button type="submit" class="btn btn-success btn-block" >@ButtonText</button>
     }
-
-    @if (listing != null && listing.ListingType != null && listing.ListingType.Id != 2)
-    {
-        <BacktoList Target="buy" />
-    }
-    else
-    {
-        <BacktoList Target="swap" />
-    }
-
+    
+    <button type="button" class="btn btn-secondary" @onclick="NavigateBack">
+        Back to List
+    </button>
     
 </EditForm>
 @code {
@@ -180,5 +175,28 @@
         listing.Image = imageData;
 
         Console.WriteLine(listing.Image);
+    }
+    private async Task SaveListing()
+    {
+        if (listing != null && listing.ListingTypeId != 2)
+        {
+            _navManager.NavigateTo("/buy"); 
+        }
+        else
+        {
+            _navManager.NavigateTo("/swap");
+        }
+    }
+    private void NavigateBack()
+    {
+
+        if (listing != null && listing.ListingTypeId != 2)
+        {
+            _navManager.NavigateTo("/buy"); 
+        }
+        else
+        {
+            _navManager.NavigateTo("/swap"); 
+        }
     }
 }

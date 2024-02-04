@@ -31,7 +31,7 @@ namespace SellSwap.Server.Controllers
         public async Task<IActionResult> GetConversations()
         {
             // return await _context.Categories.ToListAsync();
-            var conversations = await _unitOfWork.Conversations.GetAll(includes: q => q.Include(x => x.Listing));
+            var conversations = await _unitOfWork.Conversations.GetAll(includes: q => q.Include(x => x.Listing).Include(x => x.Listing.ListingStatus));
             return Ok(conversations);
         }
 

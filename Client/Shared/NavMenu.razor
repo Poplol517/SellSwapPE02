@@ -72,23 +72,25 @@
 
         <div class="nav-item px-3">
             <NavLink class="nav-link" @onclick="()=>expandSubMenu= !expandSubMenu">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Categories 
+                <span class="oi oi-tags" aria-hidden="true"></span> Categories 
             </NavLink>
             @if (expandSubMenu)
             {
                 <div class="nav-item px-3">
-                    <NavLink class="expand-menu" href="phone">
-                        <span class="oi oi-phone" aria-hidden="true"></span> Phones
+                    <NavLink class="nav-link" href="phone">
+                        <li /><span class="oi oi-phone" aria-hidden="true"></span> Phones
                     </NavLink>
-                    <NavLink class="expand-menu" href="figure">
-                        <span class="oi oi-person" aria-hidden="true"></span> Figurines
+                    <NavLink class="nav-link" href="figure">
+                        <li /><span class="oi oi-people aria-hidden="true"></span> Figurines
                     </NavLink>
-                    <NavLink class="expand-menu nav-links" href="Toys & Games">
-                        <span class="oi oi-puzzle-piece" aria-hidden="true"></span> Toys & Games
+                    <NavLink class="nav-link" href="Toys & Games">
+                        <li /> <span class="oi oi-puzzle-piece" aria-hidden="true"></span> Toys & 
+                        Games
                     </NavLink>
-                    <NavLink class="expand-menu" href="categories">
-                        <span class="oi oi-list-rich" aria-hidden="true"></span> View All Categories
+                    <NavLink class="nav-link" href="categories">
+                        <li /> <span class="oi oi-list-rich" aria-hidden="true"></span> View All Categories
                     </NavLink>
+
                 </div>
             }
         </div>
@@ -101,79 +103,57 @@
 
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="buy" Match="NavLinkMatch.All">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Buy
+                <span class="oi oi-dollar" aria-hidden="true"></span> Buy
             </NavLink>
         </div>
 
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="swap" Match="NavLinkMatch.All">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Swap
+                <span class="oi oi-loop-circular" aria-hidden="true"></span> Swap
             </NavLink>
         </div>
 
         <div class="nav-item px-3">
             <NavLink class="nav-link" @onclick="()=>expandSubMenu3= !expandSubMenu3 ">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Offers
+                <span class="oi oi-data-transfer-download" aria-hidden="true"></span> Offers
             </NavLink>
             @if (expandSubMenu3)
             {
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="offers">
-                        <span class="oi oi-list-rich" aria-hidden="true"></span> Offers (User)
+                        <li/><span class="oi oi-list-rich" aria-hidden="true"></span> Offers (User)
                     </NavLink>
-                    <NavLink class="expand-menu" href="/staff/offers">
-                        <span class="oi oi-rich" aria-hidden="true"></span> Offers (Staff)
+                    <NavLink class="nav-link" href="staff/offers">
+                        <li /><span class="oi oi-list-rich" aria-hidden="true"></span> Offers (Staff)
                     </NavLink>
-                    <NavLink class="expand-menu" href="offers/history">
-                        <span class="oi oi-rich" aria-hidden="true"></span> Offer History
+                    <NavLink class="nav-link" href="offers/history">
+                        <li /><span class="oi oi-spreadsheet" aria-hidden="true"></span> Offers History
                     </NavLink>
                     
                 </div>
             }
         </div>
 
-         <div class="nav-item px-3">
-            <NavLink class="nav-link" @onclick="()=>expandSubMenu= !expandSubMenu">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Categories 
-            </NavLink>
-            @if (expandSubMenu)
-            {
-                <div class="nav-item px-3">
-                    <NavLink class="expand-menu" href="phone">
-                        <span class="oi oi-phone" aria-hidden="true"></span> Phones
-                    </NavLink>
-                    <NavLink class="expand-menu" href="figure">
-                        <span class="oi oi-person" aria-hidden="true"></span> Figurines
-                    </NavLink>
-                    <NavLink class="expand-menu nav-links" href="Toys & Games">
-                        <span class="oi oi-puzzle-piece" aria-hidden="true"></span> Toys & Games
-                    </NavLink>
-                    <NavLink class="expand-menu" href="categories">
-                        <span class="oi oi-list-rich" aria-hidden="true"></span> View All Categories
-                    </NavLink>
-                </div>
-            }
-        </div> 
  
      
 
        
         <div class="nav-item px-3">
             <NavLink class="nav-link" @onclick="()=>expandSubMenu2= !expandSubMenu2">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Account(User)
+                <span class="oi oi-person" aria-hidden="true"></span> Account(User)
             </NavLink>
             @if (expandSubMenu2)
             {
                 <div class="nav-item px-3">
-                    <NavLink class="expand-menu" href="/account/listings">
-                        <span class="oi oi-list rich" aria-hidden="true"></span> My Listings
+                    <NavLink class="nav-link" href="/account/listings">
+                        <li/><span class="oi oi-list rich" aria-hidden="true"></span> My Listings
                     </NavLink>
                     <NavLink class="nav-link" href="conversations" Match="NavLinkMatch.All">
-                        <span class="oi oi-chat" aria-hidden="true"></span> My Chats 
+                        <li/><span class="oi oi-chat" aria-hidden="true"></span> My Chats 
                     </NavLink>
 
-                    <NavLink class="expand-menu" href="/account/favourites">
-                        <span class="oi oi-star" aria-hidden="true"></span> Favorites
+                    <NavLink class="nav-link" href="/account/favourites">
+                        <li/><span class="oi oi-star" aria-hidden="true"></span> Favorites
                     </NavLink>
 @*                     <NavLink class="expand-menu" href="/account">
                         <span class="oi oi-list rich" aria-hidden="true"></span> Edit Account
@@ -190,7 +170,7 @@
 
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="staff/listing">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Listing Management Page(Satff)
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Listing Management Page(Staff)
             </NavLink>
         </div>
 

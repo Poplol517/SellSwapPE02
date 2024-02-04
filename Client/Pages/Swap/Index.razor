@@ -198,10 +198,32 @@ else
                     ListingId = listingId
                 };
 
+            // Create the conversation
             await _client.PostAsJsonAsync(Endpoints.ConversationsEndpoint, conversation);
-            _navManager.NavigateTo($"/conversations/{conversation.Id}");
+
+            // Retrieve the updated list of conversations
+            var Conversations = await _client.GetFromJsonAsync<List<Conversation>>($"{Endpoints.ConversationsEndpoint}");
+
+            // Find the newly created conversation in the updated list
+            var newlyCreatedConversation = Conversations.FirstOrDefault(c =>
+                c.User1 == conversation.User1 &&
+                c.User2 == conversation.User2 &&
+                c.ListingId == conversation.ListingId);
+
+            if (newlyCreatedConversation != null)
+            {
+                // Navigate to the newly created conversation
+                _navManager.NavigateTo($"/conversations/{newlyCreatedConversation.Id}");
+            }
+            else
+            {
+                // Handle the scenario where the newly created conversation is not found
+                // You can display an error message or take appropriate action
+                Console.WriteLine("Error navigating to the newly created conversation.");
+            }
         }
     }
+
 
     private async Task<Conversation?> GetExistingConversation(string user1, string user2, int listingId)
     {

@@ -27,14 +27,18 @@
     async Task EditListing()
     {
         await _client.PutAsJsonAsync($"{Endpoints.ListingsEndpoint}/{id}",listing);
-        if (listing != null && listing.ListingType != null && listing.ListingType.Id != 2)
+        if (listing != null && listing.ListingTypeId != 2)
         {
-            _navManager.NavigateTo("buy");
+            // Navigate to a different page (e.g., "buy" page)
+            _navManager.NavigateTo("/buy"); // Replace "/buy" with the actual URL or relative path of the "buy" page
         }
         else
         {
-            _navManager.NavigateTo("swap");
+            // Navigate back to the previous page
+            _navManager.NavigateTo("/swap"); // Replace "/your-previous-page" with the actual URL or relative path of your previous page
         }
 
+
     }
+
 }

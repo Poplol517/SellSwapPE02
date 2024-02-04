@@ -11,12 +11,15 @@
     var offer = Offers.FirstOrDefault(o => o.Id == id);
     if (offer != null)
     {
+        <p><img src="@offer.Listing.Image" alt="Listing Image" style="max-width: 100px; max-height: 100px;" /></p>
         <p>Listing Name: @offer.Listing.Name</p>
         <p>Description: @offer.Description</p>
         <p>Type:@offer.Listing.ListingType.Name</p>
         <p>Condition:@offer.Listing.ConditionType.Name</p>
+        <p>Lister:@offer.Listing.Lister</p>
         if (offer.Listing.Price == null)
         {
+         
         }
         else
         {
@@ -89,7 +92,7 @@ else
                 }
 
                 // Update the ListingStatusId property of the Listing object
-                listing.ListingStatusId = 2; // Set the desired status ID for approval
+                listing.ListingStatusId = 2; 
 
                 swal.FireAsync(new SweetAlertOptions
                     {
@@ -104,11 +107,8 @@ else
         }
     }
 
-
-
     protected async Task Reject(int offerId)
     {
-
         var offer = Offers.FirstOrDefault(o => o.Id == offerId);
         if (offer != null)
         {
@@ -124,28 +124,37 @@ else
             var confirm = !string.IsNullOrEmpty(result.Value);
             if (!confirm)
             {
+                return;
+            }
 
-            }
-            else
+            // Retrieve the Listing associated with the Offer
+            var listingId = offer.ListingId; // Assuming there's a property like ListingId in the Offer
+            var listing = await _client.GetFromJsonAsync<Listing>($"{Endpoints.ListingsEndpoint}/{listingId}");
+
+            if (listing != null)
             {
-                var text=await swal.FireAsync(new SweetAlertOptions
-                {
-                    Title = "Reason for rejection",
-                    Input = "text",
-                    InputLabel = "Reason",
-                    InputPlaceholder="Enter your reason",
-                    Icon = SweetAlertIcon.Error,
-                    
-                });
-               
-                    offer.Reason = text.Value;
-                    offer.Status = "Rejected";
-                    await _client.PutAsJsonAsync($"{Endpoints.OffersEndpoint}/{offerId}", offer);
-                    _navManager.NavigateTo("offers");
-                
+                // Change the status of the selected offer to "Approved"
+                offer.Status = "Rejected";
+                await _client.PutAsJsonAsync($"{Endpoints.OffersEndpoint}/{offerId}", offer);
+
+                // Update the ListingStatusId property of the Listing object
+                listing.ListingStatusId = 2;
+
+                swal.FireAsync(new SweetAlertOptions
+                    {
+                        Title = "Reason for rejection",
+                        Input = "text",
+                        InputLabel = "Reason",
+                        InputPlaceholder = "Enter your reason",
+                        Icon = SweetAlertIcon.Error,
+                    });
+
+                await _client.PutAsJsonAsync($"{Endpoints.ListingsEndpoint}/{listingId}", listing);
+                _navManager.NavigateTo("offers");
             }
         }
-        }
+    }
+
 
     }
 

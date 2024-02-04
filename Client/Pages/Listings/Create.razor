@@ -49,6 +49,16 @@
             listing.Image = "/images/noimage.jpg";
         }
         await _client.PostAsJsonAsync(Endpoints.ListingsEndpoint, listing);
-        _navManager.NavigateTo("/buy/");
+
+        if (listing != null && listing.ListingTypeId != 2)
+        {
+            // Navigate to a different page (e.g., "buy" page)
+            _navManager.NavigateTo("/buy"); // Replace "/buy" with the actual URL or relative path of the "buy" page
+        }
+        else
+        {
+            // Navigate back to the previous page
+            _navManager.NavigateTo("/swap"); // Replace "/your-previous-page" with the actual URL or relative path of your previous page
+        }
     }
 }
