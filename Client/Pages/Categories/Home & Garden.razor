@@ -7,7 +7,7 @@
 @implements IDisposable
 @inject NavigationManager _navManager
 @inject SweetAlertService swal
-@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject AuthenticationStateProvider _authStateProvider
 
 <h3 class="card-title">Home & Garden</h3>
 <br />
@@ -63,20 +63,40 @@ else
                         <td>@listing.ListingType?.Name</td>
                         <td>@listing.ConditionType?.Name</td>
                         <td>@listing.Lister</td>
-                        <td>
-                            <a href="/listings/view/@listing.Id" class="btn btn-primary">
-                                <span class="oi oi-book"></span>
-                            </a>
-                            <a href="/listings/edit/@listing.Id" class="btn btn-warning">
-                                <span class="oi oi-pencil"></span>
-                            </a>
-                            <a href="/listings/offer/@listing.Id" class="btn btn-info">
-                                <span class="oi oi-pencil"></span>
-                            </a>
-                            <button class="btn btn-danger" @onclick="@(()=>Delete(listing.Id))">
-                                <span class="oi oi-delete"></span>
-                            </button>
-                        </td>
+                        @if (listing.Lister == currentUser)
+                        {
+                            <td>
+                                <a href="/listings/view/@listing.Id" class="btn btn-primary">
+                                    <span class="oi oi-book"></span>
+                                </a>
+                                <a href="/listings/edit/@listing.Id" class="btn btn-warning">
+                                    <span class="oi oi-pencil"></span>
+                                </a>
+                                <a href="/listings/offer/@listing.Id" class="btn btn-info">
+                                    <span class="oi oi-pencil"></span>
+                                </a>
+                                <button class="btn btn-danger" @onclick="@(()=>Delete(listing.Id))">
+                                    <span class="oi oi-delete"></span>
+                                </button>
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                <a href="/listings/view/@listing.Id" class="btn btn-primary">
+                                    <span class="oi oi-book"></span>
+                                </a>
+                                <a href="/listings/offer/@listing.Id" class="btn btn-info">
+                                    <span class="oi oi-pencil"></span>
+                                </a>
+                                <button class="btn btn-outline-success" @onclick="@(()=>CreateConversation(listing.Id))">
+                                    <span class="oi oi-comment-square"></span>
+                                </button>
+                                <button class="btn btn-outline-warning" @onclick="@(()=>FavouriteItem(listing.Id))">
+                                    <span class="oi oi-star"></span>
+                                </button>
+                            </td>
+                        }
                     </tr>
 
 
@@ -91,11 +111,19 @@ else
 }
 
 @code {
+    Favourite favourite = new Favourite();
+    Conversation conversation = new Conversation();
+    private string currentUser;
+
     private List<Listing>? Listings;
 
 
     protected async override Task OnInitializedAsync()
     {
+        var authState = await _authStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        //for the filtering of action that can be done by different users
+        currentUser = user.Identity.Name;
         Listings = await _client.GetFromJsonAsync<List<Listing>>($"{Endpoints.ListingsEndpoint}");
     }
 
@@ -134,6 +162,94 @@ else
         }
     }
 
+    private async Task FavouriteItem(int listingId)
+    {
+        swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Success",
+                Text = "The listing has been added to favourite",
+                Icon = SweetAlertIcon.Success,
+            });
+
+        favourite.ListingId = listingId;
+
+        // Get the user's ID or any other required information
+        var authState = await _authStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        var userIdClaim = user.FindFirst("sub");
+        favourite.AccountId = userIdClaim.Value;
+
+
+        await _client.PostAsJsonAsync(Endpoints.FavouritesEndpoint, favourite);
+
+        _navManager.NavigateTo("/buy/");
+    }
+
+    private async Task CreateConversation(int listingId)
+    {
+        var authState = await _authStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        // Assuming you have a Conversation model
+        var existingConversation = await GetExistingConversation(user.Identity.Name, Listings.First(l => l.Id == listingId)?.Lister, listingId);
+
+        if (existingConversation != null)
+        {
+            // Navigate to the existing conversation
+            _navManager.NavigateTo($"/conversations/{existingConversation.Id}");
+        }
+        else
+        {
+            var conversation = new Conversation
+                {
+                    User1 = user.Identity.Name,
+                    User2 = Listings.First(l => l.Id == listingId)?.Lister,
+                    ListingId = listingId
+                };
+
+            // Create the conversation
+            await _client.PostAsJsonAsync(Endpoints.ConversationsEndpoint, conversation);
+
+            // Retrieve the updated list of conversations
+            var Conversations = await _client.GetFromJsonAsync<List<Conversation>>($"{Endpoints.ConversationsEndpoint}");
+
+            // Find the newly created conversation in the updated list
+            var newlyCreatedConversation = Conversations.FirstOrDefault(c =>
+                c.User1 == conversation.User1 &&
+                c.User2 == conversation.User2 &&
+                c.ListingId == conversation.ListingId);
+
+            if (newlyCreatedConversation != null)
+            {
+                // Navigate to the newly created conversation
+                _navManager.NavigateTo($"/conversations/{newlyCreatedConversation.Id}");
+            }
+            else
+            {
+                // Handle the scenario where the newly created conversation is not found
+                // You can display an error message or take appropriate action
+                Console.WriteLine("Error navigating to the newly created conversation.");
+            }
+        }
+    }
+
+
+    private async Task<Conversation?> GetExistingConversation(string user1, string user2, int listingId)
+    {
+        // Assuming you have a Conversations endpoint and a ConversationsService
+        // Adjust the endpoint and service according to your actual implementation
+
+        var conversations = await _client.GetFromJsonAsync<List<Conversation>>($"{Endpoints.ConversationsEndpoint}");
+
+        // Check if there is an existing conversation with the same participants and listingId
+        return conversations.FirstOrDefault(c =>
+            (c.User1 == user1 && c.User2 == user2 || c.User1 == user2 && c.User2 == user1) && c.ListingId == listingId);
+    }
+
+
+
+
+
     protected async override Task OnAfterRenderAsync(bool firstRender)
     {
         await js.InvokeVoidAsync("AddDataTable", "#buylistingsTable");
@@ -146,7 +262,7 @@ else
 
     private async Task<string> GetUserName()
     {
-        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var authState = await _authStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
         return user.Identity?.Name ?? "Unknown";
     }
