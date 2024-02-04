@@ -118,7 +118,7 @@ else
 
     async Task Delete(int listingId)
     {
-        var listing = Listings.First(o => o.Id == listingId);
+        var listing = Listings.FirstOrDefault(o => o.Id == listingId);
         if (listing != null)
         {
             var result = await swal.FireAsync(new SweetAlertOptions
@@ -137,18 +137,37 @@ else
             }
             else
             {
-                swal.FireAsync(new SweetAlertOptions
-                    {
-                        Title = "Removed",
-                        Text = "The listing has been removed",
-                        Icon = SweetAlertIcon.Success,
-                    });
-                await _client.DeleteAsync($"{Endpoints.ListingsEndpoint}/{listingId}");
-                await OnInitializedAsync();
-                _navManager.NavigateTo("buy");
+                try
+                {
+                    // Attempt to delete the listing
+                    await _client.DeleteAsync($"{Endpoints.ListingsEndpoint}/{listingId}");
+
+                    swal.FireAsync(new SweetAlertOptions
+                        {
+                            Title = "Removed",
+                            Text = "The listing has been removed",
+                            Icon = SweetAlertIcon.Success,
+                        });
+
+                    await OnInitializedAsync();
+                    _navManager.NavigateTo("buy");
+                }
+                catch (Exception ex)
+                {
+                    // Log or handle the exception
+                    Console.WriteLine($"Error deleting listing: {ex.Message}");
+
+                    swal.FireAsync(new SweetAlertOptions
+                        {
+                            Title = "Error",
+                            Text = "An error occurred while deleting the listing.",
+                            Icon = SweetAlertIcon.Error,
+                        });
+                }
             }
         }
     }
+
 
 
 
