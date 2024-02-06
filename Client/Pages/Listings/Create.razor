@@ -1,28 +1,38 @@
-﻿@page "/listings/create/"
+﻿
+@page "/listings/create/"
+
+
 @inject HttpClient _client
 @inject NavigationManager _navManager
 @inject AuthenticationStateProvider _authenticationStateProvider
+
+
 @attribute [Authorize]
 
+
 <h3>Create</h3>
+
 
 <FormComponent ButtonText="Create Listing" listing="listing" OnValidSubmit="@CreateListing" />
 
 @code {
+    // Initialize a new instance of the Listing class to hold the data for the new listing
     Listing listing = new Listing();
 
+    // Declare a collection to hold existing listings
     private IList<Listing>? Listings;
 
+    // Override the OnInitializedAsync method to perform initialization tasks when the component is initialized
     protected override async Task OnInitializedAsync()
     {
+        // Fetch existing listings from the server
         Listings = await _client.GetFromJsonAsync<List<Listing>>($"{Endpoints.ListingsEndpoint}");
 
-        // To bind listing to user
-        // Get the authenticated user's information
+        // Retrieve the authenticated user's information
         var authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
 
-        // Set the authenticated user's information in the listing object
+        // Bind the authenticated user's information to the new listing
         listing.Lister = user.Identity.Name;
 
         // Retrieve the user ID from the claims using the 'sub' claim
@@ -33,32 +43,39 @@
         }
         else
         {
-            // Handle the case where user ID claim is not found
-            // You may want to redirect to an error page or take appropriate action
+            _navManager.NavigateTo("/404");
         }
     }
 
+    // Define a method to handle the creation of the new listing
     private async Task CreateListing()
     {
-        // checked if data is binded properly
+        // Log the bound data for verification purposes
         Console.WriteLine($"Lister: {listing.Lister}");
         Console.WriteLine($"ListerId: {listing.ListerId}");
+
+        // Set default listing status if not provided
         listing.ListingStatusId = 1;
+
+        // Set a default image if none is provided
         if (string.IsNullOrEmpty(listing.Image))
         {
             listing.Image = "/images/noimage.jpg";
         }
+
+        // Send a POST request to the server to create the new listing
         await _client.PostAsJsonAsync(Endpoints.ListingsEndpoint, listing);
 
+        // Depending on the type of listing, navigate to appropriate page
         if (listing != null && listing.ListingTypeId != 2)
         {
-            // Navigate to a different page (e.g., "buy" page)
-            _navManager.NavigateTo("/buy"); // Replace "/buy" with the actual URL or relative path of the "buy" page
+            // Navigate to the "buy" page for non-type 2 listings
+            _navManager.NavigateTo("/buy");
         }
         else
         {
-            // Navigate back to the previous page
-            _navManager.NavigateTo("/swap"); // Replace "/your-previous-page" with the actual URL or relative path of your previous page
+            // Navigate back to the previous page for type 2 listings
+            _navManager.NavigateTo("/swap");
         }
     }
 }

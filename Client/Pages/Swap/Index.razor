@@ -48,7 +48,16 @@ else
                         <td><img src="@listing.Image" alt="Listing Image" style="max-width: 100px; max-height: 100px;" /></td>
                         <td>@listing.Name</td>
                         <td>@listing.Description</td>
-                        <td>@listing.Price</td>
+                        <td>
+                            @if (listing.ListingType?.Name != "Swap")
+                            {
+                                @listing.Price
+                            }
+                            else
+                            {
+                                <text>Not Applicable</text>
+                            }
+                        </td>
                         <td>@listing.Category?.Name</td>
                         <td>@listing.ListingStatus?.Name</td>
                         <td>@listing.ListingType?.Name</td>
@@ -63,9 +72,7 @@ else
                                 <a href="/listings/edit/@listing.Id" class="btn btn-warning">
                                     <span class="oi oi-pencil"></span>
                                 </a>
-                                <a href="/listings/offer/@listing.Id" class="btn btn-info">
-                                    <span class="oi oi-pencil"></span>
-                                </a>
+                                
                                 <button class="btn btn-danger" @onclick="@(()=>Delete(listing.Id))">
                                     <span class="oi oi-delete"></span>
                                 </button>

@@ -1,44 +1,59 @@
-﻿@page "/listings/edit/{id:int}"  
+﻿
+@page "/listings/edit/{id:int}"
+
+
 @inject HttpClient _client
 @inject NavigationManager _navManager
 
+
 <h3>Edit</h3>
+
+
 <FormComponent ButtonText="Update" OnValidSubmit="EditListing" listing="listing" />
+
 @code {
+    // Define a property to hold the ID parameter from the route
     [Parameter] public int id { get; set; }
+
+    // Declare a nullable Listing object to hold the listing data
     Listing? listing = new Listing();
+
+    // Override the OnParametersSetAsync method to fetch the listing data when parameters are set
     protected async override Task OnParametersSetAsync()
     {
         try
         {
+            // Fetch the listing data using HttpClient and the provided ID
             listing = await _client.GetFromJsonAsync<Listing>($"{Endpoints.ListingsEndpoint}/{id}");
+
+            // If the listing is not found, navigate to a 404 page
             if (listing == null)
             {
-
                 _navManager.NavigateTo("/404");
             }
         }
         catch (HttpRequestException ex)
         {
-
+            // Log and handle any HTTP request exceptions
             Console.WriteLine($"Exception: {ex.Message}");
         }
     }
+
+    // Define a method to handle updating the listing data
     async Task EditListing()
     {
-        await _client.PutAsJsonAsync($"{Endpoints.ListingsEndpoint}/{id}",listing);
+        // Send a PUT request to update the listing using HttpClient
+        await _client.PutAsJsonAsync($"{Endpoints.ListingsEndpoint}/{id}", listing);
+
+        // If the listing exists and is not of type 2, navigate to a "buy" page
         if (listing != null && listing.ListingTypeId != 2)
         {
-            // Navigate to a different page (e.g., "buy" page)
             _navManager.NavigateTo("/buy"); // Replace "/buy" with the actual URL or relative path of the "buy" page
         }
+        // If the listing is of type 2, navigate back to the previous page
         else
         {
-            // Navigate back to the previous page
-            _navManager.NavigateTo("/swap"); // Replace "/your-previous-page" with the actual URL or relative path of your previous page
+            _navManager.NavigateTo("/swap"); // Replace "/swap" with the actual URL or relative path of the "swap" page
         }
-
-
     }
-
 }

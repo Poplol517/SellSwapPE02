@@ -1,57 +1,50 @@
-﻿@inject HttpClient _client
-@inject IJSRuntime JSRuntime
-@inject NavigationManager _navManager
+﻿@inject HttpClient _client        
+@inject IJSRuntime JSRuntime      
+@inject NavigationManager _navManager  
 
 <EditForm Model="@listing" OnValidSubmit="@OnValidSubmit">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-    <fieldset disabled="@Disabled">
+    <DataAnnotationsValidator />    <!-- Adding validation for data annotations -->
+    <ValidationSummary />           <!-- Displaying validation summary -->
 
-       @*  <div class="form-group">
-            <label>Add Image Link: </label>
-            <div class="input-group">
-                <InputText @bind-Value="listing.Image" class="form-control" />
-                <div class="input-group-append">
-                    <button type="button" class="btn btn-outline-secondary" @onclick="ShowImageHelp">?</button>
-                </div>
-                <ValidationMessage For="@(() => listing.Image)" />
-            </div>
-            @if (!string.IsNullOrEmpty(listing.Image))
-            {
-                <img src="@listing.Image" alt="Listing Image" @onerror="HandleImageError" style="max-width: 100px; max-height: 100px; margin-top: 10px;" />
-            }
-        </div> *@
+    <fieldset disabled="@Disabled">
+        <!-- Disabling form fields if Disabled parameter is true -->
+        <!-- File upload for image with validation -->
         <div class="form-group">
             <label>Upload Image: </label>
             <div>
-                <InputFile OnChange="OnFileChange" /> 
+                <InputFile OnChange="OnFileChange" /> <!-- File input for uploading image -->
+                <!-- Display uploaded image if available -->
                 @if (!string.IsNullOrEmpty(listing.Image))
                 {
                     <img src="@listing.Image" alt="Uploaded Image" style="max-width: 300px; max-height: 300px; margin-top: 10px;" />
                 }
-                <ValidationMessage For="@(() => listing.Image)" />
+                <ValidationMessage For="@(() => listing.Image)" /> <!-- Validation message for image -->
             </div>
         </div>
 
-
+        <!-- Input field for Name -->
         <div class="form-group">
             <label>Name: </label>
             <div>
-                <InputText @bind-Value="listing.Name" class="form-control"/>
-                <ValidationMessage For="@(() => listing.Name)" />
+                <InputText @bind-Value="listing.Name" class="form-control" />
+                <ValidationMessage For="@(() => listing.Name)" /> <!-- Validation message for Name -->
             </div>
-        </div> 
-        
+        </div>
+
+        <!-- Input field for Description -->
         <div class="form-group">
             <label>Description: </label>
             <div>
                 <InputText @bind-Value="listing.Description" class="form-control" />
-                <ValidationMessage For="@(() => listing.Description)" />
+                <ValidationMessage For="@(() => listing.Description)" /> <!-- Validation message for Description -->
             </div>
         </div>
+
+        <!-- Input field for Price (if ListingTypeId is not 2) -->
         @if (listing.ListingTypeId == 2)
         {
             listing.Price = null;
+            <!-- Resetting Price if ListingTypeId is 2 -->
         }
         else
         {
@@ -59,112 +52,123 @@
                 <label>Price: </label>
                 <div>
                     <InputNumber @bind-Value="listing.Price" class="form-control" />
-                    <ValidationMessage For="@(() => listing.Price)" />
+                    <ValidationMessage For="@(() => listing.Price)" /> <!-- Validation message for Price -->
                 </div>
             </div>
         }
-     <div class="form-group">
-        <label>Category: </label>
-        <div>
-            <InputSelect @bind-Value="listing.CategoryId" class="form-control">
-                <option value="">-- Select Category --</option>
-                @if (Categories != null)
-                {
-                    foreach (var category in Categories)
-                    {
-                        <option value="@category.Id">@category.Name</option>
-                    }
-                }
-            </InputSelect>
-            <ValidationMessage For="@(() => listing.Id)" />
-        </div>
-    </div> 
 
-@*      <div class="form-group">
-        <label>Listing Status: </label>
-        <div>
-            <InputSelect @bind-Value="listing.ListingStatusId" class="form-control">
-                <option value="">-- Select Status --</option>
-                @if (ListingStatus != null)
-                {
-                    foreach (var status in ListingStatus)
+        <!-- Dropdown for Category selection -->
+        <div class="form-group">
+            <label>Category: </label>
+            <div>
+                <InputSelect @bind-Value="listing.CategoryId" class="form-control">
+                    <option value="">-- Select Category --</option>
+                    @if (Categories != null)
                     {
-                        <option value="@status.Id">@status.Name</option>
+                        foreach (var category in Categories)
+                        {
+                            <option value="@category.Id">@category.Name</option>
+                        }
                     }
-                }
-            </InputSelect>
-            <ValidationMessage For="@(() => listing.Id)" />
+                </InputSelect>
+                <ValidationMessage For="@(() => listing.Id)" /> <!-- Validation message for Category -->
+            </div>
         </div>
-    </div>   *@
 
-     <div class="form-group">
-        <label>Listing Type: </label>
-        <div>
-            <InputSelect @bind-Value="listing.ListingTypeId" class="form-control">
-                <option value="">-- Select Type --</option>
-                @if (ListingTypes != null)
-                {
-                    foreach (var types in ListingTypes)
+        <!-- Dropdown for Listing Status selection -->
+        <div class="form-group">
+            <label>Listing Status: </label>
+            <div>
+                <InputSelect @bind-Value="listing.ListingStatusId" class="form-control">
+                    <option value="">-- Select Status --</option>
+                    @if (ListingStatus != null)
                     {
-                        <option value="@types.Id">@types.Name</option>
+                        foreach (var status in ListingStatus)
+                        {
+                            <option value="@status.Id">@status.Name</option>
+                        }
                     }
-                }
-            </InputSelect>
-            <ValidationMessage For="@(() => listing.Id)" />
+                </InputSelect>
+                <ValidationMessage For="@(() => listing.Id)" /> <!-- Validation message for Listing Status -->
+            </div>
         </div>
-    </div>
-     <div class="form-group">
-        <label>Condition: </label>
-        <div>
-            <InputSelect @bind-Value="listing.ConditionTypeId" class="form-control">
-                <option value="">-- Select Condition --</option>
-                @if (ConditionTypes != null)
-                {
-                    foreach (var condition in ConditionTypes)
-                    {
-                        <option value="@condition.Id">@condition.Name</option>
-                    }
-                 }
-            </InputSelect>
-            <ValidationMessage For="@(() => listing.Id)" />
-        </div>
-    </div> 
 
+        <!-- Dropdown for Listing Type selection -->
+        <div class="form-group">
+            <label>Listing Type: </label>
+            <div>
+                <InputSelect @bind-Value="listing.ListingTypeId" class="form-control">
+                    <option value="">-- Select Type --</option>
+                    @if (ListingTypes != null)
+                    {
+                        foreach (var types in ListingTypes)
+                        {
+                            <option value="@types.Id">@types.Name</option>
+                        }
+                    }
+                </InputSelect>
+                <ValidationMessage For="@(() => listing.Id)" /> <!-- Validation message for Listing Type -->
+            </div>
+        </div>
+
+        <!-- Dropdown for Condition selection -->
+        <div class="form-group">
+            <label>Condition: </label>
+            <div>
+                <InputSelect @bind-Value="listing.ConditionTypeId" class="form-control">
+                    <option value="">-- Select Condition --</option>
+                    @if (ConditionTypes != null)
+                    {
+                        foreach (var condition in ConditionTypes)
+                        {
+                            <option value="@condition.Id">@condition.Name</option>
+                        }
+                    }
+                </InputSelect>
+                <ValidationMessage For="@(() => listing.Id)" /> <!-- Validation message for Condition -->
+            </div>
+        </div>
 
     </fieldset>
+
+    <!-- Submit button -->
     @if (!Disabled)
     {
-        <button type="submit" class="btn btn-success btn-block" >@ButtonText</button>
+        <button type="submit" class="btn btn-success btn-block">@ButtonText</button>
     }
-    
+
+    <!-- Button for navigating back -->
     <button type="button" class="btn btn-secondary" @onclick="NavigateBack">
         Back to List
     </button>
-    
-</EditForm>
-@code {
-    [Parameter] public bool Disabled { get; set; } = false;
-    [Parameter] public Listing? listing { get; set; }
-    [Parameter] public string ButtonText { get; set; } = "Save";
-    [Parameter] public EventCallback OnValidSubmit { get; set; }
 
+</EditForm>
+
+@code {
+    [Parameter] public bool Disabled { get; set; } = false;  // Parameter for disabling form fields
+    [Parameter] public Listing? listing { get; set; }  // Parameter for the listing model
+    [Parameter] public string ButtonText { get; set; } = "Save";  // Parameter for the text on the submit button
+    [Parameter] public EventCallback OnValidSubmit { get; set; }  // Event callback for successful form submission
+
+    // Properties to store data retrieved from API
     private IList<Listing>? Listings;
     private IList<Category>? Categories;
     private IList<ListingStatus>? ListingStatus;
     private IList<ListingType>? ListingTypes;
     private IList<ConditionType>? ConditionTypes;
 
-    protected async override Task OnInitializedAsync() //when the page loads
+    // Method called when the component is initialized
+    protected async override Task OnInitializedAsync()
     {
+        // Fetching data from API endpoints and storing them in respective properties
         Listings = await _client.GetFromJsonAsync<List<Listing>>($"{Endpoints.ListingsEndpoint}");
         Categories = await _client.GetFromJsonAsync<List<Category>>($"{Endpoints.CategoriesEndpoint}");
         ListingStatus = await _client.GetFromJsonAsync<List<ListingStatus>>($"{Endpoints.ListingStatusEndpoint}");
         ListingTypes = await _client.GetFromJsonAsync<List<ListingType>>($"{Endpoints.ListingTypeEndpoint}");
         ConditionTypes = await _client.GetFromJsonAsync<List<ConditionType>>($"{Endpoints.ConditionTypeEndpoint}");
-
-
     }
 
+    // Method called when a file is selected for upload
     private async Task OnFileChange(InputFileChangeEventArgs e)
     {
         var format = "image/png";
@@ -172,31 +176,32 @@
         var buffer = new byte[resizedImage.Size];
         await resizedImage.OpenReadStream().ReadAsync(buffer);
         var imageData = $"data:{format};base64,{Convert.ToBase64String(buffer)}";
-        listing.Image = imageData;
-
-        Console.WriteLine(listing.Image);
+        listing.Image = imageData;  // Updating the listing model with the uploaded image data
     }
+
+    // Method to save the listing and navigate accordingly
     private async Task SaveListing()
     {
         if (listing != null && listing.ListingTypeId != 2)
         {
-            _navManager.NavigateTo("/buy"); 
+            _navManager.NavigateTo("/buy"); // Navigating to "/buy" if ListingTypeId is not 2
         }
         else
         {
-            _navManager.NavigateTo("/swap");
+            _navManager.NavigateTo("/swap"); // Navigating to "/swap" if ListingTypeId is 2
         }
     }
+
+    // Method to navigate back to the listing page
     private void NavigateBack()
     {
-
         if (listing != null && listing.ListingTypeId != 2)
         {
-            _navManager.NavigateTo("/buy"); 
+            _navManager.NavigateTo("/buy"); // Navigating to "/buy" if ListingTypeId is not 2
         }
         else
         {
-            _navManager.NavigateTo("/swap"); 
+            _navManager.NavigateTo("/swap"); // Navigating to "/swap" if ListingTypeId is 2
         }
     }
 }
